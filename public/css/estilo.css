@@ -13,16 +13,17 @@ body {
 }
 
 :root {
-  --verdeescuro: #43b14b;
-  --azulescuro: #004aad;
+  --azul-primario: #004aad;
+  --azul-secundario: #1e5bb8;
   --amareloescuro: #f4c430;
-  --verdeagua: #8dd7a0;
-  --azulclaro: #5b8fde;
-  --cordepele: #ffe08a;
+  --verde-institucional: #43b143;
+  --cinza-claro: #f5f7fa;
+  --branco: #ffffff;
+  --verde-agua-claro: #cfe9df;
 }
 
 .background-fundo {
-  background: var(--cordepele);
+  background: var(--cinza-claro);
 }
 
 .container {
@@ -39,14 +40,14 @@ nav {
 }
 
 .conecte {
-  background-color: var(--azulescuro);
-  color: var(--amareloescuro);
+  background-color: var(--azul-primario);
+  color: var(--branco);
   font-size: 20px;
-  width: 25%;
-  height: 30%;
-  padding: 10px 10px;
+  width: auto;     
+  height: auto; 
+  padding: 12px 28px;
   border-radius: 10%;
-  border-color: var(--azulclaro);
+  
 
 }
 
@@ -68,7 +69,8 @@ nav {
 }
 
 .ul li a {
-  color: var(--verdeescuro);
+  color: var(--azul-secundario);
+  font-weight: 600;
 }
 
 main .container {
@@ -80,7 +82,7 @@ main .container {
 
 .main-texto {
   width: 50%;
-  color: var(--verdeescuro)
+  color: var(--verde-institucional)
 }
 
 .main-texto h1 {
@@ -108,11 +110,11 @@ main .container {
   width: 20%;
   height: 20%;
   position: relative;
-  z-index: 10;
+  z-index: 1000;
 }
 
 .resultados{
-  background: var(--azulescuro);
+  background: var(--azul-primario);
 }
 .resultados .container {
 display: flex;
@@ -134,7 +136,7 @@ justify-content: space-between;
 }
 
 .projeto .conecta img{
-  width: 100%;
+  width: 85%;
   
   border-radius: 10px;
 }
@@ -143,7 +145,7 @@ justify-content: space-between;
 
 .projeto .conecta-texto{
   width: 50%;
-  padding: 90px;
+  padding: 68px;
 }
 
 .projeto .conecta-texto h2{
@@ -152,15 +154,28 @@ justify-content: space-between;
 
 .projeto .conecta-texto p{
   margin: 20px 0;
-  color: var(--azulescuro);
+  text-align: justify;
 }
 
 .projeto .casa-texto p b{
   color: black;
+  
 }
+.projeto .conecta-texto .conecte {
+  display: inline-block;
+  background-color: var(--azul-primario);
+  color: var(--branco);
+  font-size: 20px;
+  padding: 12px 28px;
+  border-radius: 10%;
+  width: auto;     
+  height: auto;    
+}
+
 
 .card-item h4{
   font-size: 2.5rem;
+  color: var(--verde-institucional);
 
 }
 
@@ -176,18 +191,19 @@ justify-content: space-between;
   text-align: center;
   padding: 30px 0;
   border-radius: 20px;
-  box-shadow: 0px 35px 97px -15px rgba(0, 0, 0, 0.40);
+  box-shadow: 0px 35px 97px -15px rgba(6, 161, 40, 0.4);
 }
 
 .fale-conosco{
-  background-color: var(--verdeagua);
+  background-color: var(--verde-agua-claro);
   padding: 50px;
 }
 
 .fale-conosco .fale{
   text-align: center;
   padding: 100px;
-  background: var(--cordepele);
+  background: var(--cinza-claro);
+  border: 1px solid #e5e7eb;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -206,14 +222,15 @@ justify-content: space-between;
 .fale-conosco input,select, textarea {
   width: 35%;
   padding: 15px;
+   box-shadow: 0 0 10px var(--verde-institucional);
   border-radius: 15px;
   border: none;
     margin-bottom: 8px;
 }
 
 .fale-conosco button{
-  background-color: var(--azulescuro);
-  color: var(--amareloescuro);
+  background-color: var(--azul-primario);
+  color: var(--branco);
   font-size: 20px;
   width: 35%; 
   padding: 15px;
@@ -223,7 +240,7 @@ justify-content: space-between;
 }
 
 footer{
-  background-color: var(--azulclaro);
+  background-color: var(--azul-primario);
 }
 
 footer .container {
@@ -251,7 +268,7 @@ footer .container li{
 }
 
 footer .container a{
-  color: var(--amareloescuro);
+  color: var(--branco);
 }
 
 footer .container ul img{
@@ -266,7 +283,7 @@ footer .container ul img{
 
   .ul {
     position: fixed;
-    background: var(--cordepele);
+    background: var(--cinza-claro);
     top: 0;
     width: 100%;
     height: 100%;
@@ -303,10 +320,7 @@ font-size: 4rem;
     text-align: center;
     width: 100%;
   }
-  .conecte {
-    padding: 5px 5px;
-    font-size: 15px;
-  }
+  
   .projeto .container{
     flex-direction: column-reverse;
   }
@@ -322,6 +336,10 @@ font-size: 4rem;
     font-size: 15px;
     margin: 0px, 5px;
    }
+   .projeto .container .conecta-texto .button{
+      padding: 5px 5px;
+    font-size: 15px;
+   }
    .missao .cards{
     flex-direction: column;
    }
@@ -329,16 +347,23 @@ font-size: 4rem;
     width: 100%;
     margin-top: 50px;
    }
-   .fale-conosco{
-    padding: 50px;
-   }
-   .fale-conosco input,
-   .fale-conosco select, 
-   .fale-conosco textarea {
-  width: 90%;
-}
+ .fale-conosco{
+    padding: 20px;
+  }
+
+  .fale-conosco .fale{
+    padding: 30px 20px;  
+  }
+
+  .fale-conosco input,
+  .fale-conosco select,
+  .fale-conosco textarea,
+  .fale-conosco button{
+    width: 80%;
+    max-width: 100%;
+  }
  .fale-conosco button{
-    width: 90%;
+    width: 75%;
   }
 
   footer .container{
@@ -356,18 +381,33 @@ footer .container ul{
   main .container .main-texto h1{
     font-size: 3rem;
   }
- 
+
+ .conecte{
+   padding: 6px 18px;
+ }
   .projeto .container .conecta-texto {
      padding: 4px 4px;
     font-size: 10px;
    }
+    .projeto .container .conecta-texto .conecte {
+      padding: 6px 18px;
+    
+   }
+
+.fale-conosco{
+    padding: 20px;
+  }
+
+  .fale-conosco .fale{
+    padding: 30px 20px;  
+  }
 
   .fale-conosco input,
   .fale-conosco select,
-  .fale-conosco textarea {
+  .fale-conosco textarea,
+  .fale-conosco button{
     width: 100%;
-    padding: 16px;   
-    font-size: 16px; 
+    max-width: 100%;
   }
   .fale-conosco button{
     width: 100%;
@@ -380,14 +420,20 @@ footer .container ul{
 
   .fale-conosco input::placeholder,
   .fale-conosco textarea::placeholder{
-    font-size: 10px;
+    font-size: 16px;
   }
+
+  .projeto .conecta-texto p{
+  font-size: 1.0rem;
+}
+
 }
 
 @media (max-width:400px){
    .fale-conosco input::placeholder,
   .fale-conosco textarea::placeholder{
-    font-size: 7px;
+    font-size: 12px;
   }
+
 }
 
