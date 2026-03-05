@@ -51,6 +51,7 @@ nav {
 
 }
 
+
 .logo img {
   width: 50%;
   height: 75%;
@@ -149,7 +150,7 @@ justify-content: space-between;
 }
 
 .projeto .conecta-texto h2{
-  font-size: 2.5rem;
+  font-size: 2.0rem;
 }
 
 .projeto .conecta-texto p{
@@ -161,6 +162,13 @@ justify-content: space-between;
   color: black;
   
 }
+
+
+.projeto .conecta-texto  h6{
+  font-size: 0.80rem;
+  color: var(--azul-secundario);
+}
+
 .projeto .conecta-texto .conecte {
   display: inline-block;
   background-color: var(--azul-primario);
@@ -171,6 +179,7 @@ justify-content: space-between;
   width: auto;     
   height: auto;    
 }
+
 
 
 .card-item h4{
@@ -257,6 +266,7 @@ footer .container ul{
 footer .container h3{
   margin-bottom: 16px;
   font-weight: 600;
+  color: var(--branco);
 }
 
 footer .container ul > p{
@@ -273,6 +283,24 @@ footer .container a{
 
 footer .container ul img{
   width: 100%;
+}
+
+.chatbot-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--amareloescuro);
+    color: white;
+    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 1000;
 }
 
 @media (max-width: 960px) {
@@ -340,6 +368,11 @@ font-size: 4rem;
       padding: 5px 5px;
     font-size: 15px;
    }
+
+   #videoConecta {
+    width: 100%;
+   }
+
    .missao .cards{
     flex-direction: column;
    }
