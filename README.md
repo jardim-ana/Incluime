@@ -19,29 +19,13 @@ Embora existam avanços promovidos pelo Ministério da Educação (MEC), como o 
 
 ---
 
-## ⚖️ Base Legal
-
-O direito ao acompanhante especializado está garantido por:
-
-* 📜 Lei nº 12.764/2012 (Lei Berenice Piana)
-* 📜 Decreto nº 8.368/2014
-* 📜 Decreto nº 12.686/2025
-
-A legislação determina que o estudante com TEA, quando houver necessidade comprovada, tem direito a acompanhante especializado em sala de aula — sem custo para a família.
-
-Porém, não há um sistema eficiente de fiscalização e acompanhamento da oferta desse suporte.
-
----
-
 # 💡 Nossa Solução: conecta+
 
 O **conecta+** é uma plataforma digital criada pela **inclui.me** para conectar famílias, escolas e órgãos públicos, promovendo:
 
 ### 🎯 Objetivos
 
-* Garantir transparência na oferta de acompanhantes especializados
 * Mapear denúncias de recusa de matrícula
-* Monitorar a disponibilidade de profissionais por região
 * Apoiar gestores na tomada de decisão
 * Produzir dados e relatórios sobre inclusão escolar
 
@@ -51,10 +35,9 @@ O **conecta+** é uma plataforma digital criada pela **inclui.me** para conectar
 
 ### 👨‍👩‍👧 Para Famílias
 
-* Cadastro de ocorrências (falta de auxiliar, recusa de matrícula, etc.)
 * Cadastro do Aluno para acompanhamento escolar
 * Consulta de direitos garantidos por lei
-* Mapa de escolas inclusivas na região
+* Feedbacks de escolas da região
 
 ### 🏫 Para Escolas
 
@@ -102,22 +85,5 @@ Nosso diferencial está em:
 * Transparência pública
 * Tecnologia acessível
 * Foco em impacto social
-
----
-
-## 👥 Equipe
-
-Projeto desenvolvido pela empresa **inclui.me**
-Produto: **conecta+**
-Missão: Transformar dados em inclusão.
-
----
-
-## 📌 Status do Projeto
-
-🚧 Em desenvolvimento
-
----
-
 
 > “Inclusão que transforma”
