@@ -1,3 +1,8 @@
+var menu = document.querySelector(".menu");
+var ul = document.querySelector('.ul');
+var links = document.querySelectorAll(".ul a");
+var video = document.querySelectorAll(".clique");
+
 document.addEventListener("DOMContentLoaded", function () {
 
     var botaoVideo = document.getElementById("verVideo");
@@ -23,12 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 });
-var menu = document.querySelector(".menu");
-var ul = document.querySelector('.ul');
-var links = document.querySelectorAll(".ul a");
-var video = document.querySelectorAll(".clique");
-var logo = document.querySelectorAll(".conecta")
-var botaoVideo = document.getElementById("verVideo");
+
 
 
 menu.addEventListener('click', ()=>{
