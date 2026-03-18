@@ -1,8 +1,9 @@
-var cadastrarModel = require("../models/cadastrarModel");
+var cadastrarModel = require("../models/cadastrarModel.js");
 
 function cadastrar(req, res) {
     var nome = req.body.nomeServer;
     var sobrenome = req.body.sobrenomeServer;
+    var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var usuario = req.body.usuarioServer;
     
@@ -12,6 +13,9 @@ function cadastrar(req, res) {
     else if (sobrenome == undefined) {
         res.status(400).send("Seu sobrenome está indefinido!");
     }
+    else if (email == undefined) {
+        res.status(400).send("Seu email está indefinido!")
+    }
     else if (senha == undefined) {
         res.status(400).send("Seu senha está indefinido!");
     }
@@ -19,7 +23,7 @@ function cadastrar(req, res) {
         res.status(400).send("Seu usuario está indefinido!");
     }
     else {
-        cadastrarModel.cadastrar(nome, sobrenome, senha, usuario)
+        cadastrarModel.cadastrar(nome, sobrenome, email, senha, usuario)
             .then(
                 function(resultado) {
                     res.json(resultado);
