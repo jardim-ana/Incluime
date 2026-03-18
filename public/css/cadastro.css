@@ -1,25 +1,22 @@
-.header, .navbar, .titulo, .login, .card-cadastro, .campo, .botao, .footer, input, select, span, h2 {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: 'Poppins', sans-serif !important;
 }
 
-.header .container .logo {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin: 0;
-    padding: 0;
-    width: auto;
-}
-
-.header .container .logo img {
-    width: 150px;
-    height: auto;
-    display: block;
-    margin: 0;
+.header {
+    background-color: #ffffff;
+    border-bottom: 3px solid #43b143;
+    padding: 20px 0;
+    position: relative;
+    z-index: 10;
 }
 
 .header .container {
-    max-width: 1440px;
+     max-width: 1440px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -27,28 +24,27 @@
     padding: 0 5%;
 }
 
-.header {
-    background-color: #ffffff;
-    border-bottom: 3px solid #43b143;
-    padding: 20px 0;
-    width: 100%;
+.header .logo img {
+    width: 180px;
+    height: auto;
+    display: block;
+    margin: 0;
 }
 
 .navbar {
     list-style: none;
     display: flex;
     align-items: center;
+    gap: 25px;
 }
 
 .navbar li {
-    margin-left: 35px;
+    font-weight: 600;
 }
 
 .navbar a {
     text-decoration: none;
     color: #1e5bb8;
-    font-weight: 600;
-    font-size: 15px;
 }
 
 .navbar .agora a {
@@ -56,132 +52,99 @@
 }
 
 .login {
-    background-color: #f5f7fa;
-    padding: 60px 0;
+    position: relative;
+    min-height: calc(100vh - 83px);
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    padding: 40px 20px;
+}
+
+.img-fundo-cadastro {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.6);
 }
 
 .card-cadastro {
-    background-color: #ffffff; 
+    background-color: white;
+    padding: 35px;
+    border-radius: 25px;
     width: 100%;
-    max-width: 600px;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0px 35px 97px -15px rgba(0, 74, 173, 0.2); 
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.logo-box-card img {
+    width: 200px;
+    margin-bottom: 10px;
 }
 
 .card-cadastro h2 {
-    text-align: center;
-    color: #004aad; 
-    font-size: 32px;
-    margin-bottom: 30px;
+    color: #004aad;
+    font-size: 26px;
+    margin-bottom: 25px;
 }
 
 .formulario {
     display: flex;
     flex-direction: column;
-}
-
-.campo {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-}
-
-.campo span {
-    font-weight: 600;
-    color: #1e5bb8;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
-
-.campo input, .campo select {
-    padding: 15px;
-    border: none;
-    border-radius: 15px;
-    background-color: #f5f7fa;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
-    font-family: "Poppins", sans-serif;
-}
-
-.campo input:focus, .campo select:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(67, 177, 67, 0.4);
+    text-align: left;
 }
 
 .linha-dupla {
     display: flex;
     justify-content: space-between;
+    gap: 15px;
 }
 
 .linha-dupla .campo {
-    width: 48%;
+    flex: 1;
 }
+
+.campo {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.campo span {
+    font-weight: 600;
+    color: #1e5bb8;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.campo input, .campo select {
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    background-color: #f5f7fa;
+    font-size: 14px;
+}
+
 .botao {
     background-color: #004aad;
-    color: #ffffff;
+    color: white;
     padding: 15px;
     border: none;
-    border-radius: 15px;
+    border-radius: 12px;
     font-weight: 700;
     font-size: 18px;
     cursor: pointer;
     margin-top: 15px;
-    transition: 0.3s;
 }
 
-.botao:hover {
-    background-color: #1e5bb8;
-    transform: translateY(-2px);
-}
 .footer {
     background-color: #004aad;
     color: #f4c430;
     text-align: center;
-    padding: 40px 0;
-    margin-top: 50px;
-}
-
-@media (max-width: 960px) {
-    .header .container {
-        width: 90%;
-    }
-    
-    .card-cadastro {
-        width: 90%;
-    }
-}
-
-@media (max-width: 440px) {
-    .header .container {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .navbar li {
-        margin: 0 10px;
-    }
-
-    .card-cadastro {
-        padding: 25px;
-    }
-
-    .card-cadastro h2 {
-        font-size: 24px;
-    }
-
-    .linha-dupla {
-        flex-direction: column;
-    }
-
-    .linha-dupla .campo {
-        width: 100%;
-    }
-
-    .botao {
-        font-size:16px;
-    
-}
+    padding: 25px 0;
 }

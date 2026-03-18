@@ -16,7 +16,7 @@
 
     <div class="header">
         <div class="container">
-            <h1 class="titulo">CONECTA+</h1>
+            <h1 class="titulo"><img src="assets/imgs/inclui.me-semfundo.png" alt=""></h1>
             <ul class="navbar">
                 <li><a href="index.html">Inicial</a></li>
                 <li>|</li>
@@ -27,33 +27,35 @@
     </div>
 
     <div class="login-secao">
-        <div class="card-login">
-            <div class="logo-box">
-                <img src="assets/logo.png" alt="" class="logo-img">
+    <img src="assets/imgs/criancas-login.jpg" alt="Fundo" class="img-fundo-login">
+    
+    <div class="card-login">
+        <div class="logo-box">
+            <img src="assets/imgs/conecta_logo_transparente.png" alt="Logo" class="logo-img">
+        </div>
+        <h2>Entrar</h2>
+        
+        <div class="formulario">
+            <div class="campo">
+                <span>E-mail:</span>
+                <input id="email_input" type="text" placeholder="meuemail@provedor.com">
             </div>
-            <h2>Entrar</h2>
+
+            <div class="campo">
+                <span>Senha:</span>
+                <input id="senha_input" type="password" placeholder="******">
+            </div>
+
+            <button class="botao" onclick="entrar()">Entrar</button>
             
-            <div class="formulario">
-                <div class="campo">
-                    <span>E-mail:</span>
-                    <input id="email_input" type="text" placeholder="meuemail@provedor.com">
-                </div>
-
-                <div class="campo">
-                    <span>Senha:</span>
-                    <input id="senha_input" type="password" placeholder="******">
-                </div>
-
-                <button class="botao" onclick="entrar()">Entrar</button>
-                
-                <div class="link-ajuda">
-                    <span>Não tem uma conta? <a href="cadastro.html">Cadastre-se agora!</a></span>
-                </div>
-
-                <div id="mensagem_erro" class="msg-validacao"></div>
+            <div class="link-ajuda">
+                <span>Não tem uma conta? <a href="cadastro.html">Cadastre-se agora!</a></span>
             </div>
+
+            <div id="mensagem_erro" class="msg-validacao"></div>
         </div>
     </div>
+</div>
 
     <div class="footer">
         <h4>CONECTA+ &copy; 2026 | Educação & Inclusão</h4>

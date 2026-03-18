@@ -15,7 +15,7 @@
     <div class="header">
     <div class="container">
         <div class="logo">
-            <img src="assets/imgs/conecta_logo_transparente.png" alt="Logo CONECTA+">
+            <img src="assets/imgs/inclui.me-semfundo.png" alt="Logo INCLUI.ME">
         </div>
         <ul class="navbar">
             <li><a href="index.html">Inicial</a></li>
@@ -27,7 +27,14 @@
 </div>
 
     <div class="login">
-        <div class="card-cadastro">
+    <img src="assets/imgs/criancas-cadastro.webp" alt="Fundo" class="img-fundo-cadastro">
+
+    <div class="card-cadastro">
+        <div class="logo-box-card">
+            <img src="assets/imgs/conecta_logo_transparente.png" alt="Logo CONECTA+">
+        </div>
+
+        <div class="conteudo-formulario">
             <h2>Crie sua conta</h2>
             
             <div class="formulario">
@@ -62,17 +69,17 @@
                     <span>Tipo de usuário:</span>
                     <select id="tipo_usuario_select">
                         <option value="">Selecione...</option>
-                        <option value="professor">Familiar</option>
-                        <option value="aluno">Diretor</option>
+                        <option value="familiar">Familiar</option>
+                        <option value="diretor">Diretor</option>
                     </select>
                 </div>
 
                 <button class="botao" onclick="cadastrar()">Cadastrar</button>
-                
-                <div id="mensagem_erro" class="msg-validacao" style="color: red; text-align: center; margin-top: 10px;"></div>
+                <div id="mensagem_erro" class="msg-validacao"></div>
             </div>
         </div>
     </div>
+</div>
 
     <div class="footer">
         <h4>CONECTA+ &copy; 2026 | Educação & Inclusão</h4>

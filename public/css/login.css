@@ -1,12 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
 
+* {
+    box-sizing: border-box;
+}
+
 .header, .navbar, .titulo, .login-secao, .card-login, .campo, .botao, .footer, input, span, h2, a {
     font-family: 'Poppins', sans-serif !important;
 }
+
 .header {
     background-color: #ffffff;
     border-bottom: 3px solid #43b143;
     padding: 20px 0;
+    position: relative;
+    z-index: 10;
 }
 
 .header .container {
@@ -18,10 +25,11 @@
     padding: 0 5%;
 }
 
-.titulo {
-    color: #004aad;
-    font-size: 24px;
-    font-weight: 800;
+.titulo img {
+    width: 180px;
+    height: auto;
+    display: block;
+    margin: 0;
 }
 
 .navbar {
@@ -45,26 +53,40 @@
 }
 
 .login-secao {
-    background-color: #f5f7fa;
-    min-height: 80vh;
+    position: relative;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden; 
     padding: 40px 0;
+}
+
+.img-fundo-login {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    z-index: -1; 
+    filter: brightness(0.5);
 }
 
 .card-login {
     background-color: #ffffff;
     width: 100%;
-    max-width: 450px;
+    max-width: 420px;
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0px 35px 97px -15px rgba(0, 74, 173, 0.2);
+    box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.4);
     text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .logo-img {
-    width: 120px;
+    width: 180px;
     margin-bottom: 10px;
 }
 
@@ -73,6 +95,7 @@
     font-size: 28px;
     margin-bottom: 25px;
 }
+
 .formulario {
     display: flex;
     flex-direction: column;
@@ -95,7 +118,7 @@
 .campo input {
     padding: 15px;
     border: none;
-    border-radius: 15px;
+    border-radius: 12px;
     background-color: #f5f7fa;
     font-size: 14px;
 }
@@ -110,7 +133,7 @@
     color: #ffffff;
     padding: 15px;
     border: none;
-    border-radius: 15px;
+    border-radius: 12px;
     font-weight: 700;
     font-size: 18px;
     cursor: pointer;
@@ -147,14 +170,10 @@
     color: #f4c430;
     text-align: center;
     padding: 30px 0;
-}
-@media (max-width: 960px) {
-    .card-login { width: 85%; }
+    position: relative;
+    z-index: 10;
 }
 
 @media (max-width: 440px) {
-    .header .container { flex-direction: column; gap: 10px; }
-    .navbar li { margin: 0 10px; }
-    .card-login { padding: 25px; }
-    .botao { font-size: 16px; }
+    .card-login { width: 90%; padding: 25px; }
 }
