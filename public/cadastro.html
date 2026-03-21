@@ -102,7 +102,7 @@
                 return;
             }
 
-            if (senhaVar != confirmacao) {
+            if (senhaVar != confirmacaoVar) {
                 mensagem_erro.innerHTML = "As senhas não coincidem!";
                 return;
             }
@@ -150,7 +150,6 @@
                 })
                 .catch(function (resposta) {
                     console.log(`#ERRO: ${resposta}`);
-                    finalizarAguardar();
                 });
 
             return false;
