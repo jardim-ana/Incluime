@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONECTA+ | Meu Perfil</title>
+
+    <link rel="stylesheet"
+        href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/perfil-aluno.css">
+</head>
+
+<body>
+    <nav id="sidebar">
+        <div id="sidebar_content">
+            <div id="user">
+                <img src="assets/imgs/avatar-do-usuario.png" alt="avatar" id="user_avatar">
+                <p id="user_infos">
+                    <span class="item-description">Ricardo Goulart</span>
+                    <span class="item-description">Diretor</span>
+                </p>
+            </div>
+
+            <ul id="side_items">
+                <li class="side-item">
+                    <a href="#">
+                        <i class="fi fi-rs-note"></i>
+                        <span class="item-description">Questionário</span>
+                    </a>
+                </li>
+
+                <li class="side-item">
+                    <a href="#">
+                        <i class="fi fi-rs-stats"></i>
+                        <span class="item-description">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="side-item active">
+                    <a href="#">
+                        <i class="fi fi-rs-user"></i>
+                        <span class="item-description">Perfil</span>
+                    </a>
+                </li>
+            </ul>
+
+            <button id="abrir">
+                <i id="abrir_icon" class="fi fi-rs-angle-small-right"></i>
+            </button>
+
+
+        </div>
+        </div>
+        <div id="logout">
+            <button id="logout_button">
+                <i class="fi fi-rs-exit"></i>
+                <span class="item-description">Sair</span>
+            </button>
+        </div>
+    </nav>
+    <main class="area-perfil">
+        <img src="assets/imgs/conecta_logo_transparente.png" alt="" width="150px">
+        <section class="cabecalho-perfil">
+            <h1>Meu perfil</h1>
+            <p>Atualize suas informações pessoais no sistema.</p>
+        </section>
+
+        <section class="card-perfil">
+            <h2>Editar informações</h2>
+
+            <div class="formulario">
+                <div class="linha-dupla">
+                    <div class="campo">
+                        <span>Nome</span>
+                        <input id="nome_input" type="text" placeholder="Felipe" disabled>
+                    </div>
+
+                    <div class="campo">
+                        <span>Sobrenome</span>
+                        <input id="sobrenome_input" type="text" placeholder="Alves" disabled>
+                    </div>
+                </div>
+
+                <div class="campo">
+                    <span>E-mail</span>
+                    <input id="email_input" type="email" placeholder="meuemail@email.com">
+                </div>
+
+                <div class="linha-dupla">
+                    <div class="campo">
+                        <span>Nova senha</span>
+                        <input id="senha_input" type="password" placeholder="Digite uma nova senha">
+                    </div>
+
+                    <div class="campo">
+                        <span>Confirmar nova senha</span>
+                        <input id="confirmacao_senha_input" type="password" placeholder="Confirme a nova senha">
+                    </div>
+                </div>
+                   <div class="acoes-formulario">
+                    <button class="botao" onclick="salvarAlteracoes()">Salvar alterações</button>
+                </div>
+
+                <script src="js/perfil.js"></script>
+</body>
+
+</html>
