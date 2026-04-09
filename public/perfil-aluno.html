@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CONECTA+ | Meu Perfil</title>
 
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
+    <link rel="stylesheet"
+        href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="./css/estilo.css">
     <link rel="stylesheet" href="./css/perfil-aluno.css">
+    
 </head>
+
 <body>
     <nav id="sidebar">
         <div id="sidebar_content">
@@ -30,7 +34,7 @@
 
                 <li class="side-item">
                     <a href="dashboard.html">
-                        <i class= "fi fi-rs-stats"></i>
+                        <i class="fi fi-rs-stats"></i>
                         <span class="item-description">Dashboard</span>
                     </a>
                 </li>
@@ -47,18 +51,18 @@
                 <i id="abrir_icon" class="fi fi-rs-angle-small-right"></i>
             </button>
 
-    
-            </div>
+
+        </div>
         </div>
         <div id="logout">
-                <button id="logout_button">
-                    <i class="fi fi-rs-exit"></i>
-                    <span class="item-description">Sair</span>
-                </button>
-            </div>
+            <button id="logout_button">
+                <i class="fi fi-rs-exit"></i>
+                <span class="item-description">Sair</span>
+            </button>
+        </div>
     </nav>
     <main class="area-perfil">
-         <img src="assets/imgs/conecta_logo_transparente.png" alt="" width="150px">
+        <img src="assets/imgs/conecta_logo_transparente.png" alt="" width="150px">
         <section class="cabecalho-perfil">
             <h1>Meu perfil</h1>
             <p>Atualize suas informações pessoais no sistema.</p>
@@ -97,6 +101,17 @@
                     </div>
                 </div>
 
+                <div class="campo">
+                    <span>Escola atual:</span>
+                    <div class="texto-escola-atual" id="escolaAtualTexto">Etec de São Paulo</div>
+                </div>
+
+                <div class="campo">
+                    <span>Atualizar escola:</span>
+                    <input type="text" id="escolaPerfilInput" placeholder="Digite o nome da escola">
+                    <ul id="sugestoesPerfil"></ul>
+                </div>
+
 
                 <div class="acoes-formulario">
                     <button class="botao" onclick="salvarAlteracoes()">Salvar alterações</button>
@@ -106,7 +121,43 @@
             </div>
         </section>
     </main>
-<script src="js/perfil.js"></script>
+    
+ <script>
+    var escolas = [
+    "Escola Estadual João Silva",
+    "Escola Municipal Machado de Assis",
+    "Colégio Objetivo",
+    "Etec de São Paulo",
+    "Escola Estadual Paulo Freire"
+  ];
+
+  var inputPerfil = document.getElementById("escolaPerfilInput");
+  var sugestoesPerfil = document.getElementById("sugestoesPerfil");
+
+  inputPerfil.addEventListener("input", function () {
+    var valor = inputPerfil.value.toLowerCase();
+    sugestoesPerfil.innerHTML = "";
+
+    if (valor === "") {
+      return;
+    }
+
+    for (var i = 0; i < escolas.length; i++) {
+      if (escolas[i].toLowerCase().indexOf(valor) !== -1) {
+        var li = document.createElement("li");
+        li.textContent = escolas[i];
+
+        li.onclick = function () {
+          inputPerfil.value = this.textContent;
+          sugestoesPerfil.innerHTML = "";
+        };
+
+        sugestoesPerfil.appendChild(li);
+      }
+    }
+  });
+ </script>
+    <script src="js/perfil.js"></script>
 </body>
 
 </html>
