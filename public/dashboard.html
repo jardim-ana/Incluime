@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CONECTA+ | Meu Perfil</title>
 
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
+    <link rel="stylesheet"
+        href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="./css/estilo.css">
     <link rel="stylesheet" href="./css/perfil-aluno.css">
+    <link rel="stylesheet" href="./css/dashboards.css">
 </head>
+
 <body>
     <nav id="sidebar">
         <div id="sidebar_content">
@@ -30,7 +34,7 @@
 
                 <li class="side-item active">
                     <a href="dashboard.html">
-                        <i class= "fi fi-rs-stats"></i>
+                        <i class="fi fi-rs-stats"></i>
                         <span class="item-description">Dashboard</span>
                     </a>
                 </li>
@@ -47,18 +51,231 @@
                 <i id="abrir_icon" class="fi fi-rs-angle-small-right"></i>
             </button>
 
-    
-            </div>
+
+        </div>
         </div>
         <div id="logout">
-                <button id="logout_button">
-                    <i class="fi fi-rs-exit"></i>
-                    <span class="item-description">Sair</span>
-                </button>
-            </div>
+            <button id="logout_button">
+                <i class="fi fi-rs-exit"></i>
+                <span class="item-description">Sair</span>
+            </button>
+        </div>
     </nav>
-  
-            <script src="js/perfil.js"></script>
+
+    <script src="js/perfil.js"></script>
+
+    <div id="corpo">
+
+        <div id="select-superior">
+
+            <div class="select">
+                <label for="municipio">Município:</label>
+                <select name="municipio" id="municipio">
+                    <option value="saoPaulo">São Paulo</option>
+                    <option value="osasco">Osasco</option>
+                    <option value="suzano">Suzano</option>
+                    <option value="barueri">Barueri</option>
+                </select>
+            </div>
+
+
+            <div class="select">
+                <label for="rede">Rede:</label>
+                <select name="rede" id="rede">
+                    <option value="estadual">Estadual</option>
+                    <option value="prefeitura">Prefeitura</option>
+                    <option value="particular">Particular</option>
+                </select>
+            </div>
+
+            <div class="select">
+                <label for="escola">Escola:</label>
+                <select name="escolas" id="escolas">
+                    <option value="visaoClara">E. E. Visão Clara</option>
+                    <option value="modeloEsperança">E. E. Modelo Esperança</option>
+                    <option value="novaCaminho">E. E. Nova Caminho</option>
+                    <option value="horizonteLivre">E. E. Horizonte Livre</option>
+
+
+                </select>
+            </div>
+            <div class="select">
+                <label for="ano">Ano:</label>
+                <select name="ano" id="ano">
+                    <option value="2024">2024</option>
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <div class="kpis">
+            <div class="kpi-total-matriculas">
+                <h3>Total de matrículas</h3>
+                <span>1.235</span>
+                <i><span>*Referente a escola selecionada</span></i>
+            </div>
+            <div class="kpi-percentual-matriculas">
+                <h3>Índice de Matrículas</h3>
+                <span>8,5%</span>
+                <i><span>*Referente a escola selecionada</span></i>
+            </div>
+            <div class="kpi-acessibilidade-escola">
+                <h3>Índice de acessibilidade</h3>
+                <span>68%</span>
+                <span>Meta: 80%</span>
+                <i><span>*Referente a escola selecionada</span></i>
+            </div>
+            <div class="kpi-indice-meta">
+                <h3>Diferença entre o índice e a meta</h3>
+                <span>12%</span>
+                <i><span>*Referente a escola selecionada</span></i>
+            </div>
+        </div>
+
+
+        <div class="grafico-lista">
+
+            <div class="grafico-linha">
+
+            </div>
+
+            <div class="menor-indicador">
+                <h3>Menor indicador de acessibilidade</h3>
+                <ul class="lista-situacoes">
+                    <li><strong>Situação: </strong> Ausência de rampa</li>
+                    <li><strong>Situação: </strong> Ausência de banheiro de cadeirante</li>
+                    <li><strong>Situação: </strong> Ausência de sinalização</li>
+                </ul>
+
+            </div>
+
+
+
+        </div>
+
+        <div class="ranking-comentarios">
+            <div class="ranking-escolas">
+                <h3>Ranking de Escolas</h3>
+                <hr>
+                <ul>
+                    <li><span class="nome-escola"> 1º E. E. Horizonte Livre</span><span class="porcentagem">85%</span>
+                    </li>
+                    <li><span class="nome-escola"> 2º E. E. Modelo Esperança</span><span class="porcentagem">78%</span>
+                    </li>
+                    <li><span class="nome-escola"> 3º E. E. Nova Caminho</span><span class="porcentagem">73%</span></li>
+                    <li><span class="nome-escola"> 4º E. E. Visão Clara</span><span class="porcentagem">68%</span></li>
+                    <li><span class="nome-escola"> 5º E. E. Santa Luzia</span><span class="porcentagem">65%</span></li>
+
+                </ul>
+            </div>
+
+            <div class="comentarios-ranking">
+                <h3>Comentários</h3>
+                <hr>
+                <div class="comentario">
+                    <p>"Deveria ter iniciativas de acessibilidade"</p>
+                </div>
+                <div class="comentario">
+                    <p>"Poderia melhorar o acesso aos banheiros."</p>
+                </div>
+                <div class="comentario">
+                    <p>"Apresentou melhorias significativas no último ano, mas ainda tem muito o que melhorar"</p>
+                </div>
+                <button>Adicionar comentário</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const divGrafico = document.querySelector('.grafico-linha');
+        const canvas = document.createElement('canvas');
+        canvas.id = 'graficoMatriculas';
+        divGrafico.appendChild(canvas);
+
+        const ctx = document.getElementById('graficoMatriculas').getContext('2d');
+
+        const anos = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
+        const matriculasEscola = [1500, 1550, 1600, 1580, 1620, 1620, 1400, 1450, 1400, 1400, 1380, 1360, 1320, 1300, 1235];
+        const mediaRede = [2700, 2720, 2750, 2730, 2760, 2760, 2600, 2600, 2550, 2600, 2550, 2540, 2530, 2510, 2480];
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: anos,
+                datasets: [
+                    {
+                        label: 'Quantidade de Matrículas (Escola selecionada)',
+                        data: matriculasEscola,
+                        borderColor: '#6a3ecf',
+                        backgroundColor: 'transparent',
+                        fill: false,
+                        tension: 0.3,
+                        pointBackgroundColor: '#6a3ecf',
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Média da Rede (Rede selecionada)',
+                        data: mediaRede,
+                        borderColor: '#f4c430',
+                        backgroundColor: 'transparent',
+                        fill: false,
+                        tension: 0.3,
+                        pointBackgroundColor: '#f4c430',
+                        pointRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            color: '#000',
+                            font: { size: 14 }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Número de matrículas 2010-2024',
+                        color: '#000',
+                        font: { size: 16, weight: 'bold' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 3000,
+                        title: { display: true, text: 'Número de Matrículas', color: '#000' },
+                        ticks: { color: '#000' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Ano', color: '#000' },
+                        ticks: { color: '#000' }
+                    }
+                }
+            }
+        });
+    </script>
+
+
+
+
+
 </body>
+
 
 </html>
