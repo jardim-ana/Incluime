@@ -51,4 +51,13 @@ for (var i = 0; i < links.length; i++) {
     });
 }
 
+function toggleChat() {
+  var chat = document.getElementById("chatbot");
+
+  if (chat.style.display === "block") {
+    chat.style.display = "none";
+  } else {
+    chat.style.display = "block";
+  }
+}
 
