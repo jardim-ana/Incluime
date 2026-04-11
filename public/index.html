@@ -165,11 +165,13 @@
   </div>
 
   <div class="chatbot-body">
-    <button class="chat-option">Como me cadastrar?</button>
-    <button class="chat-option">Como encontrar escolas?</button>
-    <button class="chat-option">Como ver avaliações?</button>
-    <button class="chat-option">Como deixar feedback?</button>
-    <button class="chat-option">Sou escola/instituição</button>
+    <button class="chat-option" onclick="buscarResposta('cadastro')">Como me cadastrar?</button>
+    <button class="chat-option" onclick="buscarResposta('escolas')">Como encontrar escolas?</button>
+    <button class="chat-option" onclick="buscarResposta('avaliacoes')">Como ver avaliações?</button>
+    <button class="chat-option" onclick="buscarResposta('feedback')">Como deixar feedback?</button>
+    <button class="chat-option" onclick="buscarResposta('instituicao')">Sou escola/instituição</button>
+
+    <div class="resposta" id="resposta">Escolha uma opção.</div>
   </div>
 </div>
 
