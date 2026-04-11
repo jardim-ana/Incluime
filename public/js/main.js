@@ -52,12 +52,12 @@ for (var i = 0; i < links.length; i++) {
 }
 
 function toggleChat() {
-  var chat = document.getElementById("chatbot");
-
-  if (chat.style.display === "block") {
-    chat.style.display = "none";
-  } else {
-    chat.style.display = "block";
-  }
+  const chat = document.getElementById("chatbot");
+  chat.style.display = chat.style.display === "block" ? "none" : "block";
 }
 
+async function buscarResposta(opcao) {
+  const resposta = await fetch(`http://127.0.0.1:5000/resposta/${opcao}`);
+  const dados = await resposta.json();
+  document.getElementById("resposta").innerText = dados.mensagem;
+}
