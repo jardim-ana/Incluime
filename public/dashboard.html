@@ -73,32 +73,23 @@
                 <select name="municipio" id="municipio">
                     <option value="saoPaulo">São Paulo</option>
                     <option value="osasco">Osasco</option>
-                    <option value="suzano">Suzano</option>
-                    <option value="barueri">Barueri</option>
                 </select>
             </div>
-
 
             <div class="select">
                 <label for="rede">Rede:</label>
                 <select name="rede" id="rede">
-                    <option value="estadual">Estadual</option>
-                    <option value="prefeitura">Prefeitura</option>
-                    <option value="particular">Particular</option>
+                    <option value="">Selecione a rede</option>
                 </select>
             </div>
 
             <div class="select">
                 <label for="escola">Escola:</label>
                 <select name="escolas" id="escolas">
-                    <option value="visaoClara">E. E. Visão Clara</option>
-                    <option value="modeloEsperança">E. E. Modelo Esperança</option>
-                    <option value="novaCaminho">E. E. Nova Caminho</option>
-                    <option value="horizonteLivre">E. E. Horizonte Livre</option>
-
-
+                    <option value="">Selecione a escola</option>
                 </select>
             </div>
+
             <div class="select">
                 <label for="ano">Ano:</label>
                 <select name="ano" id="ano">
@@ -107,172 +98,508 @@
                     <option value="2022">2022</option>
                     <option value="2021">2021</option>
                 </select>
-
             </div>
 
         </div>
-
-
-
-
 
         <div class="kpis">
-            <div class="kpi-total-matriculas">
-                <h3>Total de matrículas</h3>
-                <span>1.235</span>
-                <i><span>*Referente a escola selecionada</span></i>
-            </div>
-            <div class="kpi-percentual-matriculas">
-                <h3>Índice de Matrículas</h3>
-                <span>8,5%</span>
-                <i><span>*Referente a escola selecionada</span></i>
-            </div>
-            <div class="kpi-acessibilidade-escola">
-                <h3>Índice de acessibilidade</h3>
-                <span>68%</span>
-                <span>Meta: 80%</span>
-                <i><span>*Referente a escola selecionada</span></i>
-            </div>
-            <div class="kpi-indice-meta">
-                <h3>Diferença entre o índice e a meta</h3>
-                <span>12%</span>
-                <i><span>*Referente a escola selecionada</span></i>
-            </div>
-        </div>
 
+            <div class="kpi kpi-total-matriculas">
+                <h3>Total de matrículas</h3>
+                <span class="matriculas">--</span>
+                <i><span>*Referente a escola selecionada</span></i>
+            </div>
+
+            <div class="kpi kpi-percentual-matriculas">
+                <h3>Taxa de variação de Matrículas</h3>
+                <div class="anos-container">
+                    <div class="ano-item">
+                        <div class="ano-label">Ano Anterior</div>
+                        <div class="ano-valor" id="ano-anterior">--</div>
+                    </div>
+                    <div class="ano-item">
+                        <div class="ano-label">Ano Atual</div>
+                        <div class="ano-valor" id="ano-atual">--</div>
+                    </div>
+                </div>
+                <div class="variacao-container">
+                    <div class="variacao-wrapper">
+                        <span class="variacao-matricula" id="variacao-matricula">--</span>
+                        <span class="meta-matricula" id="meta-matricula">Meta: %</span>
+                        
+                    </div>
+                    <div class="variacao-legenda">Variação / Meta</div>
+                </div>
+                <i><span>*Referente à escola selecionada</span></i>
+            </div>
+
+            <div class="kpi kpi-acessibilidade-escola">
+                <h3>Índice de acessibilidade</h3>
+                <span class="acessibilidade">--</span>
+                <span class="meta-acessibilidade">Meta: --</span>
+                <i><span>*Referente a escola selecionada</span></i>
+            </div>
+
+            <div class="kpi kpi-indice-meta">
+                <h3>Diferença entre o índice e a meta</h3>
+                <span class="diferenca-meta">--</span>
+                <i><span>*Referente a escola selecionada</span></i>
+            </div>
+
+        </div>
 
         <div class="grafico-lista">
 
-            <div class="grafico-linha">
-
+            <div class="grafico-linha" style="height:400px;">
+                <canvas id="graficoMatriculas"></canvas>
             </div>
 
             <div class="menor-indicador">
-                <h3>Menor indicador de acessibilidade</h3>
-                <ul class="lista-situacoes">
-                    <li><strong>Situação: </strong> Ausência de rampa</li>
-                    <li><strong>Situação: </strong> Ausência de banheiro de cadeirante</li>
-                    <li><strong>Situação: </strong> Ausência de sinalização</li>
-                </ul>
-
+                <h3>Indicador de ausência acessibilidade</h3>
+                <ul class="lista-situacoes"></ul>
             </div>
-
-
 
         </div>
 
         <div class="ranking-comentarios">
+
             <div class="ranking-escolas">
                 <h3>Ranking de Escolas</h3>
                 <hr>
-                <ul>
-                    <li><span class="nome-escola"> 1º E. E. Horizonte Livre</span><span class="porcentagem">85%</span>
-                    </li>
-                    <li><span class="nome-escola"> 2º E. E. Modelo Esperança</span><span class="porcentagem">78%</span>
-                    </li>
-                    <li><span class="nome-escola"> 3º E. E. Nova Caminho</span><span class="porcentagem">73%</span></li>
-                    <li><span class="nome-escola"> 4º E. E. Visão Clara</span><span class="porcentagem">68%</span></li>
-                    <li><span class="nome-escola"> 5º E. E. Santa Luzia</span><span class="porcentagem">65%</span></li>
-
-                </ul>
+                <ul class="lista-ranking"></ul>
             </div>
 
             <div class="comentarios-ranking">
                 <h3>Comentários</h3>
                 <hr>
-                <div class="comentario">
-                    <p>"Deveria ter iniciativas de acessibilidade"</p>
-                </div>
-                <div class="comentario">
-                    <p>"Poderia melhorar o acesso aos banheiros."</p>
-                </div>
-                <div class="comentario">
-                    <p>"Apresentou melhorias significativas no último ano, mas ainda tem muito o que melhorar"</p>
-                </div>
+
+                <div class="comentarios"></div>
+
                 <button>Adicionar comentário</button>
             </div>
+
         </div>
     </div>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        const divGrafico = document.querySelector('.grafico-linha');
-        const canvas = document.createElement('canvas');
-        canvas.id = 'graficoMatriculas';
-        divGrafico.appendChild(canvas);
-
-        const ctx = document.getElementById('graficoMatriculas').getContext('2d');
-
-        const anos = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024];
-        const matriculasEscola = [1500, 1550, 1600, 1580, 1620, 1620, 1400, 1450, 1400, 1400, 1380, 1360, 1320, 1300, 1235];
-        const mediaRede = [2700, 2720, 2750, 2730, 2760, 2760, 2600, 2600, 2550, 2600, 2550, 2540, 2530, 2510, 2480];
-
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: anos,
-                datasets: [
-                    {
-                        label: 'Quantidade de Matrículas (Escola selecionada)',
-                        data: matriculasEscola,
-                        borderColor: '#6a3ecf',
-                        backgroundColor: 'transparent',
-                        fill: false,
-                        tension: 0.3,
-                        pointBackgroundColor: '#6a3ecf',
-                        pointRadius: 4
-                    },
-                    {
-                        label: 'Média da Rede (Rede selecionada)',
-                        data: mediaRede,
-                        borderColor: '#f4c430',
-                        backgroundColor: 'transparent',
-                        fill: false,
-                        tension: 0.3,
-                        pointBackgroundColor: '#f4c430',
-                        pointRadius: 4
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        labels: {
-                            color: '#000',
-                            font: { size: 14 }
+        const dados = {
+            saoPaulo: {
+                estadual: {
+                    escolas: {
+                        visaoClara: {
+                            nome: "E. E. Visão Clara",
+                            matriculas: 1235,
+                            acessibilidade: 68,
+                            metaAcessibilidade: 78,
+                            ranking: 68,
+                            ausenciaAcessibilidade: 32,
+                            itensAusenciaAcessibilidade: ["Rampa", "Banheiro de cadeirante", "Sinalização"],
+                            comentarios: [{ texto: "Falta manutenção estrutural", nota: 3 },
+                            { texto: "Melhorar banheiros acessíveis", nota: 3 }],
+                            historico: [1600, 1580, 1550, 1500, 1450, 1400, 1380, 1350, 1300, 1280, 1260, 1250, 1240, 1238, 1235]
+                        },
+                        jardimCentral: {
+                            nome: "E. E. Jardim Central",
+                            matriculas: 1180,
+                            acessibilidade: 72,
+                            metaAcessibilidade: 82,
+                            ranking: 72,
+                            ausenciaAcessibilidade: 28,
+                            itensAusenciaAcessibilidade: ["Sinalização", "Elevador acessível", "Banheiro não adaptado"],
+                            comentarios: [
+                                { texto: "Boa evolução geral", nota: 4 },
+                                { texto: "Sinalização ainda incompleta", nota: 4 }
+                            ],
+                            historico: [1500, 1480, 1450, 1430, 1400, 1380, 1360, 1340, 1320, 1300, 1280, 1260, 1240, 1200, 1180]
+                        },
+                        colegioPrimeSP: {
+                            nome: "Colégio Prime SP",
+                            matriculas: 860,
+                            acessibilidade: 80,
+                            metaAcessibilidade: 90,
+                            ranking: 80,
+                            ausenciaAcessibilidade: 20,
+                            itensAusenciaAcessibilidade: ["Acesso lateral", "Banheiro adaptado"],
+                            comentarios: [
+                                { texto: "Estrutura moderna", nota: 5 },
+                                { texto: "Boa acessibilidade geral", nota: 5 }
+                            ],
+                            historico: [1100, 1080, 1060, 1040, 1020, 1000, 980, 960, 940, 920, 900, 890, 880, 870, 860]
                         }
-                    },
-                    title: {
-                        display: true,
-                        text: 'Número de matrículas 2010-2024',
-                        color: '#000',
-                        font: { size: 16, weight: 'bold' }
                     }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        max: 3000,
-                        title: { display: true, text: 'Número de Matrículas', color: '#000' },
-                        ticks: { color: '#000' }
-                    },
-                    x: {
-                        title: { display: true, text: 'Ano', color: '#000' },
-                        ticks: { color: '#000' }
+                particular: {
+                    escolas: {
+                        colegioPrimeOsasco: {
+                            nome: "Colégio Futuro",
+                            matriculas: 780,
+                            acessibilidade: 66,
+                            metaAcessibilidade: 76,
+                            ranking: 65,
+                            ausenciaAcessibilidade: 34,
+                            itensAusenciaAcessibilidade: ["Rampa de acesso", "Banheiro adaptado"],
+                            comentarios: [
+                                { texto: "Boa estrutura geral", nota: 4 },
+                                { texto: "Pode melhorar acessibilidade", nota: 3 }
+                            ],
+                            historico: [1000, 980, 960, 940, 920, 900, 880, 860, 840, 820, 810, 800, 790, 785, 780]
+                        }
+                    }
+                },
+                municipal: {
+                    escolas: {
+                        emeiJardim: {
+                            nome: "EMEI Jardim",
+                            matriculas: 570,
+                            acessibilidade: 58,
+                            metaAcessibilidade: 68,
+                            ranking: 58,
+                            ausenciaAcessibilidade: 42,
+                            itensAusenciaAcessibilidade: ["Rampa", "Banheiro inadequado", "Sinalização"],
+                            comentarios: [
+                                { texto: "Estrutura básica", nota: 2 },
+                                { texto: "Necessita reforma urgente", nota: 1 }
+                            ],
+                            historico: [850, 830, 810, 790, 770, 750, 730, 710, 690, 670, 650, 630, 610, 590, 570]
+                        }
+                    }
+                }
+            },
+            osasco: {
+                estadual: {
+                    escolas: {
+                        novaCaminho: {
+                            nome: "E. E. Nova Caminho",
+                            matriculas: 1100,
+                            acessibilidade: 60,
+                            metaAcessibilidade: 70,
+                            ranking: 60,
+                            ausenciaAcessibilidade: 40,
+                            itensAusenciaAcessibilidade: ["Rampa", "Banheiro adaptado", "Acesso ao segundo andar"],
+                            comentarios: [
+                                { texto: "Ambiente pouco inclusivo", nota: 2 },
+                                { texto: "Falta investimento estrutural", nota: 1 }
+                            ],
+                            historico: [1400, 1380, 1350, 1300, 1280, 1250, 1220, 1200, 1180, 1160, 1140, 1120, 1110, 1105, 1100]
+                        }
+                    }
+                },
+                particular: {
+                    escolas: {
+                        colegioPrimeOsasco: {
+                            nome: "Colégio Prime Osasco",
+                            matriculas: 1200,
+                            acessibilidade: 66,
+                            metaAcessibilidade: 76,
+                            ranking: 866,
+                            ausenciaAcessibilidade: 34,
+                            itensAusenciaAcessibilidade: ["Rampa", "Banheiro adaptado"],
+                            comentarios: [
+                                { texto: "Boa estrutura geral", nota: 4 },
+                                { texto: "Pode melhorar acessibilidade", nota: 3 }
+                            ],
+                            historico: [500, 980, 960, 940, 920, 900, 880, 760, 820, 840, 850, 900, 990, 995, 1200]
+                        }
+                    }
+                },
+                municipal: {
+                    escolas: {
+                        emeiJardim: {
+                            nome: "EMEI Jardim Osasco",
+                            matriculas: 570,
+                            acessibilidade: 58,
+                            metaAcessibilidade: 68,
+                            ranking: 58,
+                            ausenciaAcessibilidade: 42,
+                            itensAusenciaAcessibilidade: ["Rampa", "Banheiro inadequado", "Sinalização"],
+                            comentarios: [
+                                { texto: "Estrutura básica", nota: 2 },
+                                { texto: "Necessita reforma urgente", nota: 1 }
+                            ],
+                            historico: [850, 830, 810, 790, 770, 750, 730, 710, 690, 670, 650, 630, 610, 590, 570]
+                        }
                     }
                 }
             }
+        };
+
+        const municipioSelect = document.getElementById("municipio");
+        const redeSelect = document.getElementById("rede");
+        const escolaSelect = document.getElementById("escolas");
+        const ctx = document.getElementById("graficoMatriculas").getContext("2d");
+        const anos = Array.from({ length: 15 }, (_, i) => 2010 + i);
+        let grafico;
+
+      
+        function calcularMediaPorRede(municipio, rede) {
+            const escolas = Object.values(dados[municipio][rede]?.escolas || {});
+            if (!escolas.length) return Array(anos.length).fill(0);
+
+            const totalHistorico = Array(anos.length).fill(0);
+            escolas.forEach(e => {
+                e.historico.forEach((val, idx) => totalHistorico[idx] += val);
+            });
+            return totalHistorico.map(sum => Math.round(sum / escolas.length));
+        }
+
+        
+        function carregarRedes() {
+            const municipio = municipioSelect.value;
+            redeSelect.innerHTML = "<option value=''>Selecione a rede</option>";
+            escolaSelect.innerHTML = "<option value=''>Selecione a escola</option>";
+            Object.keys(dados[municipio] || {}).forEach(rede => {
+                const opt = document.createElement("option");
+                opt.value = rede;
+                opt.textContent = rede.charAt(0).toUpperCase() + rede.slice(1);
+                redeSelect.appendChild(opt);
+            });
+        }
+
+        function carregarEscolas() {
+            const municipio = municipioSelect.value;
+            const rede = redeSelect.value;
+            escolaSelect.innerHTML = "<option value=''>Selecione a escola</option>";
+            Object.keys(dados[municipio]?.[rede]?.escolas || {}).forEach(escola => {
+                const opt = document.createElement("option");
+                opt.value = escola;
+                opt.textContent = dados[municipio][rede].escolas[escola].nome;
+                escolaSelect.appendChild(opt);
+            });
+        }
+
+
+        function atualizarDashboard() {
+    if (!municipioSelect.value || !redeSelect.value || !escolaSelect.value) return;
+    const municipio = municipioSelect.value;
+    const rede = redeSelect.value;
+    const escola = escolaSelect.value;
+
+    const info = dados[municipio][rede].escolas[escola];
+    if (!info) return;
+
+    
+    document.querySelector(".kpi-total-matriculas span.matriculas").textContent = info.matriculas ?? "--";
+    document.querySelector(".kpi-acessibilidade-escola span.acessibilidade").textContent = info.acessibilidade != null ? info.acessibilidade + "%" : "--";
+    document.querySelector(".meta-acessibilidade").textContent = info.metaAcessibilidade != null ? "Meta: " + info.metaAcessibilidade + "%" : "--";
+
+    const diffMetaEl = document.querySelector(".diferenca-meta");
+    if (info.acessibilidade != null && info.metaAcessibilidade != null) {
+        diffMetaEl.textContent = (info.metaAcessibilidade - info.acessibilidade) + "%";
+    } else {
+        diffMetaEl.textContent = "--";
+    }
+
+    
+    const anoAtualEl = document.getElementById("ano-atual");
+    const anoAnteriorEl = document.getElementById("ano-anterior");
+    const variacaoEl = document.getElementById("variacao-matricula");
+    const historico = info.historico || [];
+    const anoAtual = historico[historico.length - 1] ?? null;
+    const anoPassado = historico[historico.length - 2] ?? null;
+
+    anoAtualEl.textContent = anoAtual != null ? anoAtual : "--";
+    anoAnteriorEl.textContent = anoPassado != null ? anoPassado : "--";
+
+    const taxaEsperada = 2; 
+
+    if (anoAtual != null && anoPassado != null) {
+        const variacao = ((anoAtual - anoPassado) / anoPassado) * 100;
+
+        
+        const seta = variacao >= 0 ? "↑" : "↓";
+
+        
+        variacaoEl.innerHTML = `Variação: <span class="seta">${seta}</span> ${Math.abs(variacao).toFixed(1)}%`;
+
+        
+        variacaoEl.classList.remove("positivo", "negativo");
+        if (variacao >= taxaEsperada) {
+            variacaoEl.classList.add("positivo");
+        } else {
+            variacaoEl.classList.add("negativo");
+        }
+
+        const metaEl = document.getElementById("meta-matricula");
+        metaEl.textContent = `Meta: ${taxaEsperada.toFixed(1)}%`;
+    } else {
+        variacaoEl.textContent = "--";
+        variacaoEl.classList.remove("positivo", "negativo");
+        document.getElementById("meta-matricula").textContent = "--";
+    }
+
+   
+    const lista = document.querySelector(".lista-situacoes");
+    if (lista) {
+        lista.innerHTML = info.itensAusenciaAcessibilidade?.map(item => `<li><strong>Situação:</strong> &nbsp; ${item}</li>`).join("") || "";
+    }
+
+   
+    const rankingEl = document.querySelector(".lista-ranking");
+    if (rankingEl) {
+        const escolas = Object.values(dados[municipio][rede].escolas).sort((a, b) => b.ranking - a.ranking);
+        rankingEl.innerHTML = escolas.map((e, i) => `
+            <li>
+                <span class="nome-escola">${i + 1}º ${e.nome}</span>
+                <span class="porcentagem">${e.ranking != null ? e.ranking + "%" : "--"}</span>
+            </li>
+        `).join("");
+    }
+
+  
+    const comentariosEl = document.querySelector(".comentarios");
+    if (comentariosEl) {
+        comentariosEl.innerHTML = info.comentarios?.map(c => `
+            <div class="comentario">
+                <p>"${c.texto}"</p>
+                <span class="nota">Nota: ${c.nota != null ? c.nota + "/5" : "--"}</span>
+            </div>
+        `).join("") || "";
+    }
+
+    
+    grafico.data.datasets[0].data = historico.length ? historico : Array(anos.length).fill(0);
+    const mediaHistorico = historico.length ? Math.round(historico.reduce((a, b) => a + b, 0) / historico.length) : 0;
+    grafico.data.datasets[2].data = Array(anos.length).fill(mediaHistorico);
+    grafico.update();
+}
+
+        municipioSelect.addEventListener("change", () => {
+            carregarRedes();
+            atualizarMediaRede(); 
         });
+        redeSelect.addEventListener("change", () => {
+            carregarEscolas();
+            atualizarMediaRede(); 
+        });
+        escolaSelect.addEventListener("change", () => {
+            atualizarDashboard(); 
+        });
+
+       
+
+    
+        function calcularMediaPorRede(municipio, rede) {
+            const escolas = Object.values(dados[municipio][rede]?.escolas || {});
+            if (!escolas.length) return Array(anos.length).fill(0);
+
+            const somaHistorico = Array(anos.length).fill(0);
+            escolas.forEach(escola => {
+                escola.historico.forEach((valor, i) => {
+                    somaHistorico[i] += valor;
+                });
+            });
+
+            return somaHistorico.map(soma => Math.round(soma / escolas.length));
+        }
+      
+        function atualizarMediaRede() {
+            if (!municipioSelect.value || !redeSelect.value) return;
+            const municipio = municipioSelect.value;
+            const rede = redeSelect.value;
+
+            const mediaRede = calcularMediaPorRede(municipio, rede);
+            grafico.data.datasets[1].data = mediaRede;
+            grafico.data.datasets[1].borderDash = []; 
+            grafico.data.datasets[1].borderColor = '#00cc00'; 
+            grafico.update();
+        }
+
+
+        function iniciarGrafico() {
+            const inicialMunicipio = Object.keys(dados)[0];
+            const inicialRede = Object.keys(dados[inicialMunicipio])[0];
+            const inicialEscola = Object.keys(dados[inicialMunicipio][inicialRede].escolas)[0];
+
+            const escolaBase = dados[inicialMunicipio][inicialRede].escolas[inicialEscola];
+            const redeBase = calcularMediaPorRede(inicialMunicipio, inicialRede);
+
+            const mediaEscola = Math.round(escolaBase.historico.reduce((a, b) => a + b, 0) / escolaBase.historico.length);
+
+            grafico = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: anos,
+                    datasets: [
+                        {
+                            label: 'Escola',
+                            data: escolaBase.historico,
+                            borderColor: '#6a3ecf',
+                            fill: false,
+                            tension: 0.3,
+                            pointRadius: 3
+                        },
+                        {
+                            label: `Rede ${inicialRede.charAt(0).toUpperCase() + inicialRede.slice(1)} (média)`,
+                            data: redeBase,
+                            borderColor: '#00cc00', 
+                            borderDash: [],
+                            fill: false,
+                            tension: 0.3,
+                            pointRadius: 0
+                        },
+                        {
+                            label: 'Referência: Média Escolar',
+                            data: Array(anos.length).fill(mediaEscola),
+                            borderColor: '#ff0000', 
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.3,
+                            pointRadius: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Histórico de Matrículas',
+                            font: { size: 18 },
+                            padding: { top: 10, bottom: 30 }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: { font: { size: 14 } }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Número de Matrículas' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Ano' }
+                        }
+                    }
+                }
+            });
+        }
+       
+        
+        municipioSelect.addEventListener("change", () => {
+            carregarRedes();
+            atualizarMediaRede(); 
+            
+        });
+
+     
+        redeSelect.addEventListener("change", () => {
+            carregarEscolas();
+            atualizarMediaRede(); 
+        });
+
+       
+        escolaSelect.addEventListener("change", () => {
+            atualizarDashboard(); 
+        });
+
+       
+        iniciarGrafico();
+        carregarRedes();
     </script>
-
-
-
 
 
 </body>
