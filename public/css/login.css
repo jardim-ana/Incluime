@@ -48,7 +48,7 @@
     align-items: center;
     gap: 20px;
     margin: 0;
-    padding: 0;
+    padding: 5px;
 }
 
 .navbar li {
@@ -190,3 +190,4 @@
 @media (max-width: 440px) {
     .card-login { width: 90%; padding: 25px; }
 }
+

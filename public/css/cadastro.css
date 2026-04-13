@@ -30,7 +30,7 @@
 }
 
 .header .logo img, .titulo img {
-    width: 150px;
+    width: 80%;
     height: auto;
 }
 
@@ -157,4 +157,34 @@
     color: #f4c430;
     text-align: center;
     padding: 25px 0;
+}
+
+ #sugestoes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+     max-height: 150px;   
+    overflow-y: auto; 
+  }
+
+  #sugestoes li {
+    font-size: 10px; 
+    padding: 6px;
+    cursor: pointer;
+  }
+
+  #escolaInput {
+    font-size: 12px; 
+  }
+
+  @media (max-width: 440px) {
+    .linha-dupla {
+        flex-direction: column;
+    }
+    .navbar{
+        width: auto;
+    }
+ #tipo_usuario_select{
+    width: 50%;
+ }
 }

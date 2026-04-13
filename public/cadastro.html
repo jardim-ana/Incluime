@@ -68,6 +68,12 @@
                     </div>
 
                     <div class="campo">
+                        <span>Selecione sua escola:</span>
+                        <input type="text" id="escolaInput" placeholder="Digite o nome da escola">
+                        <ul id="sugestoes"></ul>
+                    </div>
+
+                    <div class="campo">
                         <span>Tipo de usuário:</span>
                         <select id="tipo_usuario_select">
                             <option value="">Selecione...</option>
@@ -88,6 +94,39 @@
     </div>
 
     <script>
+  var escolas = [
+    "Escola Estadual João Silva",
+  "Escola Municipal Machado de Assis",
+  "Colégio Objetivo",
+  "Etec de São Paulo",
+  "Escola Estadual Paulo Freire"
+  ];
+
+  var input = document.getElementById("escolaInput");
+  var sugestoes = document.getElementById("sugestoes");
+
+  input.addEventListener("input", function () {
+    var valor = input.value.toLowerCase();
+    sugestoes.innerHTML = "";
+
+    if (valor === "") {
+      return;
+    }
+
+    for (var i = 0; i < escolas.length; i++) {
+      if (escolas[i].toLowerCase().indexOf(valor) !== -1) {
+        var li = document.createElement("li");
+        li.textContent = escolas[i];
+
+        li.onclick = function () {
+          input.value = this.textContent;
+          sugestoes.innerHTML = "";
+        };
+
+        sugestoes.appendChild(li);
+      }
+    }
+  });
         function cadastrar() {
             var nomeVar = nome_input.value;
             var sobrenomeVar = sobrenome_input.value;
