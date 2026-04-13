@@ -198,7 +198,7 @@
                             itensAusenciaAcessibilidade: ["Rampa", "Banheiro de cadeirante", "Sinalização"],
                             comentarios: [{ texto: "Falta manutenção estrutural", nota: 3 },
                             { texto: "Melhorar banheiros acessíveis", nota: 3 }],
-                            historico: [1600, 1580, 1550, 1500, 1450, 1400, 1380, 1350, 1300, 1280, 1260, 1250, 1240, 1238, 1235]
+                            historico: [1000, 1238, 1235]
                         },
                         jardimCentral: {
                             nome: "E. E. Jardim Central",
@@ -212,7 +212,7 @@
                                 { texto: "Boa evolução geral", nota: 4 },
                                 { texto: "Sinalização ainda incompleta", nota: 4 }
                             ],
-                            historico: [1500, 1480, 1450, 1430, 1400, 1380, 1360, 1340, 1320, 1300, 1280, 1260, 1240, 1200, 1180]
+                            historico: [1240, 1200, 1180]
                         },
                         colegioPrimeSP: {
                             nome: "Colégio Prime SP",
@@ -226,7 +226,7 @@
                                 { texto: "Estrutura moderna", nota: 5 },
                                 { texto: "Boa acessibilidade geral", nota: 5 }
                             ],
-                            historico: [1100, 1080, 1060, 1040, 1020, 1000, 980, 960, 940, 920, 900, 890, 880, 870, 860]
+                            historico: [880, 870, 860]
                         }
                     }
                 },
@@ -244,7 +244,7 @@
                                 { texto: "Boa estrutura geral", nota: 4 },
                                 { texto: "Pode melhorar acessibilidade", nota: 3 }
                             ],
-                            historico: [1000, 980, 960, 940, 920, 900, 880, 860, 840, 820, 810, 800, 790, 785, 780]
+                            historico: [790, 785, 780]
                         }
                     }
                 },
@@ -262,7 +262,7 @@
                                 { texto: "Estrutura básica", nota: 2 },
                                 { texto: "Necessita reforma urgente", nota: 1 }
                             ],
-                            historico: [850, 830, 810, 790, 770, 750, 730, 710, 690, 670, 650, 630, 610, 590, 570]
+                            historico: [610, 590, 570]
                         }
                     }
                 }
@@ -282,7 +282,7 @@
                                 { texto: "Ambiente pouco inclusivo", nota: 2 },
                                 { texto: "Falta investimento estrutural", nota: 1 }
                             ],
-                            historico: [1400, 1380, 1350, 1300, 1280, 1250, 1220, 1200, 1180, 1160, 1140, 1120, 1110, 1105, 1100]
+                            historico: [1110, 1105, 1100]
                         }
                     }
                 },
@@ -300,7 +300,7 @@
                                 { texto: "Boa estrutura geral", nota: 4 },
                                 { texto: "Pode melhorar acessibilidade", nota: 3 }
                             ],
-                            historico: [500, 980, 960, 940, 920, 900, 880, 760, 820, 840, 850, 900, 990, 995, 1200]
+                            historico: [ 990, 995, 1200]
                         }
                     }
                 },
@@ -318,7 +318,7 @@
                                 { texto: "Estrutura básica", nota: 2 },
                                 { texto: "Necessita reforma urgente", nota: 1 }
                             ],
-                            historico: [850, 830, 810, 790, 770, 750, 730, 710, 690, 670, 650, 630, 610, 590, 570]
+                            historico: [610, 590, 570]
                         }
                     }
                 }
@@ -329,7 +329,7 @@
         const redeSelect = document.getElementById("rede");
         const escolaSelect = document.getElementById("escolas");
         const ctx = document.getElementById("graficoMatriculas").getContext("2d");
-        const anos = Array.from({ length: 15 }, (_, i) => 2010 + i);
+        const anos = Array.from({ length: 3 }, (_, i) => 2022 + i);
         let grafico;
 
       
@@ -402,7 +402,7 @@
     anoAtualEl.textContent = anoAtual != null ? anoAtual : "--";
     anoAnteriorEl.textContent = anoPassado != null ? anoPassado : "--";
 
-    const taxaEsperada = 2; 
+    const taxaEsperada = 1; 
 
     if (anoAtual != null && anoPassado != null) {
         const variacao = ((anoAtual - anoPassado) / anoPassado) * 100;
@@ -531,7 +531,7 @@
                             pointRadius: 3
                         },
                         {
-                            label: `Rede ${inicialRede.charAt(0).toUpperCase() + inicialRede.slice(1)} (média)`,
+                            label: `Rede (média)`,
                             data: redeBase,
                             borderColor: '#00cc00', 
                             borderDash: [],
