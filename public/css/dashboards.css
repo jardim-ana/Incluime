@@ -3,7 +3,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 body {
-  margin: 0;
+  display: block;
+  margin: 0px;
   padding: 0;
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -325,11 +326,10 @@ canvas {
   height: 100% !important;
 }
 
-/* PAGINA DOS GRÁFICOS 2023 */
 
 .janela {
   display: flex;
-  /* width: 100vw; */
+
 }
 
 .header-left a {
@@ -426,3 +426,370 @@ canvas {
   margin-bottom: 100px;
   cursor: pointer;
 }
+
+
+
+
+
+
+
+
+
+
+#corpo {
+  justify-content: center;
+  width: auto;
+  position: relative;
+  margin-left: 18%; 
+  padding: 30px 0;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#select-superior {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 50px;
+  margin-right: 200px;
+  border-radius: 12px;
+}
+
+.select {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  text-align: center;
+}
+
+.select select {
+  width: 250px;
+  padding: 5px 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  background-color: #FFFFFF;
+  border: 1px solid #6EB5FF; 
+  transition: all 0.3s ease;
+}
+
+.select select:hover {
+  border: 1px solid #6A3ECF;
+}
+
+.select label {
+  font-size: 20px;
+  margin-right: 10px;
+  color: #333333;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+
+.kpis {
+  display: flex;
+  gap: 10px;
+  margin-right: 50px;
+  flex-wrap: wrap;
+}
+
+.kpis > div {
+  background-color: #FFFFFF;
+  padding: 20px;
+  border-radius: 12px;
+  flex: 1;
+  min-width: 220px;
+  border: 1px solid #EAEAEA;
+  margin-top: 10px;
+}
+
+.kpis h3 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #555555;
+  text-align: center;
+}
+
+.kpis > div > span:first-of-type {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+  color: #6A3ECF;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.kpis > div > span:not(:first-of-type) {
+  display: block;
+  font-size: 14px;
+  text-align: center;
+  background-color: #c0c0c0;
+  color: #5a32b8;
+  border-radius: 10px;
+}
+
+.kpis i span {
+  margin-top: auto;
+  display: block;
+  font-size: 13px;
+  color: #999999;
+  text-align: center;
+}
+
+
+.grafico-linha {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 900px;
+  border: 1px solid #EAEAEA;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grafico-linha canvas {
+  width: 100% !important;
+  height: 400px !important;
+}
+
+.chart-legend span {
+  color: #555555;
+}
+
+.grafico-e-lista-container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.grafico-e-lista-container .grafico-linha {
+  flex: 2;
+  min-width: 400px;
+}
+
+.grafico-lista {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.grafico-lista .grafico-linha {
+  flex: 2;
+}
+
+.grafico-lista .menor-indicador {
+  flex: 1;
+  background-color: #b71c1c;
+  padding: 15px;
+  border-radius: 12px;
+  border: none;
+}
+
+.menor-indicador {
+  margin-top: 20px;
+  margin-right: 50px;
+}
+
+.menor-indicador h3 {
+  color: #FFFFFF;
+  background-color: #b71c1c;
+  text-align: center;
+  margin-bottom: 15px;
+  border-radius: 12px;
+}
+
+.lista-situacoes li {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+  border-radius: 8px;
+  background-color: #FAFAFA;
+  padding: 8px;
+}
+
+#btn-comentario {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 8px;
+  background-color: #FB5A9D;
+  color: #FFFFFF;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#btn-comentario:hover {
+  background-color: #6A3ECF;
+}
+
+.ranking-comentarios {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.ranking-escolas,
+.comentarios-ranking {
+  margin-right: 50px;
+  background-color: #FFFFFF;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #EAEAEA;
+  flex: 1;
+  min-width: 300px;
+}
+
+.ranking-escolas h3,
+.comentarios-ranking h3 {
+  color: #333333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.ranking-escolas hr,
+.comentarios-ranking hr {
+  border: none;
+  border-bottom: 1px solid #EAEAEA;
+  margin-bottom: 10px;
+}
+
+.ranking-escolas li {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+  padding: 8px 0;
+  border-bottom: 1px solid #F0F0F0;
+}
+
+.ranking-escolas .nome-escola {
+  color: #444444;
+}
+
+.ranking-escolas .porcentagem {
+  color: #FB5A9D;
+}
+
+.comentarios-ranking .comentario {
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #FAFAFA;
+}
+
+@media screen and (max-width: 960px) {
+  .grafico-lista,
+  .ranking-comentarios {
+    flex-direction: column;
+  }
+
+  .grafico-lista .grafico-linha,
+  .grafico-lista .menor-indicador {
+    width: 100%;
+  }
+}
+
+.comentarios-ranking button {
+  display: inline-block;
+  padding: 10px 18px;
+  background-color: #6A3ECF;  
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-top: 15px;
+}
+
+.comentarios-ranking button:hover {
+  background-color: #5a32b8;
+  transform: translateY(-1px);
+}
+
+.comentarios-ranking button:active {
+  transform: translateY(0);
+  opacity: 0.9;
+}
+
+
+.kpi-percentual-matriculas .anos-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.kpi-percentual-matriculas .ano-item {
+  text-align: center;
+}
+
+.kpi-percentual-matriculas .ano-label {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 3px;
+}
+
+.kpi-percentual-matriculas .ano-valor {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+.variacao-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.variacao-wrapper {
+  display: flex;
+  gap: 10px;
+  justify-content: center; 
+  margin-bottom: 5px;
+}
+
+.variacao-matricula, .meta-matricula {
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  min-width: 80px;
+  text-align: center;
+}
+
+.variacao-matricula.positivo {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.variacao-matricula.negativo {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.meta-matricula {
+  background-color: #c0c0c0;
+  color: #5a32b8;
+  align-items: center;
+  vertical-align: middle; 
+    display: block;       
+    font-weight: bold;   
+    margin-top: 5px;  
+}
+
+.variacao-matricula .seta {
+    font-size: 2em;  
+    vertical-align: middle; 
+    margin-right: 0.1em; 
+}
+
+
+
