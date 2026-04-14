@@ -436,14 +436,52 @@ canvas {
 
 
 
+
+
+#sidebar{
+  z-index: 1000;
+  position: absolute;
+}
+
 #corpo {
+  z-index: 1;
   justify-content: center;
-  width: auto;
+  width: 0 auto;
   position: relative;
-  margin-left: 18%; 
-  padding: 30px 0;
+  margin-left: 200px; 
+  padding: 5px 0;
   flex-direction: column;
   align-items: flex-start;
+
+
+
+}
+
+@media screen and (max-width: 960px) {
+
+  #select-superior {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    margin-right: 0; 
+  }
+
+  .select {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .select label {
+    margin-bottom: 5px;
+    font-size: 16px;
+  }
+
+  .select select {
+    width: 100%;
+    font-size: 16px;
+  }
+
 }
 
 #select-superior {
@@ -470,6 +508,7 @@ canvas {
   background-color: #FFFFFF;
   border: 1px solid #6EB5FF; 
   transition: all 0.3s ease;
+  max-width: 100%;
 }
 
 .select select:hover {
@@ -488,23 +527,23 @@ canvas {
 
 .kpis {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   margin-right: 50px;
   flex-wrap: wrap;
 }
 
 .kpis > div {
   background-color: #FFFFFF;
-  padding: 20px;
+  padding: 10px;
   border-radius: 12px;
   flex: 1;
-  min-width: 220px;
   border: 1px solid #EAEAEA;
-  margin-top: 10px;
+  margin-top: 5px;
+  min-width: 120px;
 }
 
 .kpis h3 {
-  font-size: 16px;
+  font-size: 20px;
   margin-bottom: 10px;
   color: #555555;
   text-align: center;
@@ -512,7 +551,7 @@ canvas {
 
 .kpis > div > span:first-of-type {
   display: block;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: bold;
   color: #6A3ECF;
   margin-bottom: 5px;
@@ -521,7 +560,7 @@ canvas {
 
 .kpis > div > span:not(:first-of-type) {
   display: block;
-  font-size: 14px;
+  font-size: 20px;
   text-align: center;
   background-color: #c0c0c0;
   color: #5a32b8;
@@ -541,13 +580,13 @@ canvas {
   background-color: #FFFFFF;
   border-radius: 12px;
   padding: 20px;
-  margin-top: 20px;
   width: 100%;
-  max-width: 900px;
+ max-width: 48.5%;
   border: 1px solid #EAEAEA;
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
 
 .grafico-linha canvas {
@@ -564,18 +603,20 @@ canvas {
   gap: 20px;
   align-items: flex-start;
   margin-top: 20px;
+  flex-wrap: wrap;
 }
 
 .grafico-e-lista-container .grafico-linha {
   flex: 2;
-  min-width: 400px;
+  min-width: 350px;
+  min-width: 0;
 }
 
 .grafico-lista {
   display: flex;
-  gap: 20px;
+  gap: 5px;
   align-items: flex-start;
-  margin-top: 20px;
+  margin-top: 5px;
 }
 
 .grafico-lista .grafico-linha {
@@ -591,10 +632,11 @@ canvas {
 }
 
 .menor-indicador {
-  margin-top: 20px;
   margin-right: 50px;
 }
-
+.menor-indicador span {
+  color: white;
+}
 .menor-indicador h3 {
   color: #FFFFFF;
   background-color: #b71c1c;
@@ -613,44 +655,46 @@ canvas {
   padding: 8px;
 }
 
-#btn-comentario {
+.btn-comentario {
   display: block;
   width: 100%;
   text-align: center;
   padding: 8px;
-  background-color: #FB5A9D;
+  background-color: #6A3ECF;
   color: #FFFFFF;
   border-radius: 6px;
   text-decoration: none;
   font-weight: bold;
 }
 
-#btn-comentario:hover {
-  background-color: #6A3ECF;
+.btn-comentario:hover {
+  background-color: #ac8bf8;
 }
 
 .ranking-comentarios {
   display: flex;
-  gap: 30px;
-  margin-top: 30px;
+  gap: 5px;
+  margin-top: 5px;
   flex-wrap: wrap;
+  justify-content: flex-end;
+  margin-right: 50px;
 }
 
 .ranking-escolas,
 .comentarios-ranking {
-  margin-right: 50px;
+  margin-right: 0px;
   background-color: #FFFFFF;
-  padding: 20px;
+  padding: 10px;
   border-radius: 12px;
   border: 1px solid #EAEAEA;
   flex: 1;
   min-width: 300px;
+  margin-right: 0px;
 }
 
 .ranking-escolas h3,
 .comentarios-ranking h3 {
   color: #333333;
-  margin-bottom: 10px;
   text-align: center;
 }
 
@@ -667,6 +711,7 @@ canvas {
   font-weight: 600;
   padding: 8px 0;
   border-bottom: 1px solid #F0F0F0;
+  margin-right: 80px;
 }
 
 .ranking-escolas .nome-escola {
@@ -677,8 +722,12 @@ canvas {
   color: #FB5A9D;
 }
 
+.ranking-escolas {
+  margin-left: auto; /* empurra para a direita */
+}
+
 .comentarios-ranking .comentario {
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   padding: 8px;
   border-radius: 8px;
   background-color: #FAFAFA;
@@ -692,7 +741,7 @@ canvas {
 
   .grafico-lista .grafico-linha,
   .grafico-lista .menor-indicador {
-    width: 100%;
+    width: 10%;
   }
 }
 
@@ -757,7 +806,7 @@ canvas {
 }
 
 .variacao-matricula, .meta-matricula {
-  padding: 6px 12px;
+  padding: 6px 6px;
   border-radius: 12px;
   font-weight: bold;
   font-size: 16px;
@@ -779,7 +828,6 @@ canvas {
   background-color: #c0c0c0;
   color: #5a32b8;
   align-items: center;
-  vertical-align: middle; 
     display: block;       
     font-weight: bold;   
     margin-top: 5px;  

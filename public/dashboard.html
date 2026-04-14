@@ -9,8 +9,8 @@
     <link rel="stylesheet"
         href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="./css/estilo.css">
-    <link rel="stylesheet" href="./css/perfil-aluno.css">
     <link rel="stylesheet" href="./css/dashboards.css">
+    <link rel="stylesheet" href="./css/perfil-aluno.css">
 </head>
 
 <body>
@@ -126,9 +126,8 @@
                     <div class="variacao-wrapper">
                         <span class="variacao-matricula" id="variacao-matricula">--</span>
                         <span class="meta-matricula" id="meta-matricula">Meta: %</span>
-                        
+
                     </div>
-                    <div class="variacao-legenda">Variação / Meta</div>
                 </div>
                 <i><span>*Referente à escola selecionada</span></i>
             </div>
@@ -157,6 +156,7 @@
             <div class="menor-indicador">
                 <h3>Indicador de ausência acessibilidade</h3>
                 <ul class="lista-situacoes"></ul>
+                <i><span>*Referente a escola selecionada</span></i>
             </div>
 
         </div>
@@ -170,13 +170,17 @@
             </div>
 
             <div class="comentarios-ranking">
-                <h3>Comentários</h3>
-                <hr>
+    <h3>Comentários</h3>
+    <hr>
 
-                <div class="comentarios"></div>
+    <div class="comentarios"></div>
 
-                <button>Adicionar comentário</button>
-            </div>
+    <a href="./questionario.html" class="btn-comentario">
+        Adicionar comentário
+    </a>
+
+    <i><span>*Referente a escola selecionada</span></i>
+</div>
 
         </div>
     </div>
@@ -300,7 +304,7 @@
                                 { texto: "Boa estrutura geral", nota: 4 },
                                 { texto: "Pode melhorar acessibilidade", nota: 3 }
                             ],
-                            historico: [ 990, 995, 1200]
+                            historico: [990, 995, 1200]
                         }
                     }
                 },
@@ -332,7 +336,7 @@
         const anos = Array.from({ length: 3 }, (_, i) => 2022 + i);
         let grafico;
 
-      
+
         function calcularMediaPorRede(municipio, rede) {
             const escolas = Object.values(dados[municipio][rede]?.escolas || {});
             if (!escolas.length) return Array(anos.length).fill(0);
@@ -344,7 +348,7 @@
             return totalHistorico.map(sum => Math.round(sum / escolas.length));
         }
 
-        
+
         function carregarRedes() {
             const municipio = municipioSelect.value;
             redeSelect.innerHTML = "<option value=''>Selecione a rede</option>";
@@ -371,115 +375,115 @@
 
 
         function atualizarDashboard() {
-    if (!municipioSelect.value || !redeSelect.value || !escolaSelect.value) return;
-    const municipio = municipioSelect.value;
-    const rede = redeSelect.value;
-    const escola = escolaSelect.value;
+            if (!municipioSelect.value || !redeSelect.value || !escolaSelect.value) return;
+            const municipio = municipioSelect.value;
+            const rede = redeSelect.value;
+            const escola = escolaSelect.value;
 
-    const info = dados[municipio][rede].escolas[escola];
-    if (!info) return;
+            const info = dados[municipio][rede].escolas[escola];
+            if (!info) return;
 
-    
-    document.querySelector(".kpi-total-matriculas span.matriculas").textContent = info.matriculas ?? "--";
-    document.querySelector(".kpi-acessibilidade-escola span.acessibilidade").textContent = info.acessibilidade != null ? info.acessibilidade + "%" : "--";
-    document.querySelector(".meta-acessibilidade").textContent = info.metaAcessibilidade != null ? "Meta: " + info.metaAcessibilidade + "%" : "--";
 
-    const diffMetaEl = document.querySelector(".diferenca-meta");
-    if (info.acessibilidade != null && info.metaAcessibilidade != null) {
-        diffMetaEl.textContent = (info.metaAcessibilidade - info.acessibilidade) + "%";
-    } else {
-        diffMetaEl.textContent = "--";
-    }
+            document.querySelector(".kpi-total-matriculas span.matriculas").textContent = info.matriculas ?? "--";
+            document.querySelector(".kpi-acessibilidade-escola span.acessibilidade").textContent = info.acessibilidade != null ? info.acessibilidade + "%" : "--";
+            document.querySelector(".meta-acessibilidade").textContent = info.metaAcessibilidade != null ? "Meta: " + info.metaAcessibilidade + "%" : "--";
 
-    
-    const anoAtualEl = document.getElementById("ano-atual");
-    const anoAnteriorEl = document.getElementById("ano-anterior");
-    const variacaoEl = document.getElementById("variacao-matricula");
-    const historico = info.historico || [];
-    const anoAtual = historico[historico.length - 1] ?? null;
-    const anoPassado = historico[historico.length - 2] ?? null;
+            const diffMetaEl = document.querySelector(".diferenca-meta");
+            if (info.acessibilidade != null && info.metaAcessibilidade != null) {
+                diffMetaEl.textContent = (info.metaAcessibilidade - info.acessibilidade) + "%";
+            } else {
+                diffMetaEl.textContent = "--";
+            }
 
-    anoAtualEl.textContent = anoAtual != null ? anoAtual : "--";
-    anoAnteriorEl.textContent = anoPassado != null ? anoPassado : "--";
 
-    const taxaEsperada = 1; 
+            const anoAtualEl = document.getElementById("ano-atual");
+            const anoAnteriorEl = document.getElementById("ano-anterior");
+            const variacaoEl = document.getElementById("variacao-matricula");
+            const historico = info.historico || [];
+            const anoAtual = historico[historico.length - 1] ?? null;
+            const anoPassado = historico[historico.length - 2] ?? null;
 
-    if (anoAtual != null && anoPassado != null) {
-        const variacao = ((anoAtual - anoPassado) / anoPassado) * 100;
+            anoAtualEl.textContent = anoAtual != null ? anoAtual : "--";
+            anoAnteriorEl.textContent = anoPassado != null ? anoPassado : "--";
 
-        
-        const seta = variacao >= 0 ? "↑" : "↓";
+            const taxaEsperada = 1;
 
-        
-        variacaoEl.innerHTML = `Variação: <span class="seta">${seta}</span> ${Math.abs(variacao).toFixed(1)}%`;
+            if (anoAtual != null && anoPassado != null) {
+                const variacao = ((anoAtual - anoPassado) / anoPassado) * 100;
 
-        
-        variacaoEl.classList.remove("positivo", "negativo");
-        if (variacao >= taxaEsperada) {
-            variacaoEl.classList.add("positivo");
-        } else {
-            variacaoEl.classList.add("negativo");
-        }
 
-        const metaEl = document.getElementById("meta-matricula");
-        metaEl.textContent = `Meta: ${taxaEsperada.toFixed(1)}%`;
-    } else {
-        variacaoEl.textContent = "--";
-        variacaoEl.classList.remove("positivo", "negativo");
-        document.getElementById("meta-matricula").textContent = "--";
-    }
+                const seta = variacao >= 0 ? "↑" : "↓";
 
-   
-    const lista = document.querySelector(".lista-situacoes");
-    if (lista) {
-        lista.innerHTML = info.itensAusenciaAcessibilidade?.map(item => `<li><strong>Situação:</strong> &nbsp; ${item}</li>`).join("") || "";
-    }
 
-   
-    const rankingEl = document.querySelector(".lista-ranking");
-    if (rankingEl) {
-        const escolas = Object.values(dados[municipio][rede].escolas).sort((a, b) => b.ranking - a.ranking);
-        rankingEl.innerHTML = escolas.map((e, i) => `
+                variacaoEl.innerHTML = `Variação: <span class="seta">${seta}</span> ${Math.abs(variacao).toFixed(1)}%`;
+
+
+                variacaoEl.classList.remove("positivo", "negativo");
+                if (variacao >= taxaEsperada) {
+                    variacaoEl.classList.add("positivo");
+                } else {
+                    variacaoEl.classList.add("negativo");
+                }
+
+                const metaEl = document.getElementById("meta-matricula");
+                metaEl.textContent = `Meta: ${taxaEsperada.toFixed(1)}%`;
+            } else {
+                variacaoEl.textContent = "--";
+                variacaoEl.classList.remove("positivo", "negativo");
+                document.getElementById("meta-matricula").textContent = "--";
+            }
+
+
+            const lista = document.querySelector(".lista-situacoes");
+            if (lista) {
+                lista.innerHTML = info.itensAusenciaAcessibilidade?.map(item => `<li><strong>Situação:</strong> &nbsp; ${item}</li>`).join("") || "";
+            }
+
+
+            const rankingEl = document.querySelector(".lista-ranking");
+            if (rankingEl) {
+                const escolas = Object.values(dados[municipio][rede].escolas).sort((a, b) => b.ranking - a.ranking);
+                rankingEl.innerHTML = escolas.map((e, i) => `
             <li>
                 <span class="nome-escola">${i + 1}º ${e.nome}</span>
                 <span class="porcentagem">${e.ranking != null ? e.ranking + "%" : "--"}</span>
             </li>
         `).join("");
-    }
+            }
 
-  
-    const comentariosEl = document.querySelector(".comentarios");
-    if (comentariosEl) {
-        comentariosEl.innerHTML = info.comentarios?.map(c => `
+
+            const comentariosEl = document.querySelector(".comentarios");
+            if (comentariosEl) {
+                comentariosEl.innerHTML = info.comentarios?.map(c => `
             <div class="comentario">
-                <p>"${c.texto}"</p>
+                "${c.texto}"
                 <span class="nota">Nota: ${c.nota != null ? c.nota + "/5" : "--"}</span>
             </div>
         `).join("") || "";
-    }
+            }
 
-    
-    grafico.data.datasets[0].data = historico.length ? historico : Array(anos.length).fill(0);
-    const mediaHistorico = historico.length ? Math.round(historico.reduce((a, b) => a + b, 0) / historico.length) : 0;
-    grafico.data.datasets[2].data = Array(anos.length).fill(mediaHistorico);
-    grafico.update();
-}
+
+            grafico.data.datasets[0].data = historico.length ? historico : Array(anos.length).fill(0);
+            const mediaHistorico = historico.length ? Math.round(historico.reduce((a, b) => a + b, 0) / historico.length) : 0;
+            grafico.data.datasets[2].data = Array(anos.length).fill(mediaHistorico);
+            grafico.update();
+        }
 
         municipioSelect.addEventListener("change", () => {
             carregarRedes();
-            atualizarMediaRede(); 
+            atualizarMediaRede();
         });
         redeSelect.addEventListener("change", () => {
             carregarEscolas();
-            atualizarMediaRede(); 
+            atualizarMediaRede();
         });
         escolaSelect.addEventListener("change", () => {
-            atualizarDashboard(); 
+            atualizarDashboard();
         });
 
-       
 
-    
+
+
         function calcularMediaPorRede(municipio, rede) {
             const escolas = Object.values(dados[municipio][rede]?.escolas || {});
             if (!escolas.length) return Array(anos.length).fill(0);
@@ -493,7 +497,7 @@
 
             return somaHistorico.map(soma => Math.round(soma / escolas.length));
         }
-      
+
         function atualizarMediaRede() {
             if (!municipioSelect.value || !redeSelect.value) return;
             const municipio = municipioSelect.value;
@@ -501,8 +505,9 @@
 
             const mediaRede = calcularMediaPorRede(municipio, rede);
             grafico.data.datasets[1].data = mediaRede;
-            grafico.data.datasets[1].borderDash = []; 
-            grafico.data.datasets[1].borderColor = '#00cc00'; 
+            grafico.data.datasets[1].borderDash = [];
+            grafico.data.datasets[1].borderColor = '#c0c0c0';
+            grafico.data.datasets[1].label = `Média da rede ${rede}`;
             grafico.update();
         }
 
@@ -531,9 +536,9 @@
                             pointRadius: 3
                         },
                         {
-                            label: `Rede (média)`,
+                            label: `Média da rede (${inicialRede})`,
                             data: redeBase,
-                            borderColor: '#00cc00', 
+                            borderColor: '#c0c0c0',
                             borderDash: [],
                             fill: false,
                             tension: 0.3,
@@ -542,7 +547,7 @@
                         {
                             label: 'Referência: Média Escolar',
                             data: Array(anos.length).fill(mediaEscola),
-                            borderColor: '#ff0000', 
+                            borderColor: '#ff0000',
                             borderDash: [5, 5],
                             fill: false,
                             tension: 0.3,
@@ -568,6 +573,10 @@
                     scales: {
                         y: {
                             beginAtZero: true,
+
+                            ticks: {
+                                stepSize: 500
+                            },
                             title: { display: true, text: 'Número de Matrículas' }
                         },
                         x: {
@@ -577,26 +586,26 @@
                 }
             });
         }
-       
-        
+
+
         municipioSelect.addEventListener("change", () => {
             carregarRedes();
-            atualizarMediaRede(); 
-            
+            atualizarMediaRede();
+
         });
 
-     
+
         redeSelect.addEventListener("change", () => {
             carregarEscolas();
-            atualizarMediaRede(); 
+            atualizarMediaRede();
         });
 
-       
+
         escolaSelect.addEventListener("change", () => {
-            atualizarDashboard(); 
+            atualizarDashboard();
         });
 
-       
+
         iniciarGrafico();
         carregarRedes();
     </script>
