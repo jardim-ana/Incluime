@@ -61,3 +61,51 @@ async function buscarResposta(opcao) {
   const dados = await resposta.json();
   document.getElementById("resposta").innerText = dados.mensagem;
 }
+
+function enviarContato() {
+
+    var nome = document.querySelector("#nomeContato").value;
+    var email = document.querySelector("#emailContato").value;
+    var tipoContato = document.querySelector("#Tiposdecontato").value;
+    var mensagem = document.querySelector("#msg").value;
+
+    if (email == "" || nome == "" || tipoContato == "" || mensagem == "") {
+        erro.innerHTML = "Preencha todos os campos para prosseguir.";
+        return false;
+    }
+
+    if (email.indexOf("@") == -1) {
+        erro.innerHTML = "E-mail inválido!";
+        return false;
+    }
+
+    if (tipoContato == "") {
+    erro.innerHTML = "Selecione um tipo de contato.";
+    return false;
+}
+
+    fetch("/contato/inserir", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nome: nome,
+            email: email,
+            tipoContato: tipoContato,
+            mensagem: mensagem
+        })
+    })
+    .then(resposta => {
+        if (resposta.ok) {
+            console.log("Mensagem enviada com sucesso!");
+        } else {
+            console.log("Erro ao enviar mensagem");
+        }
+    })
+    .catch(erro => {
+        console.log(erro);
+    });
+
+    return false;
+}
