@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONECTA+ |   Questionário</q></title>
+    <title>CONECTA+ | Questionário</q></title>
 
-    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
+    <link rel="stylesheet"
+        href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="./css/estilo.css">
     <link rel="stylesheet" href="./css/questionario.css">
 </head>
+
 <body>
     <nav id="sidebar">
         <div id="sidebar_content">
             <div id="user">
                 <img src="assets/imgs/avatar-do-usuario.png" alt="avatar" id="user_avatar">
                 <p id="user_infos">
-                    <span class="item-description">Lucas Máximo</span>
+                    <span id="nome_user" class="item-description"></span>
                     <span class="item-description">Aluno</span>
                 </p>
             </div>
@@ -30,7 +33,7 @@
 
                 <li class="side-item">
                     <a href="dashboard.html">
-                        <i class= "fi fi-rs-stats"></i>
+                        <i class="fi fi-rs-stats"></i>
                         <span class="item-description">Dashboard</span>
                     </a>
                 </li>
@@ -47,64 +50,90 @@
                 <i id="abrir_icon" class="fi fi-rs-angle-small-right"></i>
             </button>
 
-    
-            </div>
+
+        </div>
         </div>
         <div id="logout">
-                <button id="logout_button">
-                    <i class="fi fi-rs-exit"></i>
-                    <span class="item-description">Sair</span>
-                </button>
-            </div>
-    </nav>
-        <main class="area-questionario">
-
-            <img src="assets/imgs/conecta_logo_transparente.png" width="150px">
-
-    <section class="cabecalho-questionario">
-        <h1>Avaliar escola</h1>
-        <p>Compartilhe sua experiência.</p>
-        <div class="campo">
-                    
-                    <div class="texto-escola-atual" id="escolaAtualTexto">Etec de São Paulo</div>
-                </div>
-    </section>
-
-    <section class="card-questionario">
-        <h2>Formulário</h2>
-
-        <div class="formulario-questionario">
-
-            <div class="campo-questionario">
-                <label>Selecione a nota:</label>
-                <select class="select-nota" id="nota">
-                    <option disabled selected>Selecione</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                </select>
-            </div>
-
-            <div class="campo-questionario">
-                <label>Comentário</label>
-                <textarea class="textarea-comentario" id="comentario"></textarea>
-            </div>
-
-            <div class="acoes-questionario">
-                <button class="botao" onclick="enviar()">Enviar</button>
-            </div>
-
-            <div id="msg" class="msg-validacao"></div>
-
+            <button id="logout_button">
+                <i class="fi fi-rs-exit"></i>
+                <span class="item-description">Sair</span>
+            </button>
         </div>
+    </nav>
+    <main class="area-questionario">
 
-    </section>
-    
+        <img src="assets/imgs/conecta_logo_transparente.png" width="150px">
+
+        <section class="cabecalho-questionario">
+            <h1>Avaliar escola</h1>
+            <p>Compartilhe sua experiência.</p>
+            <div class="campo">
+
+                <div class="texto-escola-atual" id="escolaAtualTexto"></div>
+            </div>
+        </section>
+
+        <section class="card-questionario">
+            <h2>Formulário</h2>
+
+            <div class="formulario-questionario">
+
+                <div class="campo-questionario">
+                    <label>Selecione a nota:</label>
+                    <select class="select-nota" id="nota">
+                        <option disabled selected>Selecione</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+
+                <div class="campo-questionario">
+                    <label>Comentário</label>
+                    <textarea class="textarea-comentario" id="comentario"></textarea>
+                </div>
+
+                <div class="acoes-questionario">
+                    <button class="botao" onclick="enviar()">Enviar</button>
+                </div>
+
+                <div id="msg" class="msg-validacao"></div>
+
+            </div>
+
+        </section>
+
     </main>
-            <script src="js/perfil.js"></script>
+    <script>
+
+        document.getElementById('abrir_icon').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.toggle('open-sidebar');
+        });
+
+        var logoutButton = document.getElementById("logout_button");
+
+        logoutButton.addEventListener("click", function () {
+            var confirmarSaida = confirm("Tem certeza que deseja sair?");
+
+            if (confirmarSaida) {
+                window.location.href = "index.html";
+            }
+        });
+
+        window.onload = function () {
+            var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+            var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
+            var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
+            document.getElementById("nome_user").innerText = nomeCompleto;
+            document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
+        }
+
+
+    </script>
 
 </body>
+
 
 </html>

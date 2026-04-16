@@ -19,7 +19,7 @@
             <div id="user">
                 <img src="assets/imgs/avatar-do-usuario.png" alt="avatar" id="user_avatar">
                 <p id="user_infos">
-                    <span class="item-description">Felipe Alves</span>
+                    <span id="nome_user" class="item-description"></span>
                     <span class="item-description">Aluno</span>
                 </p>
             </div>
@@ -75,12 +75,12 @@
                 <div class="linha-dupla">
                     <div class="campo">
                         <span>Nome</span>
-                        <input id="nome_input" type="text" placeholder="Felipe" disabled>
+                        <input id="nome_input" type="text" placeholder="nome" disabled>
                     </div>
 
                     <div class="campo">
                         <span>Sobrenome</span>
-                        <input id="sobrenome_input" type="text" placeholder="Alves" disabled>
+                        <input id="sobrenome_input" type="text" placeholder="sobrenome" disabled>
                     </div>
                 </div>
 
@@ -103,7 +103,7 @@
 
                 <div class="campo">
                     <span>Escola atual:</span>
-                    <div class="texto-escola-atual" id="escolaAtualTexto">Etec de São Paulo</div>
+                    <div class="texto-escola-atual" id="escolaAtualTexto"></div>
                 </div>
 
                 <div class="campo">
@@ -123,16 +123,17 @@
     </main>
     
  <script>
-    var escolas = [
-    "Escola Estadual João Silva",
-    "Escola Municipal Machado de Assis",
-    "Colégio Objetivo",
-    "Etec de São Paulo",
-    "Escola Estadual Paulo Freire"
-  ];
 
   var inputPerfil = document.getElementById("escolaPerfilInput");
   var sugestoesPerfil = document.getElementById("sugestoesPerfil");
+
+  window.onload = function () {
+    var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+    var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
+    var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
+    document.getElementById("nome_user").innerText = nomeCompleto;
+    document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
+  }
 
   inputPerfil.addEventListener("input", function () {
     var valor = inputPerfil.value.toLowerCase();
