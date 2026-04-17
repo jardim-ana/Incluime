@@ -99,9 +99,13 @@
                     resposta.json().then(json => {
                         console.log(json);
                         console.log(JSON.stringify(json));
-                        sessionStorage.EMAIL_USUARIO = json.email;
-                        sessionStorage.NOME_USUARIO = json.nome;
-                        sessionStorage.ID_USUARIO = json.id;
+                        sessionStorage.setItem("EMAIL_USUARIO", json.email);
+                        sessionStorage.setItem("NOME_USUARIO", json.nome);
+                        sessionStorage.setItem("ID_USUARIO", json.id);
+                        sessionStorage.setItem("SOBRENOME_USUARIO", json.sobrenome);
+                        sessionStorage.setItem("ESCOLA_USUARIO", json.escola);
+
+
 
                         setTimeout(function () {
                             window.location = "/perfil-aluno.html";
