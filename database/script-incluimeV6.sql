@@ -44,6 +44,10 @@ CREATE TABLE avaliacao (
   FOREIGN KEY (escola_id) REFERENCES escola(id)
 );
 
+ALTER TABLE avaliacao
+MODIFY dtComentario DATETIME DEFAULT CURRENT_TIMESTAMP;
+
+
 -- Tabela meta
 CREATE TABLE meta (
   id INT AUTO_INCREMENT PRIMARY KEY,

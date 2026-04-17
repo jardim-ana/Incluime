@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CONECTA+ | Questionário</q></title>
+    <title>CONECTA+ | Questionário</title>
 
     <link rel="stylesheet"
         href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
@@ -81,7 +81,7 @@
                 <div class="campo-questionario">
                     <label>Selecione a nota:</label>
                     <select class="select-nota" id="nota">
-                        <option disabled selected>Selecione</option>
+                        <option value="0">Selecione...</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -95,6 +95,7 @@
                     <textarea class="textarea-comentario" id="comentario"></textarea>
                 </div>
 
+                <div id="mensagem_erro" class="msg-validacao"></div>
                 <div class="acoes-questionario">
                     <button class="botao" onclick="enviar()">Enviar</button>
                 </div>
@@ -130,7 +131,74 @@
             document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
         }
 
+        function enviar() {7
+            var notaVar = nota.value;
+            var comentarioVar = comentario.value;
+            mensagem_erro.innerHTML = "";
+            if (notaVar == 0) {
+                mensagem_erro.innerHTML = "Escolha uma nota";
+            } else if (comentarioVar == "") {
+                const confirmar = confirm("Deseja enviar a nota sem um comentário?");
 
+                if (!confirmar) {
+                    return;
+                } else {
+                    cadastrar();
+                }
+            } else {
+                cadastrar()
+            }
+
+            function cadastrar() {
+                var notaVar = nota.value;
+                var comentarioVar = comentario.value;
+                var idUsuarioVar = sessionStorage.getItem("ID_USUARIO")
+                console.log(idUsuarioVar)
+
+                fetch("/avaliacao/cadastrar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        notaServer: notaVar,
+                        comentarioServer: comentarioVar,
+                        idUsuarioServer: idUsuarioVar
+                    }),
+                })
+                    .then(function (resposta) {
+                        console.log("resposta: ", resposta);
+
+                        if (resposta.ok) {
+                            mensagem_erro.innerHTML = "Avaliação enviada com sucesso!";
+                            const confirmar = confirm("Deseja acessar a Dashboard?");
+
+                            if (!confirmar) {
+                                return;
+                            } else {
+                                setTimeout(() => {
+                                    window.location = "dashboard.html";
+                                }, "2000");
+
+                                limparFormulario();
+                            }
+                        } else {
+                            throw "Houve um erro ao tentar cadastrar a avaliação!";
+                        }
+
+
+                        function limparFormulario() {
+                            nota.value = "";
+                            comentario.value = "";
+                        }
+                    })
+                    .catch(function (resposta) {
+                        console.log(`#ERRO: ${resposta}`);
+                    });
+
+                return false;
+            }
+        }
     </script>
 
 </body>
