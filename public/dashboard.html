@@ -19,7 +19,7 @@
             <div id="user">
                 <img src="assets/imgs/avatar-do-usuario.png" alt="avatar" id="user_avatar">
                 <p id="user_infos">
-                    <span class="item-description">Felipe Alves</span>
+                    <span id="nome_user" class="item-description"></span>
                     <span class="item-description">Aluno</span>
                 </p>
             </div>
@@ -173,7 +173,7 @@
     <h3>Comentários da escola</h3>
     <hr>
 
-    <div class="comentarios"></div>
+                <div class="comentarios"></div>
 
 
 </div>
@@ -184,6 +184,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+
+        window.onload = function () {
+            var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+            var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
+            var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
+            document.getElementById("nome_user").innerText = nomeCompleto;
+            document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
+        }
+
         const dados = {
             saoPaulo: {
                 estadual: {

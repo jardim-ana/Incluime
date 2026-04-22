@@ -134,6 +134,7 @@
             var senhaVar = senha_input.value;
             var confirmacaoVar = confirmacao_senha_input.value;
             var usuarioVar = tipo_usuario_select.value;
+            var escolaVar = escolaInput.value;
 
             mensagem_erro.innerHTML = "";
             if (nomeVar == "" || sobrenomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoVar == "" || usuarioVar == "") {
@@ -161,7 +162,8 @@
                     sobrenomeServer: sobrenomeVar,
                     emailServer: emailVar,
                     senhaServer: senhaVar,
-                    usuarioServer: usuarioVar
+                    usuarioServer: usuarioVar,
+                    escolaServer: escolaVar
                 }),
             })
                 .then(function (resposta) {
