@@ -9,6 +9,10 @@ body {
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+  #select-superior {
+    margin-top: 10px;
+  }
+  
 .label-captura {
   display: flex;
   justify-content: center;
@@ -448,7 +452,7 @@ canvas {
   justify-content: center;
   width: 0 auto;
   position: relative;
-  margin-left: 200px; 
+  margin-left: 150px; 
   padding: 5px 0;
   flex-direction: column;
   align-items: flex-start;
@@ -464,12 +468,15 @@ canvas {
     align-items: stretch;
     gap: 15px;
     margin-right: 0; 
+  
   }
 
   .select {
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+   
+  
   }
 
   .select label {
@@ -480,6 +487,7 @@ canvas {
   .select select {
     width: 100%;
     font-size: 16px;
+  
   }
 
 }
@@ -498,6 +506,8 @@ canvas {
   flex-direction: row;
   gap: 5px;
   text-align: center;
+   margin-bottom: 5px;
+   margin-top: 5px;
 }
 
 .select select {
@@ -542,12 +552,14 @@ canvas {
   min-width: 120px;
 }
 
-.kpis h3 {
-  font-size: 20px;
+.kpis h4 {
+  font-size: 17px;
+  font-weight: bold;
   margin-bottom: 10px;
   color: #555555;
   text-align: center;
 }
+
 
 .kpis > div > span:first-of-type {
   display: block;
@@ -631,8 +643,17 @@ canvas {
   border: none;
 }
 
+.menor-indicador h4{
+  color: white;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+
+}
+
 .menor-indicador {
   margin-right: 50px;
+ 
 }
 .menor-indicador span {
   color: white;
@@ -732,6 +753,7 @@ canvas {
   border-radius: 8px;
   background-color: #FAFAFA;
 }
+
 
 @media screen and (max-width: 960px) {
   .grafico-lista,
