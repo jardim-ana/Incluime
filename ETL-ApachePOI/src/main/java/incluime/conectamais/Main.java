@@ -1,55 +1,26 @@
 package incluime.conectamais;
 
+import incluime.conectamais.client.S3Provider;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import software.amazon.awssdk.services.s3.S3Client;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        String nomeArquivo = "escolas-query.xlsx";
 
-        LeitorExcel leitorExcel = new LeitorExcel();
-        List<Escola> escolasExtraidas = leitorExcel.extrairEscolas(nomeArquivo);
+        S3Client s3 = new S3Provider().getClient();
+
+        LeitorExcel leitor = new LeitorExcel(s3);
+
+        List<Escola> escolasExtraidas = leitor.extrairEscolas(
+                "incluimebucket",
+                "excel/escolas-query.xlsx"
+        );
 
         Conexao conexao = new Conexao();
         JdbcTemplate template = new JdbcTemplate(conexao.getConexao());
-
-        template.execute("DROP TABLE escola_acessibilidade IF EXISTS;");
-
-        template.execute("CREATE TABLE escola_acessibilidade (\n" +
-                "    id INT PRIMARY KEY AUTO_INCREMENT,\n" +
-                "\n" +
-                "ano INT,\n" +
-                "sigla_uf VARCHAR(2),\n" +
-                "id_municipio INT,\n" +
-                "id_municipio_nome VARCHAR(255),\n" +
-                "id_escola VARCHAR(50),\n" +
-                "rede VARCHAR(50),\n" +
-                "tipo_categoria VARCHAR(100),\n" +
-                "tipo_localizacao VARCHAR(100),\n" +
-                "\n" +
-                "banheiro_pne INT,\n" +
-                "dependencia_pne INT,\n" +
-                "corrimao INT,\n" +
-                "elevador INT,\n" +
-                "pisos_tateis INT,\n" +
-                "vao_livre INT,\n" +
-                "rampas INT,\n" +
-                "sinais_sonoros INT,\n" +
-                "sinal_tatil INT,\n" +
-                "sinal_visual INT,\n" +
-                "acessibilidade_inexistente INT,\n" +
-                "\n" +
-                "qtd_sala_util_acessivel INT,\n" +
-                "material_pedago_surdo INT,\n" +
-                "qtd_matricula_educ_basica INT,\n" +
-                "qtd_matricula_especial INT,\n" +
-                "qtd_docente_educ_basica INT,\n" +
-                "qtd_turma_especial INT,\n" +
-                "qtd_turma_especial_comum INT,\n" +
-                "qtd_turma_especial_exclusiva INT\n" +
-                ");");
 
         for (Escola escola : escolasExtraidas) {
             template.update(

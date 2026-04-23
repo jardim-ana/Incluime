@@ -11,10 +11,10 @@ public class Conexao {
     public Conexao() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
 
-        driver.setDriverClassName("org.h2.Driver");
-        driver.setUrl("jdbc:h2:file:./banco-de-dados");
-        driver.setUsername("sa");
-        driver.setPassword("");
+        driver.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        driver.setUrl("jdbc:mysql://bd/incluime?useTimezone=true&serverTimezone=UTC");
+        driver.setUsername("root");
+        driver.setPassword("incluime100");
 
         this.conexao = driver;
     }
