@@ -1,7 +1,6 @@
 package incluime.conectamais;
 
 import java.io.InputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +91,7 @@ public class LeitorExcel {
 
             System.out.println("Leitura finalizada");
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("Erro ao ler arquivo do S3: " + e.getMessage());
         }
 

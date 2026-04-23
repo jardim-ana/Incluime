@@ -10,6 +10,8 @@ import java.util.List;
 public class Main {
     public static void main(String[] args) {
 
+        System.out.println("Inicio da MAIN");
+
         S3Client s3 = new S3Provider().getClient();
 
         LeitorExcel leitor = new LeitorExcel(s3);
