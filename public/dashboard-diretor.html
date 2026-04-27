@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONECTA+ | Meu Perfil</title>
+
+    <link rel="stylesheet"
+       
+    href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
+    <link rel="stylesheet" href="./css/perfil-aluno.css">
+    <link rel="stylesheet" href="./css/estilo.css">
+    <link rel="stylesheet" href="./css/dashboards-diretor.css">
+   
+</head>
+
+<body>
+    <nav id="sidebar">
+        <div id="sidebar_content">
+            <div id="user">
+                <img src="assets/imgs/avatar-do-usuario.png" alt="avatar" id="user_avatar">
+                <p id="user_infos">
+                    <span id="nome_user" class="item-description"></span>
+                    <span class="item-description">Aluno</span>
+                </p>
+            </div>
+
+            <ul id="side_items">
+                <li class="side-item">
+                    <a href="questionario.html">
+                        <i class="fi fi-rs-note"></i>
+                        <span class="item-description">Avalie</span>
+                    </a>
+                </li>
+
+                <li class="side-item active">
+                    <a href="dashboard.html">
+                        <i class="fi fi-rs-stats"></i>
+                        <span class="item-description">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="side-item">
+                    <a href="perfil-aluno.html">
+                        <i class="fi fi-rs-user"></i>
+                        <span class="item-description">Perfil</span>
+                    </a>
+                </li>
+            </ul>
+
+            <button id="abrir">
+                <i id="abrir_icon" class="fi fi-rs-angle-small-right"></i>
+            </button>
+
+
+        </div>
+        </div>
+        <div id="logout">
+            <button id="logout_button">
+                <i class="fi fi-rs-exit"></i>
+                <span class="item-description">Sair</span>
+            </button>
+        </div>
+    </nav>
+
+    <script src="js/perfil.js"></script>
+
+
+    <div id="corpo">
+        <div class="kpis">
+            <div class="kpi kpi-total-matriculas">
+                <h4>Total de matrículas</h4> <span class="matriculas">--</span> <i><span>*Dados da sua escola</span></i>
+            </div>
+            <div class="kpi kpi-percentual-matriculas">
+                <h4>Taxa de variação de Matrículas</h4>
+                <div class="anos-container">
+                    <div class="ano-item">
+                        <div class="ano-label">Ano Anterior</div>
+                        <div class="ano-valor" id="ano-anterior">--</div>
+                    </div>
+                    <div class="ano-item">
+                        <div class="ano-label">Ano Atual</div>
+                        <div class="ano-valor" id="ano-atual">--</div>
+                    </div>
+                </div>
+                <div class="variacao-container">
+                    <div class="variacao-wrapper"> <span class="variacao-matricula" id="variacao-matricula">--</span>
+                        <span class="meta-matricula" id="meta-matricula"> Meta: <span class="valor">1.0%</span> </span>
+                        <button class="btn-editar" data-meta="matricula">Alterar meta</button> <span
+                            class="edit-container" id="edit-matricula" style="display:none;"> <input type="number"
+                                step="0.1" id="input-matricula"> <button class="btn-salvar"
+                                data-meta="matricula">Salvar</button> </span>
+                    </div>
+                </div> <i><span>*Dados da sua escola</span></i>
+            </div>
+            <div class="kpi kpi-acessibilidade-escola">
+                <h4>Índice de acessibilidade</h4> <span class="acessibilidade">--</span> <span
+                    class="meta-acessibilidade" id="meta-acessibilidade"> Meta: <span class="valor">90%</span> </span>
+                <button class="btn-editar" data-meta="acessibilidade">Alterar meta</button> <span class="edit-container"
+                    id="edit-acessibilidade" style="display:none;"> <input type="number" id="input-acessibilidade">
+                    <button class="btn-salvar" data-meta="acessibilidade">Salvar</button> </span> <i><span>*Dados da sua escola</span></i>
+            </div>
+            <div class="kpi kpi-indice-meta">
+                <h4>Diferença entre o índice e a meta</h4> <span class="diferenca-meta">--</span> <i><span>*Dados da sua escola</span></i>
+            </div>
+        </div>
+        <div class="grafico-lista">
+            <div class="grafico-linha" style="height: 400px;"> <canvas id="graficoMatriculas"></canvas> </div>
+            <div class="menor-indicador">
+                <h4>Indicador de ausência acessibilidade</h4>
+                <ul class="lista-situacoes"></ul> <i><span>*Dados da sua escola</span></i>
+            </div>
+        </div>
+        <div class="ranking-comentarios">
+            <div class="ranking-escolas">
+                <h3>Ranking de Escolas</h3>
+                <hr>
+                <ul class="lista-ranking"></ul>
+            </div>
+            <div class="comentarios-ranking">
+                <h3>Comentários da escola</h3>
+                <hr>
+                <div class="comentarios"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+const ctx = document.getElementById("graficoMatriculas").getContext("2d");
+
+const dados = {
+    anos: [2022, 2023, 2024],
+    escola: {
+        nome: "Escola Mocado",
+        matriculas: 450,
+        historico: [400, 420, 450],
+        acessibilidade: 82,
+        metaAcessibilidade: 90,
+        itensAusenciaAcessibilidade: ["Rampa", "Banheiro adaptado"],
+        comentarios: [
+            { texto: "Ótimo atendimento", nota: 5 },
+            { texto: "Melhorar acessibilidade na entrada", nota: 3 }
+        ]
+    },
+    rede: [
+        { nome: "Escola Mocado", historico: [400, 420, 450], acessibilidade: 82 },
+        { nome: "Escola Exemplo", historico: [300, 310, 320], acessibilidade: 78 },
+        { nome: "Escola Teste", historico: [500, 490, 510], acessibilidade: 88 }
+    ]
+};
+
+let metas = {
+    matricula: 1.0,
+    acessibilidade: dados.escola.metaAcessibilidade
+};
+
+function atualizarMeta(tipo) {
+    if (tipo === "matricula") {
+        document.querySelector("#meta-matricula .valor").textContent =
+            metas.matricula + "%";
+    }
+
+    if (tipo === "acessibilidade") {
+        document.querySelector("#meta-acessibilidade .valor").textContent =
+            metas.acessibilidade + "%";
+
+        document.querySelector(".diferenca-meta").textContent =
+            (metas.acessibilidade - dados.escola.acessibilidade) + "%";
+    }
+}
+
+
+document.querySelector(".kpi-total-matriculas span.matriculas").textContent = dados.escola.matriculas;
+document.querySelector(".kpi-acessibilidade-escola span.acessibilidade").textContent =
+    dados.escola.acessibilidade + "%";
+
+atualizarMeta("acessibilidade");
+atualizarMeta("matricula");
+
+document.querySelector(".diferenca-meta").textContent =
+    (dados.escola.metaAcessibilidade - dados.escola.acessibilidade) + "%";
+
+
+const anoAtual = dados.escola.historico[2];
+const anoAnterior = dados.escola.historico[1];
+
+document.getElementById("ano-atual").textContent = anoAtual;
+document.getElementById("ano-anterior").textContent = anoAnterior;
+
+const variacao = ((anoAtual - anoAnterior) / anoAnterior) * 100;
+const variacaoEl = document.getElementById("variacao-matricula");
+
+const seta = variacao >= 0 ? "↑" : "↓";
+
+variacaoEl.innerHTML = `Variação: <span class="seta">${seta}</span> ${Math.abs(variacao).toFixed(1)}%`;
+variacaoEl.classList.add(variacao >= 0 ? "positivo" : "negativo");
+
+
+
+
+document.querySelector(".lista-situacoes").innerHTML =
+    dados.escola.itensAusenciaAcessibilidade
+        .map(item => `<li><strong>Situação:</strong> ${item}</li>`)
+        .join("");
+
+
+const rankingEl = document.querySelector(".lista-ranking");
+
+dados.rede.sort((a, b) => b.acessibilidade - a.acessibilidade);
+
+rankingEl.innerHTML = dados.rede
+    .map((e, i) => `
+        <li>
+            <span class="nome-escola">${i + 1}º ${e.nome}</span>
+            <span class="porcentagem">${e.acessibilidade}%</span>
+        </li>
+    `)
+    .join("");
+
+
+document.querySelector(".comentarios").innerHTML =
+    dados.escola.comentarios
+        .map(c => `
+            <div class="comentario">
+                "${c.texto}"
+                <span class="nota"> Nota: ${c.nota}/5</span>
+            </div>
+        `)
+        .join("");
+
+
+const mediaRede = dados.anos.map((_, i) => {
+    const soma = dados.rede.reduce((acc, e) => acc + e.historico[i], 0);
+    return Math.round(soma / dados.rede.length);
+});
+
+const mediaEscola = Math.round(
+    dados.escola.historico.reduce((a, b) => a + b, 0) /
+    dados.escola.historico.length
+);
+
+
+new Chart(ctx, {
+    type: "line",
+    data: {
+        labels: dados.anos,
+        datasets: [
+            {
+                label: "Escola",
+                data: dados.escola.historico,
+                borderColor: "blue",
+                fill: false,
+                tension: 0.3
+            },
+            {
+                label: "Média Rede",
+                data: mediaRede,
+                borderColor: "gray",
+                borderDash: [5, 5],
+                fill: false,
+                tension: 0.3
+            },
+            {
+                label: "Média Escola",
+                data: Array(dados.anos.length).fill(mediaEscola),
+                borderColor: "red",
+                borderDash: [3, 3],
+                fill: false,
+                tension: 0.3
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: "top" }
+        }
+    }
+});
+
+
+document.querySelectorAll(".btn-editar").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const tipo = btn.dataset.meta;
+
+        document.getElementById(`edit-${tipo}`).style.display = "inline-block";
+        document.getElementById(`input-${tipo}`).value = metas[tipo];
+    });
+});
+
+
+document.querySelectorAll(".btn-salvar").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const tipo = btn.dataset.meta;
+        const input = document.getElementById(`input-${tipo}`);
+        const novoValor = parseFloat(input.value);
+
+        if (isNaN(novoValor)) return;
+
+        metas[tipo] = novoValor;
+        atualizarMeta(tipo);
+
+        document.getElementById(`edit-${tipo}`).style.display = "none";
+    });
+});
+</script>

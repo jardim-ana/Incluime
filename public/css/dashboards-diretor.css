@@ -9,6 +9,8 @@ body {
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+
   #select-superior {
     margin-top: 10px;
   }
@@ -26,8 +28,8 @@ body {
 
 .dash-right .avisos .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 
 .dash-right .avisos .container .div-form {
@@ -85,7 +87,7 @@ body {
   flex-wrap: wrap;
   align-content: stretch;
   flex-direction: column;
-  justify-content: center;
+  justify-content: center !important;
   align-items: stretch;
   border-bottom: 3px solid #e6005a;
   padding: 20px;
@@ -157,7 +159,7 @@ body {
   text-align: center;
   height: 80px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column ;
   justify-content: center;
   align-self: center;
 }
@@ -448,8 +450,8 @@ canvas {
 }
 
 #corpo {
-  z-index: 1;
-  justify-content: center;
+  z-index: 1 !important;
+  justify-content: center !important;
   width: 0 auto;
   position: relative;
   margin-left: 150px; 
