@@ -12,10 +12,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class LeitorExcel {
 
     private static final String SQL_INSERT =
-            "INSERT INTO base_dados_censo_escolar (ano, sigla_uf, id_municipio, id_municipio_nome, id_escola, rede, tipo_categoria, tipo_localizacao, " +
-                    "banheiro_pne, dependencia_pne, corrimao, elevador, pisos_tateis, vao_livre, rampas, sinais_sonoros, sinal_tatil, sinal_visual, acessibilidade_inexistente, " +
-                    "qtd_sala_util_acessivel, material_pedago_surdo, qtd_matricula_educ_basica, qtd_matricula_especial, qtd_docente_educ_basica, qtd_turma_especial, qtd_turma_especial_comum, qtd_turma_especial_exclusiva) " +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO base_dados_censo_escolar (" +
+                    "ano, sigla_uf, id_municipio, id_municipio_nome, id_escola, rede, tipo_categoria_escola_privada, tipo_localizacao, " +
+                    "banheiro_pne, dependencia_pne, acessibilidade_corrimao, acessibilidade_elevador, acessibilidade_pisos_tateis, acessibilidade_vao_livre, acessibilidade_rampas, acessibilidade_sinais_sonoros, acessibilidade_sinal_tatil, acessibilidade_sinal_visual, acessibilidade_inexistente, " +
+                    "quantidade_sala_utilizade_acessivel, material_pedagogico_surdo, quantidade_matricula_educacao_basica, quantidade_matricula_especial, quantidade_docente_educacao_basica, quantidade_turma_especial, quantidade_turma_especial_comum" +
+                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final int BATCH_SIZE = 1000;
 
@@ -78,7 +79,6 @@ public class LeitorExcel {
                             qtdTurmaEspecialComum, qtdTurmaEspecialExclusiva
                     });
 
-                    // executa batch
                     if (batch.size() == BATCH_SIZE) {
                         template.batchUpdate(SQL_INSERT, batch);
                         batch.clear();
@@ -91,7 +91,6 @@ public class LeitorExcel {
                 }
             }
 
-            // insere restante
             if (!batch.isEmpty()) {
                 template.batchUpdate(SQL_INSERT, batch);
                 System.out.println("Batch final inserido: " + batch.size() + " registros");
