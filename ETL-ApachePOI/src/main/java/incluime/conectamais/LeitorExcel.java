@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class LeitorExcel {
 
     private static final String SQL_INSERT =
-            "INSERT INTO escola_acessibilidade (ano, sigla_uf, id_municipio, id_municipio_nome, id_escola, rede, tipo_categoria, tipo_localizacao, " +
+            "INSERT INTO base_dados_censo_escolar (ano, sigla_uf, id_municipio, id_municipio_nome, id_escola, rede, tipo_categoria, tipo_localizacao, " +
                     "banheiro_pne, dependencia_pne, corrimao, elevador, pisos_tateis, vao_livre, rampas, sinais_sonoros, sinal_tatil, sinal_visual, acessibilidade_inexistente, " +
                     "qtd_sala_util_acessivel, material_pedago_surdo, qtd_matricula_educ_basica, qtd_matricula_especial, qtd_docente_educ_basica, qtd_turma_especial, qtd_turma_especial_comum, qtd_turma_especial_exclusiva) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
