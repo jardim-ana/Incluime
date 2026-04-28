@@ -104,14 +104,17 @@
                         sessionStorage.setItem("ID_USUARIO", json.id);
                         sessionStorage.setItem("SOBRENOME_USUARIO", json.sobrenome);
                         sessionStorage.setItem("ESCOLA_USUARIO", json.escola);
+                        sessionStorage.setItem("TIPO_USUARIO", json.tipo_usuario);
 
-
-
+                    var tipo_usuarioVar = sessionStorage.getItem("TIPO_USUARIO");
+                    
+                    if (tipo_usuarioVar == 1) {
                         setTimeout(function () {
-                            window.location = "/perfil-aluno.html";
+                            window.location = "/dashboard-diretor.html";
                         }, 1000); 
-
+                    }
                     });
+                
 
                 } else {
 
