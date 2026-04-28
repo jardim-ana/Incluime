@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d9a4d99-34fb-4af5-aa04-afd1468767c4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/client/S3Service.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Conexao.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/LeitorExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/LeitorExcel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/client/S3Provider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/client/S3Provider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/client/S3Provider.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +92,9 @@
       <workItem from="1776888785704" duration="3164000" />
       <workItem from="1776951796958" duration="866000" />
       <workItem from="1776952720226" duration="441000" />
+      <workItem from="1776957375944" duration="635000" />
+      <workItem from="1777310179117" duration="229000" />
+      <workItem from="1777324019953" duration="2567000" />
     </task>
     <servers />
   </component>

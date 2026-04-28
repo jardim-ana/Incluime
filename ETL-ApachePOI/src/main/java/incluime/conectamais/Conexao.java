@@ -12,7 +12,7 @@ public class Conexao {
         DriverManagerDataSource driver = new DriverManagerDataSource();
 
         driver.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        driver.setUrl("jdbc:mysql://bd/incluime?useTimezone=true&serverTimezone=UTC");
+        driver.setUrl("jdbc:mysql://bd:3306/incluime");
         driver.setUsername("root");
         driver.setPassword("incluime100");
 

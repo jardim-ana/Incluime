@@ -1,37 +1,35 @@
 package incluime.conectamais;
 
+import incluime.conectamais.client.S3Service;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class LeitorExcel {
 
-    private final S3Client s3;
+    private static final String SQL_INSERT =
+            "INSERT INTO escola_acessibilidade (ano, sigla_uf, id_municipio, id_municipio_nome, id_escola, rede, tipo_categoria, tipo_localizacao, " +
+                    "banheiro_pne, dependencia_pne, corrimao, elevador, pisos_tateis, vao_livre, rampas, sinais_sonoros, sinal_tatil, sinal_visual, acessibilidade_inexistente, " +
+                    "qtd_sala_util_acessivel, material_pedago_surdo, qtd_matricula_educ_basica, qtd_matricula_especial, qtd_docente_educ_basica, qtd_turma_especial, qtd_turma_especial_comum, qtd_turma_especial_exclusiva) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    public LeitorExcel(S3Client s3) {
-        this.s3 = s3;
-    }
+    private static final int BATCH_SIZE = 1000;
 
-    public List<Escola> extrairEscolas(String bucket, String key) {
-        List<Escola> escolasExtraidas = new ArrayList<>();
+    public void extrairEscolas(String nomeArquivo, JdbcTemplate template) {
 
-        GetObjectRequest request = GetObjectRequest.builder()
-                .bucket(bucket)
-                .key(key)
-                .build();
+        DataFormatter formatter = new DataFormatter();
+        List<Object[]> batch = new ArrayList<>();
 
         try (
-                InputStream arquivo = s3.getObject(request);
-                Workbook workbook = new XSSFWorkbook(arquivo)
+                InputStream arquivo = S3Service.getArquivo(nomeArquivo);
+                Workbook workbook = WorkbookFactory.create(arquivo)
         ) {
 
-            System.out.printf("Lendo arquivo do S3: s3://%s/%s%n", bucket, key);
+            System.out.printf("Lendo arquivo do S3: %s%n", nomeArquivo);
 
             Sheet sheet = workbook.getSheetAt(0);
 
@@ -41,70 +39,88 @@ public class LeitorExcel {
                     continue;
                 }
 
-                DataFormatter formatter = new DataFormatter();
-
                 try {
-                    Integer ano = parseInt(formatter, row.getCell(0));
-                    String uf = formatter.formatCellValue(row.getCell(1));
-                    Integer idMuni = parseInt(formatter, row.getCell(2));
-                    String muniNome = formatter.formatCellValue(row.getCell(3));
-                    String idEscola = formatter.formatCellValue(row.getCell(4));
-                    String rede = formatter.formatCellValue(row.getCell(5));
-                    String tipoCategoria = formatter.formatCellValue(row.getCell(6));
-                    String tipoLocalizacao = formatter.formatCellValue(row.getCell(7));
+                    Integer ano = parseInt(formatter, getCell(row, 0));
+                    String uf = formatter.formatCellValue(getCell(row, 1));
+                    Integer idMuni = parseInt(formatter, getCell(row, 2));
+                    String muniNome = formatter.formatCellValue(getCell(row, 3));
+                    String idEscola = formatter.formatCellValue(getCell(row, 4));
+                    String rede = formatter.formatCellValue(getCell(row, 5));
+                    String tipoCategoria = formatter.formatCellValue(getCell(row, 6));
+                    String tipoLocalizacao = formatter.formatCellValue(getCell(row, 7));
 
-                    Integer banheiroPne = parseInt(formatter, row.getCell(8));
-                    Integer dependenciaPne = parseInt(formatter, row.getCell(9));
-                    Integer corrimao = parseInt(formatter, row.getCell(10));
-                    Integer elevador = parseInt(formatter, row.getCell(11));
-                    Integer pisoTatil = parseInt(formatter, row.getCell(12));
-                    Integer vaoLivre = parseInt(formatter, row.getCell(13));
-                    Integer rampas = parseInt(formatter, row.getCell(14));
-                    Integer sinalSonoro = parseInt(formatter, row.getCell(15));
-                    Integer sinalTatil = parseInt(formatter, row.getCell(16));
-                    Integer sinalVisual = parseInt(formatter, row.getCell(17));
-                    Integer acessibilidadeInex = parseInt(formatter, row.getCell(18));
-                    Integer qtdSalaUtilAcessivel = parseInt(formatter, row.getCell(19));
-                    Integer materialPedagoSurdo = parseInt(formatter, row.getCell(20));
-                    Integer qtdMatriculaEducBasica = parseInt(formatter, row.getCell(21));
-                    Integer qtdMatriculaEspecial = parseInt(formatter, row.getCell(22));
-                    Integer qtdDocenteEducBasica = parseInt(formatter, row.getCell(23));
-                    Integer qtdTurmaEspecial = parseInt(formatter, row.getCell(24));
-                    Integer qtdTurmaEspecialComum = parseInt(formatter, row.getCell(25));
-                    Integer qtdTurmaEspecialExclusiva = parseInt(formatter, row.getCell(26));
+                    Integer banheiroPne = parseInt(formatter, getCell(row, 8));
+                    Integer dependenciaPne = parseInt(formatter, getCell(row, 9));
+                    Integer corrimao = parseInt(formatter, getCell(row, 10));
+                    Integer elevador = parseInt(formatter, getCell(row, 11));
+                    Integer pisoTatil = parseInt(formatter, getCell(row, 12));
+                    Integer vaoLivre = parseInt(formatter, getCell(row, 13));
+                    Integer rampas = parseInt(formatter, getCell(row, 14));
+                    Integer sinalSonoro = parseInt(formatter, getCell(row, 15));
+                    Integer sinalTatil = parseInt(formatter, getCell(row, 16));
+                    Integer sinalVisual = parseInt(formatter, getCell(row, 17));
+                    Integer acessibilidadeInex = parseInt(formatter, getCell(row, 18));
+                    Integer qtdSalaUtilAcessivel = parseInt(formatter, getCell(row, 19));
+                    Integer materialPedagoSurdo = parseInt(formatter, getCell(row, 20));
+                    Integer qtdMatriculaEducBasica = parseInt(formatter, getCell(row, 21));
+                    Integer qtdMatriculaEspecial = parseInt(formatter, getCell(row, 22));
+                    Integer qtdDocenteEducBasica = parseInt(formatter, getCell(row, 23));
+                    Integer qtdTurmaEspecial = parseInt(formatter, getCell(row, 24));
+                    Integer qtdTurmaEspecialComum = parseInt(formatter, getCell(row, 25));
+                    Integer qtdTurmaEspecialExclusiva = parseInt(formatter, getCell(row, 26));
 
-                    Escola escola = new Escola(
+                    batch.add(new Object[]{
                             ano, uf, idMuni, muniNome, idEscola, rede, tipoCategoria, tipoLocalizacao,
                             banheiroPne, dependenciaPne, corrimao, elevador, pisoTatil, vaoLivre,
                             rampas, sinalSonoro, sinalTatil, sinalVisual, acessibilidadeInex,
                             qtdSalaUtilAcessivel, materialPedagoSurdo, qtdMatriculaEducBasica,
                             qtdMatriculaEspecial, qtdDocenteEducBasica, qtdTurmaEspecial,
                             qtdTurmaEspecialComum, qtdTurmaEspecialExclusiva
-                    );
+                    });
 
-                    escolasExtraidas.add(escola);
+                    // executa batch
+                    if (batch.size() == BATCH_SIZE) {
+                        template.batchUpdate(SQL_INSERT, batch);
+                        batch.clear();
+                        System.out.println("Batch inserido: " + BATCH_SIZE + " registros");
+                    }
 
                 } catch (Exception e) {
                     System.out.println("Erro na linha " + row.getRowNum() + ": " + e.getMessage());
+                    e.printStackTrace();
                 }
+            }
+
+            // insere restante
+            if (!batch.isEmpty()) {
+                template.batchUpdate(SQL_INSERT, batch);
+                System.out.println("Batch final inserido: " + batch.size() + " registros");
             }
 
             System.out.println("Leitura finalizada");
 
         } catch (Exception e) {
             System.out.println("Erro ao ler arquivo do S3: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
 
-        return escolasExtraidas;
+    private Cell getCell(Row row, int index) {
+        return row.getCell(index, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
     }
 
     private Integer parseInt(DataFormatter formatter, Cell cell) {
-        String valor = formatter.formatCellValue(cell);
-        return valor.isEmpty() ? null : Integer.valueOf(valor);
+        try {
+            String valor = formatter.formatCellValue(cell).trim();
+            if (valor.isEmpty()) return null;
+            return (int) Double.parseDouble(valor);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private void printarCabecalho(Row row) {
-        System.out.println("----- CABEÇALHO -----");
+        System.out.println("----- CABECALHO -----");
         for (int i = 0; i < row.getLastCellNum(); i++) {
             System.out.println("Coluna " + i + ": " + row.getCell(i));
         }
