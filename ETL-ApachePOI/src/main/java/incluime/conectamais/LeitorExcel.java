@@ -15,8 +15,8 @@ public class LeitorExcel {
             "INSERT INTO base_dados_censo_escolar (" +
                     "ano, sigla_uf, id_municipio, id_municipio_nome, id_escola, rede, tipo_categoria_escola_privada, tipo_localizacao, " +
                     "banheiro_pne, dependencia_pne, acessibilidade_corrimao, acessibilidade_elevador, acessibilidade_pisos_tateis, acessibilidade_vao_livre, acessibilidade_rampas, acessibilidade_sinais_sonoros, acessibilidade_sinal_tatil, acessibilidade_sinal_visual, acessibilidade_inexistente, " +
-                    "quantidade_sala_utilizade_acessivel, material_pedagogico_surdo, quantidade_matricula_educacao_basica, quantidade_matricula_especial, quantidade_docente_educacao_basica, quantidade_turma_especial, quantidade_turma_especial_comum" +
-                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "quantidade_sala_utilizade_acessivel, material_pedagogico_surdo, quantidade_matricula_educacao_basica, quantidade_matricula_especial, quantidade_docente_educacao_basica, quantidade_turma_especial, quantidade_turma_especial_comum, quantidade_turma_especial_exclusiva" +
+                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final int BATCH_SIZE = 1000;
 
