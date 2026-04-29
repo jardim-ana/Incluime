@@ -18,6 +18,9 @@ public class LeitorExcel {
                     "quantidade_sala_utilizade_acessivel, material_pedagogico_surdo, quantidade_matricula_educacao_basica, quantidade_matricula_especial, quantidade_docente_educacao_basica, quantidade_turma_especial, quantidade_turma_especial_comum, quantidade_turma_especial_exclusiva" +
                     ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
+    private static final String SQL_LOG =
+            "INSERT INTO log (mensagem, nivel, data_hora) VALUES (?, ?, NOW())";
+
     private static final int BATCH_SIZE = 1000;
 
     public void extrairEscolas(String nomeArquivo, JdbcTemplate template) {
@@ -30,13 +33,13 @@ public class LeitorExcel {
                 Workbook workbook = WorkbookFactory.create(arquivo)
         ) {
 
-            System.out.printf("Lendo arquivo do S3: %s%n", nomeArquivo);
+            log(template, "Lendo arquivo do S3: " + nomeArquivo, "INFO");
 
             Sheet sheet = workbook.getSheetAt(0);
 
             for (Row row : sheet) {
                 if (row.getRowNum() == 0) {
-                    printarCabecalho(row);
+                    printarCabecalho(row, template);
                     continue;
                 }
 
@@ -82,24 +85,39 @@ public class LeitorExcel {
                     if (batch.size() == BATCH_SIZE) {
                         template.batchUpdate(SQL_INSERT, batch);
                         batch.clear();
-                        System.out.println("Batch inserido: " + BATCH_SIZE + " registros");
+                        log(template, "Batch inserido: " + BATCH_SIZE + " registros", "INFO");
                     }
 
                 } catch (Exception e) {
-                    System.out.println("Erro na linha " + row.getRowNum() + ": " + e.getMessage());
+                    log(template,
+                            "Erro na linha " + row.getRowNum() + ": " + e.getMessage(),
+                            "ERROR"
+                    );
                     e.printStackTrace();
                 }
             }
 
             if (!batch.isEmpty()) {
                 template.batchUpdate(SQL_INSERT, batch);
-                System.out.println("Batch final inserido: " + batch.size() + " registros");
+                log(template, "Batch final inserido: " + batch.size() + " registros", "INFO");
             }
 
-            System.out.println("Leitura finalizada");
+            log(template, "Leitura finalizada", "INFO");
 
         } catch (Exception e) {
-            System.out.println("Erro ao ler arquivo do S3: " + e.getMessage());
+            log(template,
+                    "Erro ao ler arquivo do S3: " + e.getMessage(),
+                    "ERROR"
+            );
+            e.printStackTrace();
+        }
+    }
+
+    private void log(JdbcTemplate template, String mensagem, String nivel) {
+        try {
+            template.update(SQL_LOG, mensagem, nivel);
+        } catch (Exception e) {
+            System.err.println("Erro ao salvar log: " + mensagem);
             e.printStackTrace();
         }
     }
@@ -118,10 +136,10 @@ public class LeitorExcel {
         }
     }
 
-    private void printarCabecalho(Row row) {
-        System.out.println("----- CABECALHO -----");
+    private void printarCabecalho(Row row, JdbcTemplate template) {
+        log(template, "----- CABECALHO -----", "INFO");
         for (int i = 0; i < row.getLastCellNum(); i++) {
-            System.out.println("Coluna " + i + ": " + row.getCell(i));
+            log(template, "Coluna " + i + ": " + row.getCell(i), "INFO");
         }
     }
 }
