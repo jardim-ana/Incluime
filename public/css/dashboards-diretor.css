@@ -433,8 +433,89 @@ canvas {
   cursor: pointer;
 }
 
+.btn-editar {
+    border: none;
+    background: #6c3be8;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 9px;
+    padding: 5px 7px;
+    border-radius: 7px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+    box-shadow: 0 2px 5px rgba(108, 59, 232, 0.18);
+}
+
+.edit-container input {
+    width: 58px;
+    height: 34px;
+    padding: 4px 6px;
+    border: 1px solid #d1d5db;
+    border-radius: 9px;
+    outline: none;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
 
 
+.btn-salvar {
+    border: none;
+    background-color: #22c55e;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 8px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn-cancelar-meta {
+    border: none;
+    background-color: #e5e7eb;
+    color: #374151;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 8px 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.btn-cancelar-meta:hover {
+    background-color: #d1d5db;
+}
+
+
+.variacao-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    flex-wrap: nowrap;
+}
+
+
+.edit-container {
+    align-items: center;
+    gap: 6px;
+}
+
+
+.kpi-acessibilidade-escola .btn-editar {
+    margin-top: 6px;
+}
+
+.kpi-acessibilidade-escola .edit-container input {
+    width: 58px;
+    height: 32px;
+}
+
+.kpi-acessibilidade-escola .btn-salvar {
+    padding: 7px 10px;
+}
 
 
 
