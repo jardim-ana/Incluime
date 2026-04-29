@@ -7,12 +7,11 @@
     <title>CONECTA+ | Meu Perfil</title>
 
     <link rel="stylesheet"
-       
-    href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
+        href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="./css/perfil-aluno.css">
     <link rel="stylesheet" href="./css/estilo.css">
     <link rel="stylesheet" href="./css/dashboards-diretor.css">
-   
+
 </head>
 
 <body>
@@ -99,10 +98,12 @@
                     class="meta-acessibilidade" id="meta-acessibilidade"> Meta: <span class="valor">90%</span> </span>
                 <button class="btn-editar" data-meta="acessibilidade">Alterar meta</button> <span class="edit-container"
                     id="edit-acessibilidade" style="display:none;"> <input type="number" id="input-acessibilidade">
-                    <button class="btn-salvar" data-meta="acessibilidade">Salvar</button> </span> <i><span>*Dados da sua escola</span></i>
+                    <button class="btn-salvar" data-meta="acessibilidade">Salvar</button> </span> <i><span>*Dados da sua
+                        escola</span></i>
             </div>
             <div class="kpi kpi-indice-meta">
-                <h4>Diferença entre o índice e a meta</h4> <span class="diferenca-meta">--</span> <i><span>*Dados da sua escola</span></i>
+                <h4>Diferença entre o índice e a meta</h4> <span class="diferenca-meta">--</span> <i><span>*Dados da sua
+                        escola</span></i>
             </div>
         </div>
         <div class="grafico-lista">
@@ -127,205 +128,217 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-   document.querySelectorAll(".edit-container").forEach((container) => {
-    const botaoCancelar = document.createElement("button");
-    botaoCancelar.textContent = "Cancelar";
-    botaoCancelar.className = "btn-cancelar-meta";
+        document.querySelectorAll(".edit-container").forEach((container) => {
+            const botaoCancelar = document.createElement("button");
+            botaoCancelar.textContent = "Cancelar";
+            botaoCancelar.className = "btn-cancelar-meta";
 
-    botaoCancelar.addEventListener("click", () => {
-        container.style.display = "none";
+            botaoCancelar.addEventListener("click", () => {
+                container.style.display = "none";
 
-        const tipoMeta = container.id.replace("edit-", "");
-        const botaoEditar = document.querySelector(`.btn-editar[data-meta="${tipoMeta}"]`);
+                const tipoMeta = container.id.replace("edit-", "");
+                const botaoEditar = document.querySelector(`.btn-editar[data-meta="${tipoMeta}"]`);
 
-        if (botaoEditar) {
-            botaoEditar.style.display = "inline-block";
+                if (botaoEditar) {
+                    botaoEditar.style.display = "inline-block";
+                }
+            });
+
+            container.appendChild(botaoCancelar);
+        });
+
+        document.querySelectorAll(".btn-editar").forEach((botao) => {
+            botao.addEventListener("click", () => {
+                botao.style.display = "none";
+            });
+        });
+        const ctx = document.getElementById("graficoMatriculas").getContext("2d");
+
+        const dados = {
+            anos: [2022, 2023, 2024],
+            escola: {
+                nome: "E. E. Visão Clara",
+                matriculas: 450,
+                historico: [400, 420, 450],
+                acessibilidade: 82,
+                metaAcessibilidade: 90,
+                itensAusenciaAcessibilidade: ["Rampa", "Banheiro adaptado"],
+                comentarios: [
+                    { texto: "Ótimo atendimento", nota: 5 },
+                    { texto: "Melhorar acessibilidade na entrada", nota: 3 }
+                ]
+            },
+            rede: [
+                { nome: "E. E. Visão Clara", historico: [400, 420, 450], acessibilidade: 82 },
+                { nome: "E. E. Jardim Central", historico: [300, 310, 320], acessibilidade: 78 },
+                { nome: "Colégio Prime SP", historico: [500, 490, 510], acessibilidade: 88 }
+            ]
+        };
+
+        let metas = {
+            matricula: 1.0,
+            acessibilidade: dados.escola.metaAcessibilidade
+        };
+
+        function atualizarMeta(tipo) {
+            if (tipo === "matricula") {
+                document.querySelector("#meta-matricula .valor").textContent =
+                    metas.matricula + "%";
+            }
+
+            if (tipo === "acessibilidade") {
+                document.querySelector("#meta-acessibilidade .valor").textContent =
+                    metas.acessibilidade + "%";
+
+                document.querySelector(".diferenca-meta").textContent =
+                    (metas.acessibilidade - dados.escola.acessibilidade) + "%";
+            }
         }
-    });
 
-    container.appendChild(botaoCancelar);
-});
 
-document.querySelectorAll(".btn-editar").forEach((botao) => {
-    botao.addEventListener("click", () => {
-        botao.style.display = "none";
-    });
-});
-const ctx = document.getElementById("graficoMatriculas").getContext("2d");
+        document.querySelector(".kpi-total-matriculas span.matriculas").textContent = dados.escola.matriculas;
+        document.querySelector(".kpi-acessibilidade-escola span.acessibilidade").textContent =
+            dados.escola.acessibilidade + "%";
 
-const dados = {
-    anos: [2022, 2023, 2024],
-    escola: {
-        nome: "Escola Mocado",
-        matriculas: 450,
-        historico: [400, 420, 450],
-        acessibilidade: 82,
-        metaAcessibilidade: 90,
-        itensAusenciaAcessibilidade: ["Rampa", "Banheiro adaptado"],
-        comentarios: [
-            { texto: "Ótimo atendimento", nota: 5 },
-            { texto: "Melhorar acessibilidade na entrada", nota: 3 }
-        ]
-    },
-    rede: [
-        { nome: "Escola Mocado", historico: [400, 420, 450], acessibilidade: 82 },
-        { nome: "Escola Exemplo", historico: [300, 310, 320], acessibilidade: 78 },
-        { nome: "Escola Teste", historico: [500, 490, 510], acessibilidade: 88 }
-    ]
-};
-
-let metas = {
-    matricula: 1.0,
-    acessibilidade: dados.escola.metaAcessibilidade
-};
-
-function atualizarMeta(tipo) {
-    if (tipo === "matricula") {
-        document.querySelector("#meta-matricula .valor").textContent =
-            metas.matricula + "%";
-    }
-
-    if (tipo === "acessibilidade") {
-        document.querySelector("#meta-acessibilidade .valor").textContent =
-            metas.acessibilidade + "%";
+        atualizarMeta("acessibilidade");
+        atualizarMeta("matricula");
 
         document.querySelector(".diferenca-meta").textContent =
-            (metas.acessibilidade - dados.escola.acessibilidade) + "%";
-    }
-}
+            (dados.escola.metaAcessibilidade - dados.escola.acessibilidade) + "%";
 
 
-document.querySelector(".kpi-total-matriculas span.matriculas").textContent = dados.escola.matriculas;
-document.querySelector(".kpi-acessibilidade-escola span.acessibilidade").textContent =
-    dados.escola.acessibilidade + "%";
+        const anoAtual = dados.escola.historico[2];
+        const anoAnterior = dados.escola.historico[1];
 
-atualizarMeta("acessibilidade");
-atualizarMeta("matricula");
+        document.getElementById("ano-atual").textContent = anoAtual;
+        document.getElementById("ano-anterior").textContent = anoAnterior;
 
-document.querySelector(".diferenca-meta").textContent =
-    (dados.escola.metaAcessibilidade - dados.escola.acessibilidade) + "%";
+        const variacao = ((anoAtual - anoAnterior) / anoAnterior) * 100;
+        const variacaoEl = document.getElementById("variacao-matricula");
 
+        const seta = variacao >= 0 ? "↑" : "↓";
 
-const anoAtual = dados.escola.historico[2];
-const anoAnterior = dados.escola.historico[1];
-
-document.getElementById("ano-atual").textContent = anoAtual;
-document.getElementById("ano-anterior").textContent = anoAnterior;
-
-const variacao = ((anoAtual - anoAnterior) / anoAnterior) * 100;
-const variacaoEl = document.getElementById("variacao-matricula");
-
-const seta = variacao >= 0 ? "↑" : "↓";
-
-variacaoEl.innerHTML = `Variação: <span class="seta">${seta}</span> ${Math.abs(variacao).toFixed(1)}%`;
-variacaoEl.classList.add(variacao >= 0 ? "positivo" : "negativo");
+        variacaoEl.innerHTML = `Variação: <span class="seta">${seta}</span> ${Math.abs(variacao).toFixed(1)}%`;
+        variacaoEl.classList.add(variacao >= 0 ? "positivo" : "negativo");
 
 
 
 
-document.querySelector(".lista-situacoes").innerHTML =
-    dados.escola.itensAusenciaAcessibilidade
-        .map(item => `<li><strong>Situação:</strong> ${item}</li>`)
-        .join("");
+        document.querySelector(".lista-situacoes").innerHTML =
+            dados.escola.itensAusenciaAcessibilidade
+                .map(item => `<li><strong>Situação:</strong> ${item}</li>`)
+                .join("");
 
 
-const rankingEl = document.querySelector(".lista-ranking");
+        const rankingEl = document.querySelector(".lista-ranking");
 
-dados.rede.sort((a, b) => b.acessibilidade - a.acessibilidade);
+        dados.rede.sort((a, b) => b.acessibilidade - a.acessibilidade);
 
-rankingEl.innerHTML = dados.rede
-    .map((e, i) => `
+        rankingEl.innerHTML = dados.rede
+            .map((e, i) => `
         <li>
             <span class="nome-escola">${i + 1}º ${e.nome}</span>
             <span class="porcentagem">${e.acessibilidade}%</span>
         </li>
     `)
-    .join("");
+            .join("");
 
 
-document.querySelector(".comentarios").innerHTML =
-    dados.escola.comentarios
-        .map(c => `
+        document.querySelector(".comentarios").innerHTML =
+            dados.escola.comentarios
+                .map(c => `
             <div class="comentario">
                 "${c.texto}"
                 <span class="nota"> Nota: ${c.nota}/5</span>
             </div>
         `)
-        .join("");
+                .join("");
 
 
-const mediaRede = dados.anos.map((_, i) => {
-    const soma = dados.rede.reduce((acc, e) => acc + e.historico[i], 0);
-    return Math.round(soma / dados.rede.length);
-});
+        const mediaRede = dados.anos.map((_, i) => {
+            const soma = dados.rede.reduce((acc, e) => acc + e.historico[i], 0);
+            return Math.round(soma / dados.rede.length);
+        });
 
-const mediaEscola = Math.round(
-    dados.escola.historico.reduce((a, b) => a + b, 0) /
-    dados.escola.historico.length
-);
+        const mediaEscola = Math.round(
+            dados.escola.historico.reduce((a, b) => a + b, 0) /
+            dados.escola.historico.length
+        );
 
 
-new Chart(ctx, {
-    type: "line",
-    data: {
-        labels: dados.anos,
-        datasets: [
-            {
-                label: "Escola",
-                data: dados.escola.historico,
-                borderColor: "blue",
-                fill: false,
-                tension: 0.3
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: dados.anos,
+                datasets: [
+                    {
+                        label: "Escola",
+                        data: dados.escola.historico,
+                        borderColor: "blue",
+                        fill: false,
+                        tension: 0.3
+                    },
+                    {
+                        label: "Média Rede",
+                        data: mediaRede,
+                        borderColor: "gray",
+                        borderDash: [5, 5],
+                        fill: false,
+                        tension: 0.3
+                    },
+                    {
+                        label: "Média Escola",
+                        data: Array(dados.anos.length).fill(mediaEscola),
+                        borderColor: "red",
+                        borderDash: [3, 3],
+                        fill: false,
+                        tension: 0.3
+                    }
+                ]
             },
-            {
-                label: "Média Rede",
-                data: mediaRede,
-                borderColor: "gray",
-                borderDash: [5, 5],
-                fill: false,
-                tension: 0.3
-            },
-            {
-                label: "Média Escola",
-                data: Array(dados.anos.length).fill(mediaEscola),
-                borderColor: "red",
-                borderDash: [3, 3],
-                fill: false,
-                tension: 0.3
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    },
+                    title: {
+                        display: true,
+                        text: "Histórico de Matrículas",
+                        font: { size: 18 },
+                        padding: { top: 10, bottom: 30 }
+                    }
+                }
             }
-        ]
-    },
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: "top" }
         }
-    }
-});
 
 
-document.querySelectorAll(".btn-editar").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const tipo = btn.dataset.meta;
 
-        document.getElementById(`edit-${tipo}`).style.display = "inline-block";
-        document.getElementById(`input-${tipo}`).value = metas[tipo];
-    });
-});
+        );
 
 
-document.querySelectorAll(".btn-salvar").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const tipo = btn.dataset.meta;
-        const input = document.getElementById(`input-${tipo}`);
-        const novoValor = parseFloat(input.value);
+        document.querySelectorAll(".btn-editar").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const tipo = btn.dataset.meta;
 
-        if (isNaN(novoValor)) return;
+                document.getElementById(`edit-${tipo}`).style.display = "inline-block";
+                document.getElementById(`input-${tipo}`).value = metas[tipo];
+            });
+        });
 
-        metas[tipo] = novoValor;
-        atualizarMeta(tipo);
 
-        document.getElementById(`edit-${tipo}`).style.display = "none";
-    });
-});
-</script>
+        document.querySelectorAll(".btn-salvar").forEach(btn => {
+            btn.addEventListener("click", () => {
+                const tipo = btn.dataset.meta;
+                const input = document.getElementById(`input-${tipo}`);
+                const novoValor = parseFloat(input.value);
+
+                if (isNaN(novoValor)) return;
+
+                metas[tipo] = novoValor;
+                atualizarMeta(tipo);
+
+                document.getElementById(`edit-${tipo}`).style.display = "none";
+            });
+        });
+    </script>
