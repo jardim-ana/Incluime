@@ -127,6 +127,30 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+   document.querySelectorAll(".edit-container").forEach((container) => {
+    const botaoCancelar = document.createElement("button");
+    botaoCancelar.textContent = "Cancelar";
+    botaoCancelar.className = "btn-cancelar-meta";
+
+    botaoCancelar.addEventListener("click", () => {
+        container.style.display = "none";
+
+        const tipoMeta = container.id.replace("edit-", "");
+        const botaoEditar = document.querySelector(`.btn-editar[data-meta="${tipoMeta}"]`);
+
+        if (botaoEditar) {
+            botaoEditar.style.display = "inline-block";
+        }
+    });
+
+    container.appendChild(botaoCancelar);
+});
+
+document.querySelectorAll(".btn-editar").forEach((botao) => {
+    botao.addEventListener("click", () => {
+        botao.style.display = "none";
+    });
+});
 const ctx = document.getElementById("graficoMatriculas").getContext("2d");
 
 const dados = {
