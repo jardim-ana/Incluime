@@ -2,7 +2,7 @@ var database = require("../database/config");
 
 function log(mensagem, nivel) {
     var instrucao = `
-        INSERT INTO logss (mensagem, tipo)
+        INSERT INTO logss (acao, tipo)
         VALUES ('${mensagem}', '${nivel}');
     `;
     return database.executar(instrucao);

@@ -19,7 +19,7 @@ public class LeitorExcel {
                     ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String SQL_LOG =
-            "INSERT INTO logss (mensagem, nivel) VALUES (?, ?)";
+            "INSERT INTO logss (acao, tipo) VALUES (?, ?)";
 
     private static final int BATCH_SIZE = 1000;
 
