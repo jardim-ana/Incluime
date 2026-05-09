@@ -1,5 +1,9 @@
-incluime/conectamais/client/S3Provider.class
-incluime/conectamais/Main.class
-incluime/conectamais/Escola.class
-incluime/conectamais/Conexao.class
-incluime/conectamais/LeitorExcel.class
+incluime\conectamais\Escola.class
+incluime\conectamais\TesteSlack.class
+incluime\conectamais\SlackService.class
+incluime\conectamais\LeitorExcel.class
+incluime\conectamais\SlackMensagemDto.class
+incluime\conectamais\client\S3Service.class
+incluime\conectamais\Conexao.class
+incluime\conectamais\NotificacaoSlack.class
+incluime\conectamais\Main.class
