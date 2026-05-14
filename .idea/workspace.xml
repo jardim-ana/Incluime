@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="877316cc-7c47-4d39-91b2-f5113bd8f769" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/ETL-ApachePOI/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ETL-ApachePOI/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/script-incluimeV6.sql" beforeDir="false" afterPath="$PROJECT_DIR$/database/script-incluimeV6.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/dashboards-diretor.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/dashboards-diretor.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/dashboards.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/dashboards.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/dashboard-diretor.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/dashboard-diretor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/dashboard.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,10 +15,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5,
-  "fromUser": false
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5,
+  &quot;fromUser&quot;: false
+}</component>
   <component name="ProjectId" id="3D1vMdhlrf9tFYeApNdXO8gUNun" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -31,7 +33,7 @@
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/gabs/Documents/Incluime/ETL-ApachePOI",
+    "last_opened_file_path": "/home/analuisa/Área de Trabalho/S2/Incluime",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
   }

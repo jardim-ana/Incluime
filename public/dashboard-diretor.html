@@ -68,9 +68,6 @@
 
     <div id="corpo">
         <div class="kpis">
-            <div class="kpi kpi-total-matriculas">
-                <h4>Total de matrículas</h4> <span class="matriculas">--</span> <i><span>*Dados da sua escola</span></i>
-            </div>
             <div class="kpi kpi-percentual-matriculas">
                 <h4>Taxa de variação de Matrículas</h4>
                 <div class="anos-container">
@@ -96,15 +93,15 @@
             <div class="kpi kpi-acessibilidade-escola">
                 <h4>Índice de acessibilidade</h4> <span class="acessibilidade">--</span> <span
                     class="meta-acessibilidade" id="meta-acessibilidade"> Meta: <span class="valor">90%</span> </span>
+                    <div class="kpi kpi-indice-meta">
+                <h4>Diferença entre o índice e a meta</h4> <span class="diferenca-meta">--</span> 
+            </div>
                 <button class="btn-editar" data-meta="acessibilidade">Alterar meta</button> <span class="edit-container"
                     id="edit-acessibilidade" style="display:none;"> <input type="number" id="input-acessibilidade">
                     <button class="btn-salvar" data-meta="acessibilidade">Salvar</button> </span> <i><span>*Dados da sua
                         escola</span></i>
             </div>
-            <div class="kpi kpi-indice-meta">
-                <h4>Diferença entre o índice e a meta</h4> <span class="diferenca-meta">--</span> <i><span>*Dados da sua
-                        escola</span></i>
-            </div>
+            
         </div>
         <div class="grafico-lista">
             <div class="grafico-linha" style="height: 400px;"> <canvas id="graficoMatriculas"></canvas> </div>
@@ -222,12 +219,27 @@
         variacaoEl.classList.add(variacao >= 0 ? "positivo" : "negativo");
 
 
-
-
-        document.querySelector(".lista-situacoes").innerHTML =
+      /*  document.querySelector(".lista-situacoes").innerHTML =
             dados.escola.itensAusenciaAcessibilidade
                 .map(item => `<li><strong>Situação:</strong> ${item}</li>`)
-                .join("");
+                .join("");*/
+
+           
+            const lista = document.querySelector(".lista-situacoes");
+
+            if (lista) {
+                lista.innerHTML = info.itensAcessibilidade?.map(item => `
+        <li class="item-situacao ${item.valor == 1 ? 'ativo' : 'inativo'}">
+            <span>${item.nome}</span>
+
+            <strong>
+                ${item.valor == 1 ? 'Disponível' : 'Indisponível'}
+            </strong>
+        </li>
+    `).join("") || "";
+            }     
+
+
 
 
         const rankingEl = document.querySelector(".lista-ranking");
@@ -304,15 +316,13 @@
                     },
                     title: {
                         display: true,
-                        text: "Histórico de Matrículas",
+                        text: "Gráfico da diferença de matrículas",
                         font: { size: 18 },
                         padding: { top: 10, bottom: 30 }
                     }
                 }
             }
         }
-
-
 
         );
 
@@ -341,4 +351,5 @@
                 document.getElementById(`edit-${tipo}`).style.display = "none";
             });
         });
+
     </script>
