@@ -307,7 +307,7 @@ footer .container ul img{
   position: fixed;
   bottom: 85px;
   right: 20px;
-  width: 270px;
+  width: 300px;
   background: #e6edf2;
   border-radius: 18px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.18);
@@ -316,29 +316,54 @@ footer .container ul img{
   z-index: 9999;
 }
 
-.chatbot-header {
-  background: var(--azul-primario);
-  color: white;
-  padding: 12px;
-  font-weight: bold;
-  font-size: 15px;
+.chat-input-area {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: flex-end;
 }
 
-.chatbot-body {
-  padding: 14px;
-}
-
-.chat-option {
-  width: 100%;
-  background: white;
-  border: 1px solid #d2d2d2;
-  border-radius: 8px;
+.chat-input {
+  flex: 1;
+  min-height: 45px;
+  max-height: 100px;
   padding: 10px;
-  margin-bottom: 10px;
+  border: 1px solid var(--azul-primario);
+  border-radius: 8px;
   font-size: 14px;
-  font-weight: 600;
-  color: #35506b;
+  font-family: inherit;
+  outline: none;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.chat-input:focus {
+  border-color: var(--azul-primario);
+}
+
+.chat-send {
+  height: 45px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--azul-primario);
+  color: white;
+  font-weight: bold;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+.chat-send:hover {
+  background-color: var(--azul-secundario);
+}
+
+.resposta {
+  background-color: white;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #222;
+  min-height: 45px;
 }
 
 @media (max-width: 960px) {

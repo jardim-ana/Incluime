@@ -56,10 +56,38 @@ function toggleChat() {
   chat.style.display = chat.style.display === "block" ? "none" : "block";
 }
 
-async function buscarResposta(opcao) {
-  const resposta = await fetch(`http://127.0.0.1:5000/resposta/${opcao}`);
-  const dados = await resposta.json();
-  document.getElementById("resposta").innerText = dados.mensagem;
+async function enviarPergunta() {
+  const input = document.getElementById("pergunta");
+  const respostaDiv = document.getElementById("resposta");
+
+  const pergunta = input.value.trim();
+
+  if (pergunta === "") {
+    respostaDiv.innerText = "Digite uma pergunta antes de enviar.";
+    return;
+  }
+
+  respostaDiv.innerText = "Pensando...";
+
+  try {
+    const resposta = await fetch("http://localhost:5000/resposta", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        pergunta: pergunta
+      })
+    });
+
+    const dados = await resposta.json();
+
+    respostaDiv.innerText = dados.mensagem;
+    input.value = "";
+
+  } catch (erro) {
+    respostaDiv.innerText = "Não foi possível conectar com o assistente no momento.";
+  }
 }
 
 function enviarContato() {
