@@ -1,7 +1,7 @@
 package incluime.conectamais;
 
 public class SlackMensagemDto {
-    private String text;
+        private String text;
 
     public SlackMensagemDto() {
     }

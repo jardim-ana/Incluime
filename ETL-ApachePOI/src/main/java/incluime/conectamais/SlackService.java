@@ -1,41 +1,40 @@
 package incluime.conectamais;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-
+import java.nio.charset.StandardCharsets;
 
 public class SlackService {
-    private final HttpClient client = HttpClient.newHttpClient();
-    private final ObjectMapper mapper = new ObjectMapper();
-    
-private final String webhookUrl = System.getenv("SLACK_WEBHOOK_URL");
 
-    public void enviarMensagemAvaliacao(Integer nota, String comentario, Integer idUsuario) {
+    private final String webhookUrl;
+    private final HttpClient client;
+    private final ObjectMapper mapper;
+
+    public SlackService() {
+        this.webhookUrl = System.getenv("SLACK_WEBHOOK_URL");
+
+        if (this.webhookUrl == null || this.webhookUrl.isBlank()) {
+            throw new IllegalStateException("Variável de ambiente SLACK_WEBHOOK_URL não configurada.");
+        }
+
+        this.client = HttpClient.newHttpClient();
+        this.mapper = new ObjectMapper();
+    }
+
+    public void enviarMensagem(String texto) {
         try {
-            String texto = String.format(
-                    """
-                    Nova avaliação enviada no Conecta+
+            SlackMensagemDto mensagemDto = new SlackMensagemDto(texto);
 
-                    ID do aluno: %d
-                    Nota: %d/5
-                    Comentário: %s
-                    """,
-                    idUsuario,
-                    nota,
-                    comentario == null || comentario.isBlank() ? "Sem comentário" : comentario
-            );
-
-            SlackMensagemDto mensagem = new SlackMensagemDto(texto);
-
-            String json = mapper.writeValueAsString(mensagem);
+            String json = mapper.writeValueAsString(mensagemDto);
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(webhookUrl))
-                    .header("Content-Type", "application/json")
-                    .POST(HttpRequest.BodyPublishers.ofString(json))
+                    .header("Content-Type", "application/json; charset=UTF-8")
+                    .POST(HttpRequest.BodyPublishers.ofString(json, StandardCharsets.UTF_8))
                     .build();
 
             HttpResponse<String> response = client.send(
@@ -43,11 +42,13 @@ private final String webhookUrl = System.getenv("SLACK_WEBHOOK_URL");
                     HttpResponse.BodyHandlers.ofString()
             );
 
-            System.out.println("Status Slack: " + response.statusCode());
-            System.out.println("Resposta Slack: " + response.body());
+            if (response.statusCode() < 200 || response.statusCode() >= 300) {
+                System.out.println("Erro ao enviar mensagem para o Slack. Status: " + response.statusCode());
+                System.out.println("Resposta: " + response.body());
+            }
 
         } catch (Exception e) {
-            System.out.println("Erro ao enviar mensagem para o Slack: " + e.getMessage());
+            System.out.println("Erro ao enviar notificação para o Slack: " + e.getMessage());
         }
     }
 }
