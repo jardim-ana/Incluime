@@ -75,12 +75,12 @@
                 <div class="linha-dupla">
                     <div class="campo">
                         <span>Nome</span>
-                        <input id="nome_input" type="text" placeholder="nome" disabled>
+                        <input id="nome_input" type="text" placeholder="Nome">
                     </div>
 
                     <div class="campo">
                         <span>Sobrenome</span>
-                        <input id="sobrenome_input" type="text" placeholder="sobrenome" disabled>
+                        <input id="sobrenome_input" type="text" placeholder="Sobrenome">
                     </div>
                 </div>
 
@@ -134,6 +134,142 @@
     document.getElementById("nome_user").innerText = nomeCompleto;
     document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
   }
+
+  function salvarAlteracoes() {
+
+    // Limpa mensagens anteriores
+    mensagem_erro.innerHTML = "";
+
+    // ================= VALORES DOS INPUTS =================
+
+    var nomeUser = nome_input.value;
+    var sobrenomeUser = sobrenome_input.value;
+    var emailUser = email_input.value;
+    var senhaUser = senha_input.value;
+    var confirmaSenhaUser = confirmacao_senha_input.value;
+    var escolaUser = escolaPerfilInput.value;
+
+    var idUser = sessionStorage.ID_USUARIO;
+
+    // ================= ARRAY E OBJETO =================
+
+    let campos = [];
+
+    let dadosAtualizacao = {
+        id: idUser
+    };
+
+    // ================= VALIDAÇÕES =================
+
+    // EMAIL
+    if (emailUser != "") {
+
+        if (!emailUser.includes("@") || !emailUser.includes(".")) {
+
+            mensagem_erro.innerHTML = "Digite um e-mail válido!";
+            return;
+
+        }
+
+        campos.push("email");
+        dadosAtualizacao.email = emailUser;
+    }
+
+    // SENHA
+    if (senhaUser != "" || confirmaSenhaUser != "") {
+
+        if (senhaUser != confirmaSenhaUser) {
+
+            mensagem_erro.innerHTML = "As senhas não coincidem!";
+            return;
+
+        }
+
+        if (senhaUser.length < 6) {
+
+            mensagem_erro.innerHTML = "A senha deve possuir pelo menos 6 caracteres!";
+            return;
+
+        }
+
+        campos.push("senha");
+        dadosAtualizacao.senha = senhaUser;
+    }
+
+    // ESCOLA
+    if (escolaUser != "") {
+
+        campos.push("escola");
+        dadosAtualizacao.escola = escolaUser;
+    }
+
+    // CASO NADA TENHA SIDO ALTERADO
+    if (campos.length == 0) {
+
+        mensagem_erro.innerHTML = "Nenhum dado foi alterado!";
+        return;
+
+    }
+
+    console.log("Campos alterados:", campos);
+    console.log("Dados enviados:", dadosAtualizacao);
+
+    // ================= FETCH =================
+
+    fetch("/usuarios/atualizar", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(dadosAtualizacao)
+    })
+
+    .then(function (resposta) {
+
+        console.log("Resposta recebida!");
+
+        if (resposta.ok) {
+
+            resposta.json().then(json => {
+
+                console.log(json);
+
+                mensagem_erro.style.color = "green";
+                mensagem_erro.innerHTML = "Dados atualizados com sucesso!";
+
+                // Atualiza sessionStorage se email mudar
+                if (dadosAtualizacao.email) {
+                    sessionStorage.EMAIL_USUARIO = dadosAtualizacao.email;
+                }
+
+            });
+
+        } else {
+
+            resposta.text().then(texto => {
+
+                console.error(texto);
+
+                mensagem_erro.style.color = "red";
+                mensagem_erro.innerHTML = "Erro ao atualizar os dados!";
+
+            });
+
+        }
+
+    })
+
+    .catch(function (erro) {
+
+        console.log(erro);
+
+        mensagem_erro.style.color = "red";
+        mensagem_erro.innerHTML = "Erro inesperado!";
+
+    });
+
+}
+  
 
   inputPerfil.addEventListener("input", function () {
     var valor = inputPerfil.value.toLowerCase();

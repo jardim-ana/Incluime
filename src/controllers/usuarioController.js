@@ -45,6 +45,53 @@ function autenticar(req, res) {
 
 }
 
+function atualizar(req, res) {
+
+    var id = req.body.id;
+    var email = req.body.email;
+    var senha = req.body.senha;
+
+    let campos = [];
+
+    // Validações
+    if (id == undefined) {
+        res.status(400).send("ID do usuário está undefined!");
+        return;
+    }
+
+    // Monta os campos dinamicamente
+    if (email != undefined) {
+        campos.push(`email = '${email}'`);
+    }
+
+    if (senha != undefined) {
+        campos.push(`senha = '${senha}'`);
+    }
+
+    // Caso nenhum campo tenha sido enviado
+    if (campos.length == 0) {
+        res.status(400).send("Nenhum campo enviado para atualização!");
+        return;
+    }
+
+    usuarioModel.atualizar(id, campos)
+        .then(function (resultado) {
+            res.json(resultado);
+        })
+        .catch(function (erro) {
+
+            console.log(erro);
+            console.log(
+                "\nHouve um erro ao atualizar o usuário! Erro: ",
+                erro.sqlMessage
+            );
+
+            res.status(500).json(erro.sqlMessage);
+        });
+
+}
+
 module.exports = {
-    autenticar
+    autenticar,
+    atualizar
 }

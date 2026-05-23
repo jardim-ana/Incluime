@@ -51,6 +51,20 @@ function autenticar(email, senha) {
         });
 }
 
+function atualizar(id, campos) {
+
+    var instrucaoSql = `
+        UPDATE usuario
+        SET ${campos.join(", ")}
+        WHERE id = ${id};
+    `;
+
+    console.log("Executando SQL: \n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    autenticar
+    autenticar,
+    atualizar
 };
