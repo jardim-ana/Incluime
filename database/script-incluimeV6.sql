@@ -58,14 +58,6 @@ CREATE TABLE meta (
   FOREIGN KEY (escola_id) REFERENCES escola(id)
 );
 
--- Base educação especial
-CREATE TABLE base_dados_educacao_especial (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  municipio VARCHAR(100),
-  tipo_deficiencia VARCHAR(100),
-  quantidade_alunos INT,
-  ano INT
-);
 
 -- Base censo escolar
 CREATE TABLE base_dados_censo_escolar (
@@ -95,5 +87,14 @@ CREATE TABLE base_dados_censo_escolar (
   quantidade_matricula_especial INT,
   quantidade_docente_educacao_basica INT,
   quantidade_turma_especial INT,
-  quantidade_turma_especial_comum INT
+  quantidade_turma_especial_comum INT,
+  quantidade_turma_especial_exclusiva INT
+);
+
+
+CREATE TABLE logss (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  acao VARCHAR(250),
+  tipo VARCHAR(50),
+  dtHora DATETIME DEFAULT CURRENT_TIMESTAMP
 );

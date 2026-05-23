@@ -10,7 +10,7 @@
         href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="./css/estilo.css">
     <link rel="stylesheet" href="./css/perfil-aluno.css">
-    
+
 </head>
 
 <body>
@@ -69,35 +69,36 @@
         </section>
 
         <section class="card-perfil">
-            <h2>Editar informações</h2>
+            <h2 id="minhasInformacoes">Minhas informações</h2>
 
             <div class="formulario">
                 <div class="linha-dupla">
                     <div class="campo">
                         <span>Nome</span>
-                        <input id="nome_input" type="text" placeholder="nome" disabled>
+                        <input id="nome_input" type="text" placeholder="Nome" disabled>
                     </div>
 
                     <div class="campo">
                         <span>Sobrenome</span>
-                        <input id="sobrenome_input" type="text" placeholder="sobrenome" disabled>
+                        <input id="sobrenome_input" type="text" placeholder="Sobrenome" disabled>
                     </div>
                 </div>
 
                 <div class="campo">
                     <span>E-mail</span>
-                    <input id="email_input" type="email" placeholder="meuemail@email.com">
+                    <input id="email_input" type="email" placeholder="meuemail@email.com" disabled>
                 </div>
 
                 <div class="linha-dupla">
                     <div class="campo">
                         <span>Nova senha</span>
-                        <input id="senha_input" type="password" placeholder="Digite uma nova senha">
+                        <input id="senha_input" type="password" placeholder="Digite uma nova senha" disabled>
                     </div>
 
                     <div class="campo">
                         <span>Confirmar nova senha</span>
-                        <input id="confirmacao_senha_input" type="password" placeholder="Confirme a nova senha">
+                        <input id="confirmacao_senha_input" type="password" placeholder="Confirme a nova senha"
+                            disabled>
                     </div>
                 </div>
 
@@ -108,56 +109,233 @@
 
                 <div class="campo">
                     <span>Atualizar escola:</span>
-                    <input type="text" id="escolaPerfilInput" placeholder="Digite o nome da escola">
+                    <input type="text" id="escolaPerfilInput" placeholder="Digite o nome da escola" disabled>
                     <ul id="sugestoesPerfil"></ul>
                 </div>
 
 
                 <div class="acoes-formulario">
-                    <button class="botao" onclick="salvarAlteracoes()">Salvar alterações</button>
+                    <button class="botao" id="btnAlterar" onclick="alterarInformacoes()">Alterar informações</button>
+                    <button class="botao" id="btnSalvar" style="display: none;" onclick="salvarAlteracoes()">Salvar
+                        alterações</button>
+                    <button class="botao" style="background-color: red;" id="btnDeletar" onclick="deletarPerfil()">Deletar
+                        perfil</button>
                 </div>
 
                 <div id="mensagem_erro" class="msg-validacao"></div>
             </div>
         </section>
     </main>
-    
- <script>
 
-  var inputPerfil = document.getElementById("escolaPerfilInput");
-  var sugestoesPerfil = document.getElementById("sugestoesPerfil");
+    <script>
 
-  window.onload = function () {
-    var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-    var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
-    var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
-    document.getElementById("nome_user").innerText = nomeCompleto;
-    document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
-  }
+        var inputPerfil = document.getElementById("escolaPerfilInput");
+        var sugestoesPerfil = document.getElementById("sugestoesPerfil");
 
-  inputPerfil.addEventListener("input", function () {
-    var valor = inputPerfil.value.toLowerCase();
-    sugestoesPerfil.innerHTML = "";
+        window.onload = function () {
+            var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+            var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
+            var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
+            var emailUsuario = sessionStorage.getItem("EMAIL_USUARIO")
+            document.getElementById("nome_user").innerText = nomeCompleto;
+            document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
 
-    if (valor === "") {
-      return;
-    }
+            nome_input.value = nomeUsuario;
+            sobrenome_input.value = sobrenomeUsuario;
+            email_input.value = emailUsuario;
+        }
 
-    for (var i = 0; i < escolas.length; i++) {
-      if (escolas[i].toLowerCase().indexOf(valor) !== -1) {
-        var li = document.createElement("li");
-        li.textContent = escolas[i];
+        function alterarInformacoes() {
+            var nomeUser = nome_input.value;
+            var sobrenomeUser = sobrenome_input.value;
+            var emailUser = email_input.value;
+            var senhaUser = senha_input.value;
+            var confirmaSenhaUser = confirmacao_senha_input.value;
+            var escolaUser = escolaPerfilInput.value;
 
-        li.onclick = function () {
-          inputPerfil.value = this.textContent;
-          sugestoesPerfil.innerHTML = "";
-        };
+            document.getElementById("nome_input").disabled = false;
+            document.getElementById("sobrenome_input").disabled = false;
+            document.getElementById("email_input").disabled = false;
+            document.getElementById("escolaPerfilInput").disabled = false;
 
-        sugestoesPerfil.appendChild(li);
-      }
-    }
-  });
- </script>
+            document.getElementById("minhasInformacoes").innerText = "Alterar informações";
+
+            document.getElementById("btnAlterar").style.display = "none";
+            document.getElementById("btnSalvar").style.display = "block";
+        }
+
+
+        function salvarAlteracoes() {
+
+            var nomeUser = nome_input.value;
+            var sobrenomeUser = sobrenome_input.value;
+            var emailUser = email_input.value;
+            var senhaUser = senha_input.value;
+            var confirmaSenhaUser = confirmacao_senha_input.value;
+            var escolaUser = escolaPerfilInput.value;
+
+            mensagem_erro.style.color = "red";
+
+            if (
+                nomeUser == "" ||
+                sobrenomeUser == "" ||
+                emailUser == "" ||
+                escolaUser == ""
+            ) {
+                mensagem_erro.innerHTML = "Preencha todos os campos";
+                return;
+            }
+
+            if (nomeUser.length < 2) {
+                mensagem_erro.innerHTML = "Nome inválido";
+                return;
+            }
+
+            if (sobrenomeUser.length < 2) {
+                mensagem_erro.innerHTML = "Sobrenome inválido";
+                return;
+            }
+
+            if (
+                emailUser.indexOf("@") == -1 ||
+                emailUser.indexOf(".") == -1
+            ) {
+                mensagem_erro.innerHTML = "Email inválido";
+                return;
+            }
+
+            fetch("/usuarios/atualizar", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: sessionStorage.ID_USUARIO,
+                    nome: nomeUser,
+                    sobrenome: sobrenomeUser,
+                    email: emailUser
+                })
+            }).then(function (resposta) {
+
+                console.log("ESTOU NO THEN DO ATUALIZAR!");
+
+                if (resposta.ok) {
+
+                    mensagem_erro.style.color = "green";
+                    mensagem_erro.innerHTML = "Dados atualizados com sucesso";
+
+                    sessionStorage.setItem("NOME_USUARIO", nomeUser);
+                    sessionStorage.setItem("SOBRENOME_USUARIO", sobrenomeUser);
+                    sessionStorage.setItem("EMAIL_USUARIO", emailUser);
+                    sessionStorage.setItem("ESCOLA_USUARIO", escolaUser);
+
+                    var nomeUsuarioNew = sessionStorage.getItem("NOME_USUARIO");
+                    var sobrenomeUsuarioNew = sessionStorage.getItem("SOBRENOME_USUARIO");
+                    var nomeCompletoNew = nomeUsuarioNew + " " + sobrenomeUsuarioNew;
+                    var emailUsuarioNew = sessionStorage.getItem("EMAIL_USUARIO")
+                    document.getElementById("nome_user").innerText = nomeCompletoNew;
+                    document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
+
+                    document.getElementById("minhasInformacoes").innerText = "Minhas informações";
+
+                    document.getElementById("btnAlterar").style.display = "block";
+                    document.getElementById("btnSalvar").style.display = "none";
+
+
+
+                } else {
+
+                    mensagem_erro.style.color = "red";
+                    mensagem_erro.innerHTML = "Erro ao atualizar dados";
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                    });
+                }
+
+            }).catch(function (erro) {
+
+                console.log(erro);
+
+                mensagem_erro.style.color = "red";
+                mensagem_erro.innerHTML = "Erro na requisição";
+
+            });
+
+            return false;
+        }
+
+        function deletarPerfil() {
+            const confirmacao = confirm("Deseja deletar seu perfil?\nIsso não poderá ser desfeito!")
+            if (!confirmacao) {
+                return;
+            } else {
+                fetch("/usuarios/deletar", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        id: sessionStorage.ID_USUARIO
+                    })
+                }).then(function (resposta) {
+
+                    console.log("ESTOU NO THEN DO deletar()!");
+
+                    if (resposta.ok) {
+
+                        sessionStorage.clear();
+
+                        window.location = "/login.html";
+
+                    } else {
+
+                        mensagem_erro.style.color = "red";
+                        mensagem_erro.innerHTML = "Erro ao deletar conta";
+
+                        resposta.text().then(texto => {
+                            console.error(texto);
+                        });
+                    }
+
+                }).catch(function (erro) {
+
+                    console.log(erro);
+
+                    mensagem_erro.style.color = "red";
+                    mensagem_erro.innerHTML = "Erro na requisição";
+
+                });
+
+                return false;
+            }
+
+        }
+
+
+        inputPerfil.addEventListener("input", function () {
+            var valor = inputPerfil.value.toLowerCase();
+            sugestoesPerfil.innerHTML = "";
+
+            if (valor === "") {
+                return;
+            }
+
+            for (var i = 0; i < escolas.length; i++) {
+                if (escolas[i].toLowerCase().indexOf(valor) !== -1) {
+                    var li = document.createElement("li");
+                    li.textContent = escolas[i];
+
+                    li.onclick = function () {
+                        inputPerfil.value = this.textContent;
+                        sugestoesPerfil.innerHTML = "";
+                    };
+
+                    sugestoesPerfil.appendChild(li);
+                }
+            }
+        });
+    </script>
     <script src="js/perfil.js"></script>
 </body>
 

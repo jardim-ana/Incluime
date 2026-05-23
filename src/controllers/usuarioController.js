@@ -24,7 +24,8 @@ function autenticar(req, res) {
                             nome: resultadoAutenticar[0].nome,
                             email: resultadoAutenticar[0].email,
                             sobrenome: resultadoAutenticar[0].sobrenome,
-                            escola: resultadoAutenticar[0].nome_escola
+                            escola: resultadoAutenticar[0].nome_escola,
+                            tipo_usuario: resultadoAutenticar[0].tipo_usuario
                         })
 
                     } else if (resultadoAutenticar.length == 0) {
@@ -44,6 +45,65 @@ function autenticar(req, res) {
 
 }
 
+function atualizar(req, res) {
+
+    var id = req.body.id;
+    var nome = req.body.nome;
+    var sobrenome = req.body.sobrenome;
+    var email = req.body.email;
+    var escola = req.body.escola;
+
+    if (id == undefined) {
+        res.status(400).send("Seu id está undefined!");
+    } else if (nome == undefined) {
+        res.status(400).send("Seu nome está undefined!");
+    } else if (sobrenome == undefined) {
+        res.status(400).send("Seu sobrenome está undefined!");
+    } else if (email == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else {
+
+        usuarioModel.atualizar(id, nome, sobrenome, email)
+            .then(function (resultado) {
+                res.json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao atualizar os dados! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+function deletar(req, res) {
+
+    var id = req.body.id;
+
+    if (id == undefined) {
+        res.status(400).send("Seu id está undefined!");
+    } else {
+
+        usuarioModel.deletar(id)
+            .then(function (resultado) {
+                res.json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao deletar a conta! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
+
 module.exports = {
-    autenticar
+    autenticar,
+    atualizar,
+    deletar
 }

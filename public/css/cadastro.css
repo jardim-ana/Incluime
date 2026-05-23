@@ -92,6 +92,7 @@
     margin-bottom: 10px;
 }
 
+
 .card-cadastro h2 {
     color: #004aad;
     font-size: 26px;
@@ -129,6 +130,7 @@
 
 .campo input:focus {
     outline: none;
+   
     box-shadow: 0 0 10px rgba(67, 177, 67, 0.4);
 }
 
@@ -138,6 +140,7 @@
     border-radius: 12px;
     background-color: #f5f7fa;
     font-size: 14px;
+    width: 100%;
 }
 
 .botao {
@@ -177,6 +180,9 @@
     font-size: 12px; 
   }
 
+  .logo{
+    width: 180px;
+  }
   @media (max-width: 440px) {
     .linha-dupla {
         flex-direction: column;
