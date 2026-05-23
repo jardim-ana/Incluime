@@ -48,50 +48,62 @@ function autenticar(req, res) {
 function atualizar(req, res) {
 
     var id = req.body.id;
+    var nome = req.body.nome;
+    var sobrenome = req.body.sobrenome;
     var email = req.body.email;
-    var senha = req.body.senha;
+    var escola = req.body.escola;
 
-    let campos = [];
-
-    // Validações
     if (id == undefined) {
-        res.status(400).send("ID do usuário está undefined!");
-        return;
+        res.status(400).send("Seu id está undefined!");
+    } else if (nome == undefined) {
+        res.status(400).send("Seu nome está undefined!");
+    } else if (sobrenome == undefined) {
+        res.status(400).send("Seu sobrenome está undefined!");
+    } else if (email == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else {
+
+        usuarioModel.atualizar(id, nome, sobrenome, email)
+            .then(function (resultado) {
+                res.json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao atualizar os dados! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
     }
-
-    // Monta os campos dinamicamente
-    if (email != undefined) {
-        campos.push(`email = '${email}'`);
-    }
-
-    if (senha != undefined) {
-        campos.push(`senha = '${senha}'`);
-    }
-
-    // Caso nenhum campo tenha sido enviado
-    if (campos.length == 0) {
-        res.status(400).send("Nenhum campo enviado para atualização!");
-        return;
-    }
-
-    usuarioModel.atualizar(id, campos)
-        .then(function (resultado) {
-            res.json(resultado);
-        })
-        .catch(function (erro) {
-
-            console.log(erro);
-            console.log(
-                "\nHouve um erro ao atualizar o usuário! Erro: ",
-                erro.sqlMessage
-            );
-
-            res.status(500).json(erro.sqlMessage);
-        });
-
 }
+
+function deletar(req, res) {
+
+    var id = req.body.id;
+
+    if (id == undefined) {
+        res.status(400).send("Seu id está undefined!");
+    } else {
+
+        usuarioModel.deletar(id)
+            .then(function (resultado) {
+                res.json(resultado);
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao deletar a conta! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 
 module.exports = {
     autenticar,
-    atualizar
+    atualizar,
+    deletar
 }

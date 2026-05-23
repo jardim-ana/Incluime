@@ -2,7 +2,7 @@ var database = require("../database/config")
 
 function log(mensagem, nivel) {
     var instrucao = `
-        INSERT INTO logss (acao, tipo)
+        INSERT INTO logs_sistema (acao, tipo)
         VALUES ('${mensagem}', '${nivel}');
     `;
     return database.executar(instrucao);
@@ -51,20 +51,36 @@ function autenticar(email, senha) {
         });
 }
 
-function atualizar(id, campos) {
+function atualizar(id, nome, sobrenome, email) {
 
     var instrucaoSql = `
-        UPDATE usuario
-        SET ${campos.join(", ")}
+        UPDATE usuario 
+        SET 
+            nome = '${nome}',
+            sobrenome = '${sobrenome}',
+            email = '${email}'
         WHERE id = ${id};
     `;
 
-    console.log("Executando SQL: \n" + instrucaoSql);
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
+function deletar(id) {
+
+    var instrucaoSql = `
+        DELETE FROM usuario
+        WHERE id = ${id};
+    `;
+
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
 
     return database.executar(instrucaoSql);
 }
 
 module.exports = {
     autenticar,
-    atualizar
+    atualizar,
+    deletar
 };
