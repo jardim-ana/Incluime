@@ -97,7 +97,12 @@
 
                 <div id="mensagem_erro" class="msg-validacao"></div>
                 <div class="acoes-questionario">
-                    <button class="botao" onclick="enviar()">Enviar</button>
+                    <button class="botao" id="btnEnviar" onclick="enviar()">Enviar avaliação</button>
+                    <button class="botao" id="btnAlterar" style="display: none;" onclick="alterarComentario()">Salvar
+                        alterações</button>
+                    <button class="botao" style="background-color: red; display: none;" id="btnDeletar"
+                        onclick="deletarComentario()">Deletar
+                        comentario</button>
                 </div>
 
                 <div id="msg" class="msg-validacao"></div>
@@ -129,9 +134,62 @@
             var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
             document.getElementById("nome_user").innerText = nomeCompleto;
             document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
+
+            var idUsuarioVar = sessionStorage.getItem("ID_USUARIO");
+
+            fetch(`/avaliacao/buscar/${idUsuarioVar}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(function (resposta) {
+
+                    if (resposta.ok) {
+
+                        resposta.json().then(function (json) {
+
+                            if (json.length > 0) {
+                                console.log(json)
+                                nota.value = json[0].nota;
+                                comentario.value = json[0].descricao;
+
+                                mensagem_erro.style.color = "green";
+                                mensagem_erro.innerHTML = `
+                        Sua avaliação atual:<br>
+                        Nota: ${json[0].nota}<br>
+                        Comentário: ${json[0].descricao}
+                    `;
+                                document.getElementById("btnAlterar").style.display = "block";
+                                document.getElementById("btnDeletar").style.display = "block";
+                                document.getElementById("btnEnviar").style.display = "none";
+
+                            } else {
+
+                                mensagem_erro.style.color = "red";
+                                mensagem_erro.innerHTML = "Você ainda não fez nenhuma avaliação.";
+                            }
+
+                        });
+
+                    } else {
+
+                        mensagem_erro.style.color = "red";
+                        mensagem_erro.innerHTML = "Erro ao buscar avaliação";
+                    }
+
+                })
+                .catch(function (erro) {
+
+                    console.log(erro);
+
+                    mensagem_erro.style.color = "red";
+                    mensagem_erro.innerHTML = "Erro na requisição";
+                });
         }
 
-        function enviar() {7
+
+        function enviar() {
             var notaVar = nota.value;
             var comentarioVar = comentario.value;
             mensagem_erro.innerHTML = "";
@@ -170,6 +228,7 @@
                         console.log("resposta: ", resposta);
 
                         if (resposta.ok) {
+                            mensagem_erro.style.color = "green";
                             mensagem_erro.innerHTML = "Avaliação enviada com sucesso!";
                             const confirmar = confirm("Deseja acessar a Dashboard?");
 
@@ -198,6 +257,165 @@
 
                 return false;
             }
+        }
+
+        function alterarComentario() {
+
+            var notaVar = nota.value;
+            var comentarioVar = comentario.value;
+            var idUsuarioVar = sessionStorage.getItem("ID_USUARIO");
+
+            fetch(`/avaliacao/buscar/${idUsuarioVar}`)
+                .then(function (resposta) {
+
+                    if (resposta.ok) {
+
+                        resposta.json().then(function (json) {
+
+                            if (json.length == 0) {
+
+                                mensagem_erro.style.color = "red";
+                                mensagem_erro.innerHTML = "Você ainda não possui avaliação para atualizar.";
+
+                                return;
+                            }
+
+                            fetch("/avaliacao/atualizar", {
+                                method: "PUT",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    notaServer: notaVar,
+                                    descricaoServer: comentarioVar,
+                                    idUsuarioServer: idUsuarioVar
+                                })
+                            })
+                                .then(function (resposta) {
+
+                                    if (resposta.ok) {
+
+                                        mensagem_erro.style.color = "green";
+                                        mensagem_erro.innerHTML = "Avaliação atualizada com sucesso!";
+                                        setTimeout(() => {
+                                            location.reload();
+                                        }, 2000);
+
+                                    } else {
+
+                                        mensagem_erro.style.color = "red";
+                                        mensagem_erro.innerHTML = "Erro ao atualizar avaliação";
+                                    }
+
+                                })
+                                .catch(function (erro) {
+
+                                    console.log(erro);
+
+                                    mensagem_erro.style.color = "red";
+                                    mensagem_erro.innerHTML = "Erro na requisição";
+                                });
+
+                        });
+
+                    } else {
+
+                        mensagem_erro.style.color = "red";
+                        mensagem_erro.innerHTML = "Erro ao verificar avaliação";
+                    }
+
+                })
+                .catch(function (erro) {
+
+                    console.log(erro);
+
+                    mensagem_erro.style.color = "red";
+                    mensagem_erro.innerHTML = "Erro na requisição";
+                });
+
+            return false;
+        }
+
+        function deletarComentario() {
+
+            var idUsuarioVar = sessionStorage.getItem("ID_USUARIO");
+
+            fetch(`/avaliacao/buscar/${idUsuarioVar}`)
+                .then(function (resposta) {
+
+                    if (resposta.ok) {
+
+                        resposta.json().then(function (json) {
+
+                            if (json.length == 0) {
+
+                                mensagem_erro.style.color = "red";
+                                mensagem_erro.innerHTML = "Você não possui avaliação para deletar.";
+
+                                return;
+                            }
+
+                            const confirmacao = confirm("Deseja deletar sua avaliação?");
+
+                            if (!confirmacao) {
+                                return;
+                            }
+
+                            fetch("/avaliacao/deletar", {
+                                method: "DELETE",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                    idUsuarioServer: idUsuarioVar
+                                })
+                            })
+                                .then(function (resposta) {
+
+                                    if (resposta.ok) {
+
+                                        nota.value = "";
+                                        comentario.value = "";
+
+                                        mensagem_erro.style.color = "green";
+                                        mensagem_erro.innerHTML = "Avaliação deletada com sucesso!";
+                                        setTimeout(() => {
+                                            location.reload();
+                                        }, 2000);
+
+                                    } else {
+
+                                        mensagem_erro.style.color = "red";
+                                        mensagem_erro.innerHTML = "Erro ao deletar avaliação";
+                                    }
+
+                                })
+                                .catch(function (erro) {
+
+                                    console.log(erro);
+
+                                    mensagem_erro.style.color = "red";
+                                    mensagem_erro.innerHTML = "Erro na requisição";
+                                });
+
+                        });
+
+                    } else {
+
+                        mensagem_erro.style.color = "red";
+                        mensagem_erro.innerHTML = "Erro ao verificar avaliação";
+                    }
+
+                })
+                .catch(function (erro) {
+
+                    console.log(erro);
+
+                    mensagem_erro.style.color = "red";
+                    mensagem_erro.innerHTML = "Erro na requisição";
+                });
+
+            return false;
         }
     </script>
 
