@@ -310,6 +310,25 @@ body {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.avaliacao-atual {
+    width: 100%;
+    max-width: 100%;
+    color: #2e8b57;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.comentario-atual {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 6px;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.5;
+}
+
+
 .select-nota:focus {
     border-color: #3f8cff;
     box-shadow: 0 0 0 3px rgba(63, 140, 255, 0.12);
@@ -373,35 +392,185 @@ body {
 
 /* ───── RESPONSIVE — 960px ───── */
 
-@media (max-width: 960px) {
+@media(max-width: 1200px){
+      #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        width: 72px;
+        min-width: 72px;
+        height: 100vh;
+    }
+
     #sidebar.open-sidebar {
-        width: 220px;
-        min-width: 220px;
+        width: 190px;
+        min-width: 190px;
+    }
+
+    #sidebar_content {
+        padding: 10px;
+    }
+
+    #user {
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    #user_avatar {
+        width: 42px;
+        height: 42px;
+    }
+
+    #abrir {
+        top: 18px;
+        right: -10px;
+        width: 20px;
+        height: 20px;
     }
 
     .area-questionario {
-        padding: 24px 16px 40px;
-    }
-
-    .cabecalho-questionario,
-    .card-questionario {
-        max-width: 760px;
+        width: 100%;
+        margin-left: 72px;
+        padding: 20px 10px 30px;
     }
 
     .cabecalho-questionario h1 {
-        font-size: 28px;
+        font-size: 24px;
     }
 
     .cabecalho-questionario p {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .card-questionario {
-        padding: 24px;
+        width: 100%;
+        padding: 16px;
+        border-radius: 14px;
     }
 
     .card-questionario h2 {
-        font-size: 22px;
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    .select-nota {
+        height: 42px;
+        font-size: 13px;
+    }
+
+    .textarea-comentario {
+        font-size: 13px;
+        min-height: 130px;
+    }
+
+    .acoes-questionario {
+        justify-content: stretch;
+    }
+
+    .botao {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .msg-validacao {
+        font-size: 12px;
+    }
+
+    #sidebar.open-sidebar .item-description {
+        width: 95px;
+    }
+}
+
+@media (max-width: 960px) {
+   #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        width: 72px;
+        min-width: 72px;
+        height: 100vh;
+    }
+
+    #sidebar.open-sidebar {
+        width: 190px;
+        min-width: 190px;
+    }
+
+    #sidebar_content {
+        padding: 10px;
+    }
+
+    #user {
+        gap: 10px;
+        margin-bottom: 16px;
+    }
+
+    #user_avatar {
+        width: 42px;
+        height: 42px;
+    }
+
+    #abrir {
+        top: 18px;
+        right: -10px;
+        width: 20px;
+        height: 20px;
+    }
+
+    .area-questionario {
+        width: 100%;
+        margin-left: 72px;
+        padding: 20px 10px 30px;
+    }
+
+    .cabecalho-questionario h1 {
+        font-size: 24px;
+    }
+
+    .cabecalho-questionario p {
+        font-size: 14px;
+    }
+
+    .card-questionario {
+        width: 100%;
+        padding: 16px;
+        border-radius: 14px;
+    }
+
+    .card-questionario h2 {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    .select-nota {
+        height: 42px;
+        font-size: 13px;
+    }
+
+    .textarea-comentario {
+        font-size: 13px;
+        min-height: 130px;
+    }
+
+    .acoes-questionario {
+        justify-content: stretch;
+    }
+
+    .botao {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .msg-validacao {
+        font-size: 12px;
+    }
+
+    #sidebar.open-sidebar .item-description {
+        width: 95px;
     }
 }
 

@@ -10,7 +10,6 @@
         href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
     <link rel="stylesheet" href="./css/estilo.css">
     <link rel="stylesheet" href="./css/perfil-aluno.css">
-
 </head>
 
 <body>
@@ -50,10 +49,8 @@
             <button id="abrir">
                 <i id="abrir_icon" class="fi fi-rs-angle-small-right"></i>
             </button>
-
-
         </div>
-        </div>
+
         <div id="logout">
             <button id="logout_button">
                 <i class="fi fi-rs-exit"></i>
@@ -61,84 +58,131 @@
             </button>
         </div>
     </nav>
+
     <main class="area-perfil">
         <img src="assets/imgs/conecta_logo_transparente.png" alt="" width="150px">
+
         <section class="cabecalho-perfil">
             <h1>Meu perfil</h1>
             <p>Atualize suas informações pessoais no sistema.</p>
         </section>
 
-        <section class="card-perfil">
-            <h2 id="minhasInformacoes">Minhas informações</h2>
+        <div class="grid-perfil">
 
-            <div class="formulario">
-                <div class="linha-dupla">
-                    <div class="campo">
-                        <span>Nome</span>
-                        <input id="nome_input" type="text" placeholder="Nome" disabled>
+            <section class="card-perfil">
+                <h2 id="minhasInformacoes">Minhas informações</h2>
+
+                <div class="formulario">
+                    <div class="linha-dupla">
+                        <div class="campo">
+                            <span>Nome</span>
+                            <input id="nome_input" type="text" placeholder="Nome" disabled>
+                        </div>
+
+                        <div class="campo">
+                            <span>Sobrenome</span>
+                            <input id="sobrenome_input" type="text" placeholder="Sobrenome" disabled>
+                        </div>
                     </div>
 
                     <div class="campo">
-                        <span>Sobrenome</span>
-                        <input id="sobrenome_input" type="text" placeholder="Sobrenome" disabled>
-                    </div>
-                </div>
-
-                <div class="campo">
-                    <span>E-mail</span>
-                    <input id="email_input" type="email" placeholder="meuemail@email.com" disabled>
-                </div>
-
-                <div class="linha-dupla">
-                    <div class="campo">
-                        <span>Nova senha</span>
-                        <input id="senha_input" type="password" placeholder="Digite uma nova senha" disabled>
+                        <span>E-mail</span>
+                        <input id="email_input" type="email" placeholder="meuemail@email.com" disabled>
                     </div>
 
                     <div class="campo">
-                        <span>Confirmar nova senha</span>
-                        <input id="confirmacao_senha_input" type="password" placeholder="Confirme a nova senha"
-                            disabled>
+                        <span>Escola atual:</span>
+                        <div class="texto-escola-atual" id="escolaAtualTexto"></div>
                     </div>
+
+                    <div class="campo">
+                        <span>Atualizar escola:</span>
+                        <input type="text" id="escolaPerfilInput" placeholder="Digite o nome da escola" disabled>
+                        <ul id="sugestoesPerfil"></ul>
+                    </div>
+
+                    <div class="acoes-formulario">
+                        <button class="botao" id="btnAlterar" onclick="alterarInformacoes()">
+                            Alterar informações
+                        </button>
+
+                        <button class="botao" id="btnSalvar" style="display: none;" onclick="salvarAlteracoes()">
+                            Salvar alterações
+                        </button>
+
+                        <button class="botao" style="background-color: red;" id="btnDeletar" onclick="deletarPerfil()">
+                            Deletar perfil
+                        </button>
+                    </div>
+
+                    <div id="mensagem_erro" class="msg-validacao"></div>
                 </div>
+            </section>
 
-                <div class="campo">
-                    <span>Escola atual:</span>
-                    <div class="texto-escola-atual" id="escolaAtualTexto"></div>
+            <section class="card-perfil card-seguranca">
+                <h2>Segurança</h2>
+
+                <div class="formulario">
+                    <div class="campo">
+                        <span>Senha</span>
+
+                        <p class="texto-seguranca">
+                            Por segurança, sua senha atual não é exibida. Para alterá-la, confirme sua senha atual e cadastre uma nova.
+                        </p>
+
+                        <button class="botao botao-senha" type="button" id="btnAbrirSenha" onclick="abrirTrocaSenha()">
+                            Alterar senha
+                        </button>
+                    </div>
+
+                    <div id="areaTrocaSenha" style="display: none;">
+                        <div class="campo">
+                            <span>Senha atual</span>
+                            <input id="senha_atual_input" type="password" placeholder="Digite sua senha atual">
+                        </div>
+
+                        <div class="campo">
+                            <span>Nova senha</span>
+                            <input id="nova_senha_input" type="password" placeholder="Digite a nova senha">
+                        </div>
+
+                        <div class="campo">
+                            <span>Confirmar nova senha</span>
+                            <input id="confirmar_nova_senha_input" type="password" placeholder="Confirme a nova senha">
+                        </div>
+
+                        <div class="acoes-formulario">
+                            <button class="botao" type="button" onclick="salvarNovaSenha()">
+                                Salvar nova senha
+                            </button>
+
+                            <button class="botao" type="button" style="background-color: #777;" onclick="cancelarTrocaSenha()">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="mensagem_senha" class="msg-validacao"></div>
                 </div>
+            </section>
 
-                <div class="campo">
-                    <span>Atualizar escola:</span>
-                    <input type="text" id="escolaPerfilInput" placeholder="Digite o nome da escola" disabled>
-                    <ul id="sugestoesPerfil"></ul>
-                </div>
-
-
-                <div class="acoes-formulario">
-                    <button class="botao" id="btnAlterar" onclick="alterarInformacoes()">Alterar informações</button>
-                    <button class="botao" id="btnSalvar" style="display: none;" onclick="salvarAlteracoes()">Salvar
-                        alterações</button>
-                    <button class="botao" style="background-color: red;" id="btnDeletar" onclick="deletarPerfil()">Deletar
-                        perfil</button>
-                </div>
-
-                <div id="mensagem_erro" class="msg-validacao"></div>
-            </div>
-        </section>
+        </div>
     </main>
 
     <script>
-
         var inputPerfil = document.getElementById("escolaPerfilInput");
         var sugestoesPerfil = document.getElementById("sugestoesPerfil");
 
         window.onload = function () {
             var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
             var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
+            var emailUsuario = sessionStorage.getItem("EMAIL_USUARIO");
+            var escolaUsuario = sessionStorage.getItem("ESCOLA_USUARIO");
+
             var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
-            var emailUsuario = sessionStorage.getItem("EMAIL_USUARIO")
+
             document.getElementById("nome_user").innerText = nomeCompleto;
-            document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
+            document.getElementById("escolaAtualTexto").innerText = escolaUsuario;
 
             nome_input.value = nomeUsuario;
             sobrenome_input.value = sobrenomeUsuario;
@@ -146,13 +190,6 @@
         }
 
         function alterarInformacoes() {
-            var nomeUser = nome_input.value;
-            var sobrenomeUser = sobrenome_input.value;
-            var emailUser = email_input.value;
-            var senhaUser = senha_input.value;
-            var confirmaSenhaUser = confirmacao_senha_input.value;
-            var escolaUser = escolaPerfilInput.value;
-
             document.getElementById("nome_input").disabled = false;
             document.getElementById("sobrenome_input").disabled = false;
             document.getElementById("email_input").disabled = false;
@@ -162,38 +199,38 @@
 
             document.getElementById("btnAlterar").style.display = "none";
             document.getElementById("btnSalvar").style.display = "block";
+
+            mensagem_erro.innerHTML = "";
         }
 
-
         function salvarAlteracoes() {
+            var nomeUser = nome_input.value.trim();
+            var sobrenomeUser = sobrenome_input.value.trim();
+            var emailUser = email_input.value.trim();
+            var escolaDigitada = escolaPerfilInput.value.trim();
+            var escolaAtual = sessionStorage.getItem("ESCOLA_USUARIO");
 
-            var nomeUser = nome_input.value;
-            var sobrenomeUser = sobrenome_input.value;
-            var emailUser = email_input.value;
-            var senhaUser = senha_input.value;
-            var confirmaSenhaUser = confirmacao_senha_input.value;
-            var escolaUser = escolaPerfilInput.value;
+            var escolaFinal = escolaDigitada !== "" ? escolaDigitada : escolaAtual;
 
             mensagem_erro.style.color = "red";
 
             if (
                 nomeUser == "" ||
                 sobrenomeUser == "" ||
-                emailUser == "" ||
-                escolaUser == ""
+                emailUser == ""
             ) {
-                mensagem_erro.innerHTML = "Preencha todos os campos";
-                return;
+                mensagem_erro.innerHTML = "Preencha todos os campos obrigatórios";
+                return false;
             }
 
             if (nomeUser.length < 2) {
                 mensagem_erro.innerHTML = "Nome inválido";
-                return;
+                return false;
             }
 
             if (sobrenomeUser.length < 2) {
                 mensagem_erro.innerHTML = "Sobrenome inválido";
-                return;
+                return false;
             }
 
             if (
@@ -201,7 +238,7 @@
                 emailUser.indexOf(".") == -1
             ) {
                 mensagem_erro.innerHTML = "Email inválido";
-                return;
+                return false;
             }
 
             fetch("/usuarios/atualizar", {
@@ -214,37 +251,39 @@
                     nome: nomeUser,
                     sobrenome: sobrenomeUser,
                     email: emailUser
+
+                    // Quando vocês forem salvar escola no banco, podem adicionar:
+                    // escola: escolaFinal
                 })
             }).then(function (resposta) {
-
                 console.log("ESTOU NO THEN DO ATUALIZAR!");
 
                 if (resposta.ok) {
-
                     mensagem_erro.style.color = "green";
                     mensagem_erro.innerHTML = "Dados atualizados com sucesso";
 
                     sessionStorage.setItem("NOME_USUARIO", nomeUser);
                     sessionStorage.setItem("SOBRENOME_USUARIO", sobrenomeUser);
                     sessionStorage.setItem("EMAIL_USUARIO", emailUser);
-                    sessionStorage.setItem("ESCOLA_USUARIO", escolaUser);
+                    sessionStorage.setItem("ESCOLA_USUARIO", escolaFinal);
 
-                    var nomeUsuarioNew = sessionStorage.getItem("NOME_USUARIO");
-                    var sobrenomeUsuarioNew = sessionStorage.getItem("SOBRENOME_USUARIO");
-                    var nomeCompletoNew = nomeUsuarioNew + " " + sobrenomeUsuarioNew;
-                    var emailUsuarioNew = sessionStorage.getItem("EMAIL_USUARIO")
+                    var nomeCompletoNew = nomeUser + " " + sobrenomeUser;
+
                     document.getElementById("nome_user").innerText = nomeCompletoNew;
-                    document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
+                    document.getElementById("escolaAtualTexto").innerText = escolaFinal;
+
+                    document.getElementById("nome_input").disabled = true;
+                    document.getElementById("sobrenome_input").disabled = true;
+                    document.getElementById("email_input").disabled = true;
+                    document.getElementById("escolaPerfilInput").disabled = true;
+
+                    document.getElementById("escolaPerfilInput").value = "";
 
                     document.getElementById("minhasInformacoes").innerText = "Minhas informações";
 
                     document.getElementById("btnAlterar").style.display = "block";
                     document.getElementById("btnSalvar").style.display = "none";
-
-
-
                 } else {
-
                     mensagem_erro.style.color = "red";
                     mensagem_erro.innerHTML = "Erro ao atualizar dados";
 
@@ -252,66 +291,143 @@
                         console.error(texto);
                     });
                 }
-
             }).catch(function (erro) {
-
                 console.log(erro);
 
                 mensagem_erro.style.color = "red";
                 mensagem_erro.innerHTML = "Erro na requisição";
+            });
 
+            return false;
+        }
+
+        function abrirTrocaSenha() {
+            document.getElementById("areaTrocaSenha").style.display = "block";
+            document.getElementById("btnAbrirSenha").style.display = "none";
+            mensagem_senha.innerHTML = "";
+        }
+
+        function cancelarTrocaSenha() {
+            document.getElementById("areaTrocaSenha").style.display = "none";
+            document.getElementById("btnAbrirSenha").style.display = "block";
+
+            senha_atual_input.value = "";
+            nova_senha_input.value = "";
+            confirmar_nova_senha_input.value = "";
+
+            mensagem_senha.innerHTML = "";
+        }
+
+        function salvarNovaSenha() {
+            var senhaAtual = senha_atual_input.value;
+            var novaSenha = nova_senha_input.value;
+            var confirmarNovaSenha = confirmar_nova_senha_input.value;
+
+            mensagem_senha.style.color = "red";
+
+            if (
+                senhaAtual == "" ||
+                novaSenha == "" ||
+                confirmarNovaSenha == ""
+            ) {
+                mensagem_senha.innerHTML = "Preencha todos os campos de senha";
+                return false;
+            }
+
+            if (novaSenha.length < 6) {
+                mensagem_senha.innerHTML = "A nova senha deve ter pelo menos 6 caracteres";
+                return false;
+            }
+
+            if (novaSenha != confirmarNovaSenha) {
+                mensagem_senha.innerHTML = "As senhas não coincidem";
+                return false;
+            }
+
+            if (senhaAtual == novaSenha) {
+                mensagem_senha.innerHTML = "A nova senha precisa ser diferente da senha atual";
+                return false;
+            }
+
+            fetch("/usuarios/alterar-senha", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: sessionStorage.ID_USUARIO,
+                    senhaAtual: senhaAtual,
+                    novaSenha: novaSenha
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO ALTERAR SENHA!");
+
+                if (resposta.ok) {
+                    mensagem_senha.style.color = "green";
+                    mensagem_senha.innerHTML = "Senha alterada com sucesso";
+
+                    senha_atual_input.value = "";
+                    nova_senha_input.value = "";
+                    confirmar_nova_senha_input.value = "";
+
+                    document.getElementById("areaTrocaSenha").style.display = "none";
+                    document.getElementById("btnAbrirSenha").style.display = "block";
+                } else {
+                    mensagem_senha.style.color = "red";
+                    mensagem_senha.innerHTML = "Senha atual incorreta ou erro ao alterar senha";
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                    });
+                }
+            }).catch(function (erro) {
+                console.log(erro);
+
+                mensagem_senha.style.color = "red";
+                mensagem_senha.innerHTML = "Erro na requisição";
             });
 
             return false;
         }
 
         function deletarPerfil() {
-            const confirmacao = confirm("Deseja deletar seu perfil?\nIsso não poderá ser desfeito!")
+            const confirmacao = confirm("Deseja deletar seu perfil?\nIsso não poderá ser desfeito!");
+
             if (!confirmacao) {
-                return;
-            } else {
-                fetch("/usuarios/deletar", {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        id: sessionStorage.ID_USUARIO
-                    })
-                }).then(function (resposta) {
-
-                    console.log("ESTOU NO THEN DO deletar()!");
-
-                    if (resposta.ok) {
-
-                        sessionStorage.clear();
-
-                        window.location = "/login.html";
-
-                    } else {
-
-                        mensagem_erro.style.color = "red";
-                        mensagem_erro.innerHTML = "Erro ao deletar conta";
-
-                        resposta.text().then(texto => {
-                            console.error(texto);
-                        });
-                    }
-
-                }).catch(function (erro) {
-
-                    console.log(erro);
-
-                    mensagem_erro.style.color = "red";
-                    mensagem_erro.innerHTML = "Erro na requisição";
-
-                });
-
                 return false;
             }
 
-        }
+            fetch("/usuarios/deletar", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    id: sessionStorage.ID_USUARIO
+                })
+            }).then(function (resposta) {
+                console.log("ESTOU NO THEN DO deletar()!");
 
+                if (resposta.ok) {
+                    sessionStorage.clear();
+                    window.location = "/login.html";
+                } else {
+                    mensagem_erro.style.color = "red";
+                    mensagem_erro.innerHTML = "Erro ao deletar conta";
+
+                    resposta.text().then(texto => {
+                        console.error(texto);
+                    });
+                }
+            }).catch(function (erro) {
+                console.log(erro);
+
+                mensagem_erro.style.color = "red";
+                mensagem_erro.innerHTML = "Erro na requisição";
+            });
+
+            return false;
+        }
 
         inputPerfil.addEventListener("input", function () {
             var valor = inputPerfil.value.toLowerCase();
@@ -336,6 +452,7 @@
             }
         });
     </script>
+
     <script src="js/perfil.js"></script>
 </body>
 
