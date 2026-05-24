@@ -156,9 +156,12 @@
 
                                 mensagem_erro.style.color = "green";
                                 mensagem_erro.innerHTML = `
-                        Sua avaliação atual:<br>
-                        Nota: ${json[0].nota}<br>
-                        Comentário: ${json[0].descricao}
+                        <div class="avaliacao-atual">
+        <strong>Sua avaliação atual:</strong><br>
+        Nota: ${json[0].nota}<br>
+        Comentário:
+        <div class="comentario-atual">${json[0].descricao}</div>
+    </div>
                     `;
                                 document.getElementById("btnAlterar").style.display = "block";
                                 document.getElementById("btnDeletar").style.display = "block";
