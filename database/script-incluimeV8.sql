@@ -3,7 +3,7 @@ USE incluime;
 
 -- Tabela usuário
 CREATE TABLE usuario (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(45) NOT NULL,
   sobrenome VARCHAR(100) NOT NULL,
   email VARCHAR(100) NOT NULL,
@@ -14,17 +14,30 @@ CREATE TABLE usuario (
 
 -- Tabela escola
 CREATE TABLE escola (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  escola_id INT AUTO_INCREMENT PRIMARY KEY,
   nome_escola VARCHAR(100) NOT NULL,
   telefone VARCHAR(20) NOT NULL,
-  endereco_id INT,
   usuario_id INT,
-  FOREIGN KEY (usuario_id) REFERENCES usuario(id)
+  FOREIGN KEY (usuario_fk) REFERENCES usuario(id), 
+  FOREIGN KEY (base_dados_quantidades_fk) REFERENCES base_dados_quantidades(quantidade_id), 
+  FOREIGN KEY (base_dados_acessibilidade_fk) REFERENCES base_dados_acessibilidade(acessibilidade_id), 
+  FOREIGN KEY (base_dados_censo_escolar_fk) REFERENCES base_dados_censo_escolar(base_id)
 );
+
+CREATE TABLE endereco (
+endereco_id INT AUTO_INCREMENT PRIMARY KEY, 
+rua VARCHAR(45), 
+numero INT NOT NULL, 
+bairro VARCHAR(45), 
+cidade VARCHAR(45), 
+estado CHAR(2), 
+FOREIGN KEY (escola_fk) REFERENCES escola(escola_id)
+)
+;
 
 -- Tabela mensagens
 CREATE TABLE mensagens_contate_nos (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  mensagem_id INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(100) NOT NULL,
   email VARCHAR(100) NOT NULL,
   tipo_contato VARCHAR(50),
@@ -34,28 +47,28 @@ CREATE TABLE mensagens_contate_nos (
 
 -- Tabela avaliação
 CREATE TABLE avaliacao (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  avaliacao_id INT AUTO_INCREMENT PRIMARY KEY,
   descricao TEXT,
   nota INT,
   dtComentario DATETIME DEFAULT CURRENT_TIMESTAMP,
   usuario_id INT,
   escola_id INT,
-  FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-  FOREIGN KEY (escola_id) REFERENCES escola(id)
+  FOREIGN KEY (usuario_fk) REFERENCES usuario(id),
+  FOREIGN KEY (escola_fk) REFERENCES escola(id)
 );
 
 -- Tabela meta
 CREATE TABLE meta (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  meta_id INT AUTO_INCREMENT PRIMARY KEY,
   valor DOUBLE,
   usuario_id INT,
   escola_id INT,
-  FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-  FOREIGN KEY (escola_id) REFERENCES escola(id)
+  FOREIGN KEY (usuario_fk) REFERENCES usuario(id),
+  FOREIGN KEY (escola_fk) REFERENCES escola(id)
 );
 
 CREATE TABLE logs_sistema (
-  id INT PRIMARY KEY AUTO_INCREMENT,
+  logs_id INT AUTO_INCREMENT PRIMARY KEY,
   acao VARCHAR(250),
   tipo VARCHAR(50),
   dtHora DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -63,7 +76,7 @@ CREATE TABLE logs_sistema (
 
 -- Base censo escolar
 CREATE TABLE base_dados_censo_escolar (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  base_id INT AUTO_INCREMENT PRIMARY KEY,
   ano INT,
   sigla_uf CHAR(2),
   id_municipio CHAR(7),
@@ -79,6 +92,7 @@ CREATE TABLE base_dados_censo_escolar (
 
 -- Base censo escolar: campos de acessibilidade
 CREATE TABLE base_dados_acessibilidade (
+  acessibilidade_id INT AUTO_INCREMENT PRIMARY KEY, 
   acessibilidade_corrimao INT,
   acessibilidade_elevador INT,
   acessibilidade_pisos_tateis INT,
@@ -92,6 +106,7 @@ CREATE TABLE base_dados_acessibilidade (
   
   -- Base censo escolar: campos de quantidades
   CREATE TABLE base_dados_quantidades (
+  quantidade_id INT AUTO_INCREMENT PRIMARY KEY,  
   quantidade_sala_utilizada_acessivel INT,
   quantidade_matricula_educacao_basica INT,
   quantidade_matricula_especial INT,
