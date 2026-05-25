@@ -10,7 +10,7 @@ public class Escola {
     private Integer idMunicipio;
     private String idMunicipioNome;
 
-    private String idEscola;
+    private String codigoInep;
     private String nomeEscola;
 
     private String rede;
@@ -54,7 +54,7 @@ public class Escola {
             String siglaUf,
             Integer idMunicipio,
             String idMunicipioNome,
-            String idEscola,
+            String codigoInep,
             String nomeEscola,
             String rede,
             String tipoCategoria,
@@ -90,7 +90,7 @@ public class Escola {
         this.idMunicipio = idMunicipio;
         this.idMunicipioNome = idMunicipioNome;
 
-        this.idEscola = idEscola;
+        this.codigoInep = codigoInep;
         this.nomeEscola = nomeEscola;
 
         this.rede = rede;
@@ -164,12 +164,12 @@ public class Escola {
         this.idMunicipioNome = idMunicipioNome;
     }
 
-    public String getIdEscola() {
-        return idEscola;
+    public String getCodigoInep() {
+        return codigoInep;
     }
 
-    public void setIdEscola(String idEscola) {
-        this.idEscola = idEscola;
+    public void setCodigoInep(String codigoInep) {
+        this.codigoInep = codigoInep;
     }
 
     public String getNomeEscola() {
@@ -397,7 +397,7 @@ public class Escola {
                 ", siglaUf='" + siglaUf + '\'' +
                 ", idMunicipio=" + idMunicipio +
                 ", idMunicipioNome='" + idMunicipioNome + '\'' +
-                ", idEscola='" + idEscola + '\'' +
+                ", codigoInep='" + codigoInep + '\'' +
                 ", nomeEscola='" + nomeEscola + '\'' +
                 ", rede='" + rede + '\'' +
                 ", tipoCategoria='" + tipoCategoria + '\'' +
