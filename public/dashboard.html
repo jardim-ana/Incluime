@@ -196,8 +196,10 @@
             var tipoUsuario = sessionStorage.getItem("TIPO_USUARIO");
             var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
             document.getElementById("nome_user").innerText = nomeCompleto;
-            document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
-            document.getElementById("tipo_usuario").innerText = tipoUsuario
+            
+            if (tipoUsuario == 0) {
+               document.getElementById("tipo_user").innerText = "Familiar"
+            }
         }
 
         const dados = {

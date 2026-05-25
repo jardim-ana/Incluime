@@ -20,7 +20,7 @@
                 <img src="assets/imgs/avatar-do-usuario.png" alt="avatar" id="user_avatar">
                 <p id="user_infos">
                     <span id="nome_user" class="item-description"></span>
-                    <span class="item-description">Aluno</span>
+                    <span id="tipo_user" class="item-description"></span>
                 </p>
             </div>
 
@@ -135,6 +135,7 @@
             var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
             document.getElementById("nome_user").innerText = nomeCompleto;
             document.getElementById("escolaAtualTexto").innerText = sessionStorage.getItem("ESCOLA_USUARIO");
+            document.getElementById("tipo_user").innerText = "Familiar"
 
             var idUsuarioVar = sessionStorage.getItem("ID_USUARIO");
 

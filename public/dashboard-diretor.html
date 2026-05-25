@@ -27,7 +27,7 @@
             </div>
 
             <ul id="side_items">
-                <li class="side-item">
+                <li class="side-item" id="avalieId">
                     <a href="questionario.html">
                         <i class="fi fi-rs-note"></i>
                         <span class="item-description">Avalie</span>
@@ -94,15 +94,15 @@
             <div class="kpi kpi-acessibilidade-escola">
                 <h4>Índice de acessibilidade</h4> <span class="acessibilidade">--</span> <span
                     class="meta-acessibilidade" id="meta-acessibilidade"> Meta: <span class="valor">90%</span> </span>
-                    <div class="kpi kpi-indice-meta">
-                <h4>Diferença entre o índice e a meta</h4> <span class="diferenca-meta">--</span> 
-            </div>
+                <div class="kpi kpi-indice-meta">
+                    <h4>Diferença entre o índice e a meta</h4> <span class="diferenca-meta">--</span>
+                </div>
                 <button class="btn-editar" data-meta="acessibilidade">Alterar meta</button> <span class="edit-container"
                     id="edit-acessibilidade" style="display:none;"> <input type="number" id="input-acessibilidade">
                     <button class="btn-salvar" data-meta="acessibilidade">Salvar</button> </span> <i><span>*Dados da sua
                         escola</span></i>
             </div>
-            
+
         </div>
         <div class="grafico-lista">
             <div class="grafico-linha" style="height: 400px;"> <canvas id="graficoMatriculas"></canvas> </div>
@@ -126,6 +126,21 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
+        window.onload = function () {
+            var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
+            var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
+            var tipoUsuario = sessionStorage.getItem("TIPO_USUARIO");
+            var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
+            document.getElementById("nome_user").innerText = nomeCompleto;
+            var tipoUsuario = sessionStorage.getItem("TIPO_USUARIO");
+
+            if (tipoUsuario == 1) {
+                document.getElementById("avalieId").remove();
+                document.getElementById("tipo_user").innerText = "Coordenador"
+            }
+        }
+
         document.querySelectorAll(".edit-container").forEach((container) => {
             const botaoCancelar = document.createElement("button");
             botaoCancelar.textContent = "Cancelar";
@@ -220,16 +235,16 @@
         variacaoEl.classList.add(variacao >= 0 ? "positivo" : "negativo");
 
 
-      /*  document.querySelector(".lista-situacoes").innerHTML =
-            dados.escola.itensAusenciaAcessibilidade
-                .map(item => `<li><strong>Situação:</strong> ${item}</li>`)
-                .join("");*/
+        /*  document.querySelector(".lista-situacoes").innerHTML =
+              dados.escola.itensAusenciaAcessibilidade
+                  .map(item => `<li><strong>Situação:</strong> ${item}</li>`)
+                  .join("");*/
 
-           
-            const lista = document.querySelector(".lista-situacoes");
 
-            if (lista) {
-                lista.innerHTML = info.itensAcessibilidade?.map(item => `
+        const lista = document.querySelector(".lista-situacoes");
+
+        if (lista) {
+            lista.innerHTML = info.itensAcessibilidade?.map(item => `
         <li class="item-situacao ${item.valor == 1 ? 'ativo' : 'inativo'}">
             <span>${item.nome}</span>
 
@@ -238,7 +253,7 @@
             </strong>
         </li>
     `).join("") || "";
-            }     
+        }
 
 
 

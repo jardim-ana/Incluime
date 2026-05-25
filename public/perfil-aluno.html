@@ -20,12 +20,12 @@
                 <img src="assets/imgs/avatar-do-usuario.png" alt="avatar" id="user_avatar">
                 <p id="user_infos">
                     <span id="nome_user" class="item-description"></span>
-                    <span class="item-description">Aluno</span>
+                    <span id="tipo_user" class="item-description"></span>
                 </p>
             </div>
 
             <ul id="side_items">
-                <li class="side-item">
+                <li class="side-item" id="avalieId">
                     <a href="questionario.html">
                         <i class="fi fi-rs-note"></i>
                         <span class="item-description">Avalie</span>
@@ -33,7 +33,7 @@
                 </li>
 
                 <li class="side-item">
-                    <a href="dashboard.html">
+                    <a id="dashboardId" href="dashboard.html">
                         <i class="fi fi-rs-stats"></i>
                         <span class="item-description">Dashboard</span>
                     </a>
@@ -179,6 +179,15 @@
             var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
             var emailUsuario = sessionStorage.getItem("EMAIL_USUARIO");
             var escolaUsuario = sessionStorage.getItem("ESCOLA_USUARIO");
+            var tipoUsuario = sessionStorage.getItem("TIPO_USUARIO");
+
+            if (tipoUsuario == 1) {
+                document.getElementById("avalieId").remove();
+                document.querySelector("#dashboardId").href = "./dashboard-diretor.html"
+                document.getElementById("tipo_user").innerText = "Coordenador"
+            } else {
+                document.getElementById("tipo_user").innerText = "Familiar"
+            }
 
             var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
 

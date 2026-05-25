@@ -116,4 +116,4 @@ CREATE TABLE base_dados_acessibilidade (
   quantidade_turma_especial_exclusiva INT
   );
 
-select * from avaliacao;
+select * from usuario;
