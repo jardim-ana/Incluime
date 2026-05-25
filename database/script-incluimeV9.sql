@@ -1,6 +1,23 @@
 CREATE DATABASE incluime;
 USE incluime;
 
+-- Tabela endereço
+CREATE TABLE endereco (
+id INT AUTO_INCREMENT PRIMARY KEY, 
+logradouro VARCHAR(150), 
+numero VARCHAR(20), 
+CEP VARCHAR(10)
+);
+
+-- Tabela escola
+CREATE TABLE escola (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome_escola VARCHAR(100) NOT NULL,
+  telefone VARCHAR(20) NOT NULL,
+  endereco_id INT, 
+  FOREIGN KEY (endereco_id) REFERENCES endereco(id)
+);
+
 -- Tabela usuário
 CREATE TABLE usuario (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -61,23 +78,6 @@ CREATE TABLE base_dados_acessibilidade (
   quantidade_turma_especial_exclusiva INT,
   FOREIGN KEY (escola_id) REFERENCES escola(id)
   ); 
-
--- Tabela escola
-CREATE TABLE escola (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nome_escola VARCHAR(100) NOT NULL,
-  telefone VARCHAR(20) NOT NULL,
-  endereco_id INT, 
-  FOREIGN KEY (endereco_id) REFERENCES endereco(id)
-);
-
--- Tabela endereço
-CREATE TABLE endereco (
-id INT AUTO_INCREMENT PRIMARY KEY, 
-logradouro VARCHAR(150), 
-numero VARCHAR(20), 
-CEP VARCHAR(10)
-);
 
 -- Tabela avaliação
 CREATE TABLE avaliacao (
