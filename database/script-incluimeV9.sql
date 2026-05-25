@@ -59,10 +59,10 @@ CREATE TABLE escola (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nome_escola VARCHAR(100) NOT NULL,
   telefone VARCHAR(20) NOT NULL,
-  usuario_fk INT,
-  base_dados_quantidades_fk INT, 
-  base_dados_acessibilidade_fk INT, 
-  base_dados_censo_escolar_fk INT, 
+  usuario_id INT,
+  base_dados_quantidades_id INT, 
+  base_dados_acessibilidade_id INT, 
+  base_dados_censo_escolar_id INT, 
   FOREIGN KEY (usuario_id) REFERENCES usuario(id), 
   FOREIGN KEY (base_dados_quantidades_id) REFERENCES base_dados_quantidades(id), 
   FOREIGN KEY (base_dados_acessibilidade_id) REFERENCES base_dados_acessibilidade(id), 
@@ -77,7 +77,7 @@ numero INT NOT NULL,
 bairro VARCHAR(45), 
 cidade VARCHAR(45), 
 estado CHAR(2), 
-escola_fk INT, 
+escola_id INT, 
 FOREIGN KEY (escola_id) REFERENCES escola(id)
 )
 ;
@@ -89,8 +89,8 @@ CREATE TABLE avaliacao (
   nota INT,
   dtComentario DATETIME DEFAULT CURRENT_TIMESTAMP,
   receber_notificacao TINYINT,
-  usuario_fk INT,
-  escola_fk INT,
+  usuario_id INT,
+  escola_id INT,
   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
   FOREIGN KEY (escola_id) REFERENCES escola(id)
 );
@@ -100,8 +100,8 @@ CREATE TABLE meta (
   id INT AUTO_INCREMENT PRIMARY KEY,
   valor DOUBLE,
   valor_base DOUBLE, 
-  usuario_fk DOUBLE,
-  escola_fk INT,
+  usuario_id INT,
+  escola_id INT,
   FOREIGN KEY (usuario_id) REFERENCES usuario(id),
   FOREIGN KEY (escola_id) REFERENCES escola(id)
 );
