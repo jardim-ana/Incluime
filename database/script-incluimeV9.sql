@@ -8,8 +8,10 @@ CREATE TABLE usuario (
   sobrenome VARCHAR(100) NOT NULL,
   email VARCHAR(100) NOT NULL,
   senha VARCHAR(100) NOT NULL,
-  nome_escola VARCHAR(100),
-  tipo_usuario INT NOT NULL
+  tipo_usuario INT NOT NULL, 
+  codigo_inep VARCHAR(20) UNIQUE, 
+  id_escola INT,
+  FOREIGN KEY (id_escola) REFERENCES escola(id)
 );
 
 -- Base censo escolar
@@ -19,18 +21,20 @@ CREATE TABLE base_dados_censo_escolar (
   sigla_uf CHAR(2),
   id_municipio CHAR(7),
   id_municipio_nome VARCHAR(45),
-  id_escola VARCHAR(45),
+  escola_id INT,
   rede VARCHAR(45),
   tipo_categoria_escola_privada VARCHAR(45),
   tipo_localizacao VARCHAR(45),
   banheiro_pne INT,
   dependencia_pne INT,
-  material_pedagogico_surdo INT
+  material_pedagogico_surdo INT,
+  FOREIGN KEY (escola_id) REFERENCES escola(id)
 );
 
 -- Base censo escolar: campos de acessibilidade
 CREATE TABLE base_dados_acessibilidade (
   id INT AUTO_INCREMENT PRIMARY KEY, 
+  censo_escolar_id INT,
   acessibilidade_corrimao INT,
   acessibilidade_elevador INT,
   acessibilidade_pisos_tateis INT,
@@ -39,48 +43,41 @@ CREATE TABLE base_dados_acessibilidade (
   acessibilidade_sinais_sonoros INT,
   acessibilidade_sinal_tatil INT,
   acessibilidade_sinal_visual INT,
-  acessibilidade_inexistente INT
+  acessibilidade_inexistente INT,
+  FOREIGN KEY (censo_escolar_id) REFERENCES base_dados_censo_escolar(id)
   ); 
   
   -- Base censo escolar: campos de quantidades
   CREATE TABLE base_dados_quantidades (
   id INT AUTO_INCREMENT PRIMARY KEY,  
+  ano INT, 
+  escola_id INT,
   quantidade_sala_utilizada_acessivel INT,
   quantidade_matricula_educacao_basica INT,
   quantidade_matricula_especial INT,
   quantidade_docente_educacao_basica INT,
   quantidade_turma_especial INT,
   quantidade_turma_especial_comum INT,
-  quantidade_turma_especial_exclusiva INT
-  );
+  quantidade_turma_especial_exclusiva INT,
+  FOREIGN KEY (escola_id) REFERENCES escola(id)
+  ); 
 
 -- Tabela escola
 CREATE TABLE escola (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nome_escola VARCHAR(100) NOT NULL,
   telefone VARCHAR(20) NOT NULL,
-  usuario_id INT,
-  base_dados_quantidades_id INT, 
-  base_dados_acessibilidade_id INT, 
-  base_dados_censo_escolar_id INT, 
-  FOREIGN KEY (usuario_id) REFERENCES usuario(id), 
-  FOREIGN KEY (base_dados_quantidades_id) REFERENCES base_dados_quantidades(id), 
-  FOREIGN KEY (base_dados_acessibilidade_id) REFERENCES base_dados_acessibilidade(id), 
-  FOREIGN KEY (base_dados_censo_escolar_id) REFERENCES base_dados_censo_escolar(id)
+  endereco_id INT, 
+  FOREIGN KEY (endereco_id) REFERENCES endereco(id)
 );
 
 -- Tabela endereço
 CREATE TABLE endereco (
 id INT AUTO_INCREMENT PRIMARY KEY, 
-rua VARCHAR(45), 
-numero INT NOT NULL, 
-bairro VARCHAR(45), 
-cidade VARCHAR(45), 
-estado CHAR(2), 
-escola_id INT, 
-FOREIGN KEY (escola_id) REFERENCES escola(id)
-)
-;
+logradouro VARCHAR(150), 
+numero VARCHAR(20), 
+CEP VARCHAR(10)
+);
 
 -- Tabela avaliação
 CREATE TABLE avaliacao (
