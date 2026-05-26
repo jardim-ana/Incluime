@@ -15,14 +15,16 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
-var indexRouter = require("./public/src/routes/index.js");
-var usuarioRouter = require("./public/src/routes/usuarios");
-var cadastrarRouter = require("./public/src/routes/cadastrar");
-var avisosRouter = require("./public/src/routes/avisos");
-var medidasRouter = require("./public/src/routes/medidas");
-var empresasRouter = require("./public/src/routes/empresas");
-var contatoRouter = require("./public/src/routes/contato.js");
-var avaliacaoRouter = require("./public/src/routes/avaliacao.js");
+var indexRouter = require("./src/routes/index");
+var usuarioRouter = require("./src/routes/usuarios");
+var cadastrarRouter = require("./src/routes/cadastrar");
+var avisosRouter = require("./src/routes/avisos");
+var medidasRouter = require("./src/routes/medidas");
+var empresasRouter = require("./src/routes/empresas");
+var contatoRouter = require("./src/routes/contato.js");
+var avaliacaoRouter = require("./src/routes/avaliacao.js");
+var dashboardRouter = require("./src/routes/dashboard.js");
+var metaRouter = require("./src/routes/meta.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -38,6 +40,8 @@ app.use("/medidas", medidasRouter);
 app.use("/empresas", empresasRouter);
 app.use("/contato", contatoRouter);
 app.use("/avaliacao", avaliacaoRouter);
+app.use("/dashboard", dashboardRouter);
+app.use("/meta", metaRouter);
 
 app.listen(PORTA_APP, function () {
     console.log(`

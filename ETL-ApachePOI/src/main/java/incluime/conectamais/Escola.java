@@ -1,14 +1,28 @@
 package incluime.conectamais;
 
 public class Escola {
+
+    // ID INTERNO DO BANCO
+    private Integer id;
+
     private Integer ano;
     private String siglaUf;
     private Integer idMunicipio;
     private String idMunicipioNome;
-    private String idEscola;
+
+    private String codigoInep;
+    private String nomeEscola;
+
     private String rede;
-    private String tipoCategoria; // Precisa ???
+    private String tipoCategoria;
     private String tipoLocalizacao;
+
+    private String logradouro;
+    private String numero;
+    private String cep;
+    private String telefone;
+
+    // ACESSIBILIDADE
     private Integer banheiroPne;
     private Integer dependenciaPne;
     private Integer corrimao;
@@ -22,6 +36,8 @@ public class Escola {
     private Integer acessibilidadeInexistente;
     private Integer qtdSalaUtilAcessivel;
     private Integer materialPedagoSurdo;
+
+    // DADOS EDUCACIONAIS
     private Integer qtdMatriculaEducBasica;
     private Integer qtdMatriculaEspecial;
     private Integer qtdDocenteEducBasica;
@@ -32,15 +48,60 @@ public class Escola {
     public Escola() {
     }
 
-    public Escola(Integer ano, String siglaUf, Integer idMunicipio, String idMunicipioNome, String idEscola, String rede, String tipoCategoria, String tipoLocalizacao, Integer banheiroPne, Integer dependenciaPne, Integer corrimao, Integer elevador, Integer pisosTateis, Integer vaoLivre, Integer rampas, Integer sinaisSonoros, Integer sinalTatil, Integer sinalVisual, Integer acessibilidadeInexistente, Integer qtdSalaUtilAcessivel, Integer materialPedagoSurdo, Integer qtdMatriculaEducBasica, Integer qtdMatriculaEspecial, Integer qtdDocenteEducBasica, Integer qtdTurmaEspecial, Integer qtdTurmaEspecialComum, Integer qtdTurmaEspecialExclusiva) {
+    public Escola(
+            Integer id,
+            Integer ano,
+            String siglaUf,
+            Integer idMunicipio,
+            String idMunicipioNome,
+            String codigoInep,
+            String nomeEscola,
+            String rede,
+            String tipoCategoria,
+            String tipoLocalizacao,
+            String logradouro,
+            String numero,
+            String cep,
+            String telefone,
+            Integer banheiroPne,
+            Integer dependenciaPne,
+            Integer corrimao,
+            Integer elevador,
+            Integer pisosTateis,
+            Integer vaoLivre,
+            Integer rampas,
+            Integer sinaisSonoros,
+            Integer sinalTatil,
+            Integer sinalVisual,
+            Integer acessibilidadeInexistente,
+            Integer qtdSalaUtilAcessivel,
+            Integer materialPedagoSurdo,
+            Integer qtdMatriculaEducBasica,
+            Integer qtdMatriculaEspecial,
+            Integer qtdDocenteEducBasica,
+            Integer qtdTurmaEspecial,
+            Integer qtdTurmaEspecialComum,
+            Integer qtdTurmaEspecialExclusiva
+    ) {
+
+        this.id = id;
         this.ano = ano;
         this.siglaUf = siglaUf;
         this.idMunicipio = idMunicipio;
         this.idMunicipioNome = idMunicipioNome;
-        this.idEscola = idEscola;
+
+        this.codigoInep = codigoInep;
+        this.nomeEscola = nomeEscola;
+
         this.rede = rede;
         this.tipoCategoria = tipoCategoria;
         this.tipoLocalizacao = tipoLocalizacao;
+
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.cep = cep;
+        this.telefone = telefone;
+
         this.banheiroPne = banheiroPne;
         this.dependenciaPne = dependenciaPne;
         this.corrimao = corrimao;
@@ -54,12 +115,21 @@ public class Escola {
         this.acessibilidadeInexistente = acessibilidadeInexistente;
         this.qtdSalaUtilAcessivel = qtdSalaUtilAcessivel;
         this.materialPedagoSurdo = materialPedagoSurdo;
+
         this.qtdMatriculaEducBasica = qtdMatriculaEducBasica;
         this.qtdMatriculaEspecial = qtdMatriculaEspecial;
         this.qtdDocenteEducBasica = qtdDocenteEducBasica;
         this.qtdTurmaEspecial = qtdTurmaEspecial;
         this.qtdTurmaEspecialComum = qtdTurmaEspecialComum;
         this.qtdTurmaEspecialExclusiva = qtdTurmaEspecialExclusiva;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getAno() {
@@ -94,12 +164,20 @@ public class Escola {
         this.idMunicipioNome = idMunicipioNome;
     }
 
-    public String getIdEscola() {
-        return idEscola;
+    public String getCodigoInep() {
+        return codigoInep;
     }
 
-    public void setIdEscola(String idEscola) {
-        this.idEscola = idEscola;
+    public void setCodigoInep(String codigoInep) {
+        this.codigoInep = codigoInep;
+    }
+
+    public String getNomeEscola() {
+        return nomeEscola;
+    }
+
+    public void setNomeEscola(String nomeEscola) {
+        this.nomeEscola = nomeEscola;
     }
 
     public String getRede() {
@@ -124,6 +202,40 @@ public class Escola {
 
     public void setTipoLocalizacao(String tipoLocalizacao) {
         this.tipoLocalizacao = tipoLocalizacao;
+    }
+
+    // NOVOS GETTERS E SETTERS
+
+    public String getLogradouro() {
+        return logradouro;
+    }
+
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
+    }
+
+    public String getNumero() {
+        return numero;
+    }
+
+    public void setNumero(String numero) {
+        this.numero = numero;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
     public Integer getBanheiroPne() {
@@ -281,14 +393,19 @@ public class Escola {
     @Override
     public String toString() {
         return "Escola{" +
-                "ano='" + ano + '\'' +
+                "ano=" + ano +
                 ", siglaUf='" + siglaUf + '\'' +
-                ", idMunicipio='" + idMunicipio + '\'' +
+                ", idMunicipio=" + idMunicipio +
                 ", idMunicipioNome='" + idMunicipioNome + '\'' +
-                ", idEscola='" + idEscola + '\'' +
+                ", codigoInep='" + codigoInep + '\'' +
+                ", nomeEscola='" + nomeEscola + '\'' +
                 ", rede='" + rede + '\'' +
                 ", tipoCategoria='" + tipoCategoria + '\'' +
                 ", tipoLocalizacao='" + tipoLocalizacao + '\'' +
+                ", logradouro='" + logradouro + '\'' +
+                ", numero='" + numero + '\'' +
+                ", cep='" + cep + '\'' +
+                ", telefone='" + telefone + '\'' +
                 ", banheiroPne=" + banheiroPne +
                 ", dependenciaPne=" + dependenciaPne +
                 ", corrimao=" + corrimao +

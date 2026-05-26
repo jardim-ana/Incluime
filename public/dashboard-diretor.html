@@ -127,245 +127,691 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
 
-        window.onload = function () {
-            var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
-            var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
-            var tipoUsuario = sessionStorage.getItem("TIPO_USUARIO");
-            var nomeCompleto = nomeUsuario + " " + sobrenomeUsuario;
-            document.getElementById("nome_user").innerText = nomeCompleto;
-            var tipoUsuario = sessionStorage.getItem("TIPO_USUARIO");
+    let grafico;
 
-            if (tipoUsuario == 1) {
-                document.getElementById("avalieId").remove();
-                document.getElementById("tipo_user").innerText = "Coordenador"
-            }
+    const ctx =
+        document.getElementById(
+            "graficoMatriculas"
+        ).getContext("2d");
+
+    let metas = {
+        matricula: 1.0,
+        acessibilidade: 90
+    };
+
+    let escolaIdGlobal = null;
+
+    window.onload = async function () {
+
+        const nomeUsuario =
+            sessionStorage.getItem(
+                "NOME_USUARIO"
+            );
+
+        const sobrenomeUsuario =
+            sessionStorage.getItem(
+                "SOBRENOME_USUARIO"
+            );
+
+        const tipoUsuario =
+            sessionStorage.getItem(
+                "TIPO_USUARIO"
+            );
+
+        const escolaId =
+            sessionStorage.getItem(
+                "ID_ESCOLA"
+            );
+
+        escolaIdGlobal =
+            escolaId;
+
+        document.getElementById(
+            "nome_user"
+        ).innerText =
+            `${nomeUsuario} ${sobrenomeUsuario}`;
+
+        document.getElementById(
+            "tipo_user"
+        ).innerText =
+            tipoUsuario;
+
+        iniciarGrafico();
+
+        if (escolaId) {
+
+            await carregarMetas(
+                escolaId
+            );
+
+            await atualizarDashboard(
+                escolaId
+            );
         }
+    };
 
-        document.querySelectorAll(".edit-container").forEach((container) => {
-            const botaoCancelar = document.createElement("button");
-            botaoCancelar.textContent = "Cancelar";
-            botaoCancelar.className = "btn-cancelar-meta";
+    async function carregarMetas(escolaId) {
 
-            botaoCancelar.addEventListener("click", () => {
-                container.style.display = "none";
+        try {
 
-                const tipoMeta = container.id.replace("edit-", "");
-                const botaoEditar = document.querySelector(`.btn-editar[data-meta="${tipoMeta}"]`);
+            const resposta =
+                await fetch(
+                    `http://localhost:3333/meta/${escolaId}`
+                );
 
-                if (botaoEditar) {
-                    botaoEditar.style.display = "inline-block";
+            const metasBanco =
+                await resposta.json();
+
+            if (
+                metasBanco &&
+                metasBanco.length > 0
+            ) {
+
+                metas.matricula =
+                    Number(
+                        metasBanco[0]
+                            .meta_matricula || 1
+                    );
+
+                metas.acessibilidade =
+                    Number(
+                        metasBanco[0]
+                            .meta_acessibilidade || 90
+                    );
+            }
+
+            atualizarMeta("matricula");
+            atualizarMeta("acessibilidade");
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar metas:",
+                erro
+            );
+        }
+    }
+
+    async function salvarMeta() {
+
+        try {
+
+            await fetch(
+
+                `http://localhost:3333/meta/${escolaIdGlobal}`,
+
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        metaMatricula:
+                            metas.matricula,
+
+                        metaAcessibilidade:
+                            metas.acessibilidade
+                    })
                 }
-            });
+            );
 
-            container.appendChild(botaoCancelar);
-        });
+        } catch (erro) {
 
-        document.querySelectorAll(".btn-editar").forEach((botao) => {
-            botao.addEventListener("click", () => {
-                botao.style.display = "none";
-            });
-        });
-        const ctx = document.getElementById("graficoMatriculas").getContext("2d");
-
-        const dados = {
-            anos: [2022, 2023, 2024],
-            escola: {
-                nome: "E. E. Visão Clara",
-                matriculas: 450,
-                historico: [400, 420, 450],
-                acessibilidade: 82,
-                metaAcessibilidade: 90,
-                itensAusenciaAcessibilidade: ["Rampa", "Banheiro adaptado"],
-                comentarios: [
-                    { texto: "Ótimo atendimento", nota: 5 },
-                    { texto: "Melhorar acessibilidade na entrada", nota: 3 }
-                ]
-            },
-            rede: [
-                { nome: "E. E. Visão Clara", historico: [400, 420, 450], acessibilidade: 82 },
-                { nome: "E. E. Jardim Central", historico: [300, 310, 320], acessibilidade: 78 },
-                { nome: "Colégio Prime SP", historico: [500, 490, 510], acessibilidade: 88 }
-            ]
-        };
-
-        let metas = {
-            matricula: 1.0,
-            acessibilidade: dados.escola.metaAcessibilidade
-        };
-
-        function atualizarMeta(tipo) {
-            if (tipo === "matricula") {
-                document.querySelector("#meta-matricula .valor").textContent =
-                    metas.matricula + "%";
-            }
-
-            if (tipo === "acessibilidade") {
-                document.querySelector("#meta-acessibilidade .valor").textContent =
-                    metas.acessibilidade + "%";
-
-                document.querySelector(".diferenca-meta").textContent =
-                    (metas.acessibilidade - dados.escola.acessibilidade) + "%";
-            }
+            console.error(
+                "Erro ao salvar meta:",
+                erro
+            );
         }
+    }
 
+    async function atualizarDashboard(escolaId) {
 
-        document.querySelector(".kpi-total-matriculas span.matriculas").textContent = dados.escola.matriculas;
-        document.querySelector(".kpi-acessibilidade-escola span.acessibilidade").textContent =
-            dados.escola.acessibilidade + "%";
+        try {
 
-        atualizarMeta("acessibilidade");
+            const resposta =
+                await fetch(
+                    `http://localhost:3333/dashboard/dashboard/${escolaId}`
+                );
+
+            const info =
+                await resposta.json();
+
+            atualizarKPIs(info);
+
+            atualizarListaAcessibilidade(info);
+
+            atualizarRanking(
+                info.id_municipio_nome
+            );
+
+            carregarComentarios(
+                escolaId
+            );
+
+            atualizarGrafico(
+                info.historico
+            );
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar dashboard:",
+                erro
+            );
+        }
+    }
+
+    function atualizarKPIs(info) {
+
+        document.querySelector(
+            ".acessibilidade"
+        ).textContent =
+
+            Number(
+                info.indice_acessibilidade || 0
+            ).toFixed(1) + "%";
+
         atualizarMeta("matricula");
+        atualizarMeta("acessibilidade");
 
-        document.querySelector(".diferenca-meta").textContent =
-            (dados.escola.metaAcessibilidade - dados.escola.acessibilidade) + "%";
+        const historico =
+            info.historico || [];
 
+        const anoAtual =
+            historico[historico.length - 1];
 
-        const anoAtual = dados.escola.historico[2];
-        const anoAnterior = dados.escola.historico[1];
+        const anoAnterior =
+            historico[historico.length - 2];
 
-        document.getElementById("ano-atual").textContent = anoAtual;
-        document.getElementById("ano-anterior").textContent = anoAnterior;
+        document.getElementById(
+            "ano-atual"
+        ).textContent =
+            anoAtual?.valor || "--";
 
-        const variacao = ((anoAtual - anoAnterior) / anoAnterior) * 100;
-        const variacaoEl = document.getElementById("variacao-matricula");
+        document.getElementById(
+            "ano-anterior"
+        ).textContent =
+            anoAnterior?.valor || "--";
 
-        const seta = variacao >= 0 ? "↑" : "↓";
+        if (
+            anoAtual &&
+            anoAnterior
+        ) {
 
-        variacaoEl.innerHTML = `Variação: <span class="seta">${seta}</span> ${Math.abs(variacao).toFixed(1)}%`;
-        variacaoEl.classList.add(variacao >= 0 ? "positivo" : "negativo");
+            const variacao =
+                (
+                    (
+                        anoAtual.valor -
+                        anoAnterior.valor
+                    ) /
+                    anoAnterior.valor
+                ) * 100;
 
+            const variacaoEl =
+                document.getElementById(
+                    "variacao-matricula"
+                );
 
-        /*  document.querySelector(".lista-situacoes").innerHTML =
-              dados.escola.itensAusenciaAcessibilidade
-                  .map(item => `<li><strong>Situação:</strong> ${item}</li>`)
-                  .join("");*/
+            const seta =
+                variacao >= 0
+                    ? "↑"
+                    : "↓";
 
+            variacaoEl.innerHTML = `
 
-        const lista = document.querySelector(".lista-situacoes");
+                Variação:
+                <span class="seta">
+                    ${seta}
+                </span>
 
-        if (lista) {
-            lista.innerHTML = info.itensAcessibilidade?.map(item => `
-        <li class="item-situacao ${item.valor == 1 ? 'ativo' : 'inativo'}">
-            <span>${item.nome}</span>
+                ${Math.abs(
+                    variacao
+                ).toFixed(1)}%
 
-            <strong>
-                ${item.valor == 1 ? 'Disponível' : 'Indisponível'}
-            </strong>
-        </li>
-    `).join("") || "";
+            `;
+
+            variacaoEl.classList.remove(
+                "positivo",
+                "negativo"
+            );
+
+            variacaoEl.classList.add(
+                variacao >= 0
+                    ? "positivo"
+                    : "negativo"
+            );
         }
 
+        atualizarDiferencaMeta(info);
+    }
 
+    function atualizarDiferencaMeta(info) {
 
+        document.querySelector(
+            ".diferenca-meta"
+        ).textContent =
 
-        const rankingEl = document.querySelector(".lista-ranking");
+            (
+                metas.acessibilidade -
+                Number(
+                    info.indice_acessibilidade || 0
+                )
+            ).toFixed(1) + "%";
+    }
 
-        dados.rede.sort((a, b) => b.acessibilidade - a.acessibilidade);
+    function atualizarMeta(tipo) {
 
-        rankingEl.innerHTML = dados.rede
-            .map((e, i) => `
-        <li>
-            <span class="nome-escola">${i + 1}º ${e.nome}</span>
-            <span class="porcentagem">${e.acessibilidade}%</span>
-        </li>
-    `)
-            .join("");
+        if (tipo === "matricula") {
 
+            document.querySelector(
+                "#meta-matricula .valor"
+            ).textContent =
 
-        document.querySelector(".comentarios").innerHTML =
-            dados.escola.comentarios
-                .map(c => `
+                metas.matricula + "%";
+        }
+
+        if (tipo === "acessibilidade") {
+
+            document.querySelector(
+                "#meta-acessibilidade .valor"
+            ).textContent =
+
+                metas.acessibilidade + "%";
+        }
+    }
+
+    function atualizarListaAcessibilidade(info) {
+
+        const lista =
+            document.querySelector(
+                ".lista-situacoes"
+            );
+
+        const itens = [
+
+            {
+                nome: "Corrimão",
+                valor:
+                    info.acessibilidade_corrimao
+            },
+
+            {
+                nome: "Elevador",
+                valor:
+                    info.acessibilidade_elevador
+            },
+
+            {
+                nome: "Pisos Táteis",
+                valor:
+                    info.acessibilidade_pisos_tateis
+            },
+
+            {
+                nome: "Vão Livre",
+                valor:
+                    info.acessibilidade_vao_livre
+            },
+
+            {
+                nome: "Rampas",
+                valor:
+                    info.acessibilidade_rampas
+            },
+
+            {
+                nome: "Sinais Sonoros",
+                valor:
+                    info.acessibilidade_sinais_sonoros
+            },
+
+            {
+                nome: "Sinal Tátil",
+                valor:
+                    info.acessibilidade_sinal_tatil
+            },
+
+            {
+                nome: "Sinal Visual",
+                valor:
+                    info.acessibilidade_sinal_visual
+            },
+
+            {
+                nome: "Acessibilidade Inexistente",
+                valor:
+                    info.acessibilidade_inexistente
+            }
+        ];
+
+        lista.innerHTML =
+            itens.map(item => `
+
+            <li class="
+                item-situacao
+                ${item.valor == 1
+                    ? "ativo"
+                    : "inativo"}
+            ">
+
+                <span>
+                    ${item.nome}
+                </span>
+
+                <strong>
+
+                    ${item.valor == 1
+                        ? "Disponível"
+                        : "Indisponível"}
+
+                </strong>
+
+            </li>
+
+        `).join("");
+    }
+
+    async function atualizarRanking(municipio) {
+
+        try {
+
+            const resposta =
+                await fetch(
+                    `http://localhost:3333/dashboard/ranking/${municipio}`
+                );
+
+            const ranking =
+                await resposta.json();
+
+            const rankingEl =
+                document.querySelector(
+                    ".lista-ranking"
+                );
+
+            rankingEl.innerHTML =
+                ranking.map((escola, i) => `
+
+                <li>
+
+                    <span class="nome-escola">
+
+                        ${i + 1}º
+                        ${escola.nome_escola}
+
+                    </span>
+
+                    <span class="porcentagem">
+
+                        ${Number(
+                            escola.indice_acessibilidade
+                        ).toFixed(1)}%
+
+                    </span>
+
+                </li>
+
+            `).join("");
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar ranking:",
+                erro
+            );
+        }
+    }
+
+    async function carregarComentarios(escolaId) {
+
+        try {
+
+            const resposta =
+                await fetch(
+                    `http://localhost:3333/dashboard/comentarios/${escolaId}`
+                );
+
+            const comentarios =
+                await resposta.json();
+
+            atualizarComentarios(
+                comentarios
+            );
+
+        } catch (erro) {
+
+            console.error(
+                "Erro ao carregar comentários:",
+                erro
+            );
+        }
+    }
+
+    function atualizarComentarios(comentarios) {
+
+        document.querySelector(
+            ".comentarios"
+        ).innerHTML =
+
+            comentarios.map(c => `
+
             <div class="comentario">
-                "${c.texto}"
-                <span class="nota"> Nota: ${c.nota}/5</span>
+
+                "${c.descricao}"
+
+                <span class="nota">
+
+                    Nota:
+                    ${c.nota}/5
+
+                </span>
+
             </div>
-        `)
-                .join("");
 
+        `).join("");
+    }
 
-        const mediaRede = dados.anos.map((_, i) => {
-            const soma = dados.rede.reduce((acc, e) => acc + e.historico[i], 0);
-            return Math.round(soma / dados.rede.length);
-        });
+    function iniciarGrafico() {
 
-        const mediaEscola = Math.round(
-            dados.escola.historico.reduce((a, b) => a + b, 0) /
-            dados.escola.historico.length
-        );
+        grafico = new Chart(ctx, {
 
-
-        new Chart(ctx, {
             type: "line",
+
             data: {
-                labels: dados.anos,
+
+                labels: [],
+
                 datasets: [
+
                     {
-                        label: "Escola",
-                        data: dados.escola.historico,
+                        label: "Matrículas",
+
+                        data: [],
+
                         borderColor: "blue",
+
                         fill: false,
-                        tension: 0.3
-                    },
-                    {
-                        label: "Média Rede",
-                        data: mediaRede,
-                        borderColor: "gray",
-                        borderDash: [5, 5],
-                        fill: false,
-                        tension: 0.3
-                    },
-                    {
-                        label: "Média Escola",
-                        data: Array(dados.anos.length).fill(mediaEscola),
-                        borderColor: "red",
-                        borderDash: [3, 3],
-                        fill: false,
+
                         tension: 0.3
                     }
                 ]
             },
+
             options: {
+
                 responsive: true,
+
                 plugins: {
+
                     legend: {
                         position: "bottom"
                     },
+
                     title: {
+
                         display: true,
-                        text: "Gráfico da diferença de matrículas",
-                        font: { size: 18 },
-                        padding: { top: 10, bottom: 30 }
+
+                        text:
+                            "Gráfico da diferença de matrículas",
+
+                        font: {
+                            size: 18
+                        },
+
+                        padding: {
+                            top: 10,
+                            bottom: 30
+                        }
                     }
                 }
             }
+        });
+    }
+
+    function atualizarGrafico(historico) {
+
+        if (
+            !historico ||
+            !Array.isArray(historico)
+        ) {
+
+            console.log(
+                "Histórico inválido:",
+                historico
+            );
+
+            return;
         }
 
+        grafico.data.labels =
+            historico.map(
+                item => item.ano
+            );
+
+        grafico.data.datasets[0].data =
+            historico.map(
+                item => item.valor
+            );
+
+        grafico.update();
+    }
+
+    document.querySelectorAll(
+        ".edit-container"
+    ).forEach((container) => {
+
+        const botaoCancelar =
+            document.createElement("button");
+
+        botaoCancelar.textContent =
+            "Cancelar";
+
+        botaoCancelar.className =
+            "btn-cancelar-meta";
+
+        botaoCancelar.addEventListener(
+            "click",
+            () => {
+
+                container.style.display =
+                    "none";
+
+                const tipoMeta =
+                    container.id.replace(
+                        "edit-",
+                        ""
+                    );
+
+                const botaoEditar =
+                    document.querySelector(
+                        `.btn-editar[data-meta="${tipoMeta}"]`
+                    );
+
+                if (botaoEditar) {
+
+                    botaoEditar.style.display =
+                        "inline-block";
+                }
+            }
         );
 
+        container.appendChild(
+            botaoCancelar
+        );
+    });
 
-        document.querySelectorAll(".btn-editar").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const tipo = btn.dataset.meta;
+    document.querySelectorAll(
+        ".btn-editar"
+    ).forEach(btn => {
 
-                document.getElementById(`edit-${tipo}`).style.display = "inline-block";
-                document.getElementById(`input-${tipo}`).value = metas[tipo];
-            });
-        });
+        btn.addEventListener(
+            "click",
+            () => {
 
+                const tipo =
+                    btn.dataset.meta;
 
-        document.querySelectorAll(".btn-salvar").forEach(btn => {
-            btn.addEventListener("click", () => {
-                const tipo = btn.dataset.meta;
-                const input = document.getElementById(`input-${tipo}`);
-                const novoValor = parseFloat(input.value);
+                btn.style.display =
+                    "none";
 
-                if (isNaN(novoValor)) return;
+                document.getElementById(
+                    `edit-${tipo}`
+                ).style.display =
+                    "inline-block";
 
-                metas[tipo] = novoValor;
+                document.getElementById(
+                    `input-${tipo}`
+                ).value =
+                    metas[tipo];
+            }
+        );
+    });
+
+    document.querySelectorAll(
+        ".btn-salvar"
+    ).forEach(btn => {
+
+        btn.addEventListener(
+            "click",
+            async () => {
+
+                const tipo =
+                    btn.dataset.meta;
+
+                const input =
+                    document.getElementById(
+                        `input-${tipo}`
+                    );
+
+                const novoValor =
+                    parseFloat(
+                        input.value
+                    );
+
+                if (isNaN(novoValor))
+                    return;
+
+                metas[tipo] =
+                    novoValor;
+
                 atualizarMeta(tipo);
 
-                document.getElementById(`edit-${tipo}`).style.display = "none";
-            });
-        });
+                await salvarMeta();
 
-    </script>
+                document.getElementById(
+                    `edit-${tipo}`
+                ).style.display =
+                    "none";
+
+                document.querySelector(
+                    `.btn-editar[data-meta="${tipo}"]`
+                ).style.display =
+                    "inline-block";
+            }
+        );
+    });
+
+</script>

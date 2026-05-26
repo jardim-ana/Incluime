@@ -2,144 +2,684 @@ package incluime.conectamais;
 
 import incluime.conectamais.client.S3Service;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.poi.ss.usermodel.*;
-import org.springframework.jdbc.core.JdbcTemplate;
 
-public class LeitorExcel {
+import java.io.InputStream;
 
-    private static final String SQL_INSERT =
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class LeitorExcel extends BaseETL {
+
+    private static final String SQL_INSERT_ENDERECO =
+            "INSERT INTO endereco (" +
+                    "logradouro, numero, cep" +
+                    ") VALUES (?, ?, ?)";
+
+    private static final String SQL_INSERT_ESCOLA =
+            "INSERT INTO escola (" +
+                    "codigo_inep, nome_escola, telefone, endereco_id" +
+                    ") VALUES (?, ?, ?, ?)";
+
+    private static final String SQL_BUSCAR_ESCOLA =
+            "SELECT id FROM escola WHERE codigo_inep = ?";
+
+    private static final String SQL_INSERT_CENSO =
             "INSERT INTO base_dados_censo_escolar (" +
-                    "ano, sigla_uf, id_municipio, id_municipio_nome, id_escola, rede, tipo_categoria_escola_privada, tipo_localizacao, " +
-                    "banheiro_pne, dependencia_pne, acessibilidade_corrimao, acessibilidade_elevador, acessibilidade_pisos_tateis, acessibilidade_vao_livre, acessibilidade_rampas, acessibilidade_sinais_sonoros, acessibilidade_sinal_tatil, acessibilidade_sinal_visual, acessibilidade_inexistente, " +
-                    "quantidade_sala_utilizade_acessivel, material_pedagogico_surdo, quantidade_matricula_educacao_basica, quantidade_matricula_especial, quantidade_docente_educacao_basica, quantidade_turma_especial, quantidade_turma_especial_comum, quantidade_turma_especial_exclusiva" +
-                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "ano, sigla_uf, id_municipio, " +
+                    "id_municipio_nome, escola_id, rede, " +
+                    "tipo_categoria_escola_privada, " +
+                    "tipo_localizacao, banheiro_pne, " +
+                    "dependencia_pne, material_pedagogico_surdo" +
+                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String SQL_LOG =
-            "INSERT INTO logss (acao, tipo) VALUES (?, ?)";
+    private static final String SQL_INSERT_ACESSIBILIDADE =
+            "INSERT INTO base_dados_acessibilidade (" +
+                    "censo_escolar_id, acessibilidade_corrimao, " +
+                    "acessibilidade_elevador, acessibilidade_pisos_tateis, " +
+                    "acessibilidade_vao_livre, acessibilidade_rampas, " +
+                    "acessibilidade_sinais_sonoros, " +
+                    "acessibilidade_sinal_tatil, " +
+                    "acessibilidade_sinal_visual, " +
+                    "acessibilidade_inexistente" +
+                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static final int BATCH_SIZE = 1000;
+    private static final String SQL_INSERT_QUANTIDADES =
+            "INSERT INTO base_dados_quantidades (" +
+                    "ano, escola_id, " +
+                    "quantidade_sala_utilizada_acessivel, " +
+                    "quantidade_matricula_educacao_basica, " +
+                    "quantidade_matricula_especial, " +
+                    "quantidade_docente_educacao_basica, " +
+                    "quantidade_turma_especial, " +
+                    "quantidade_turma_especial_comum, " +
+                    "quantidade_turma_especial_exclusiva" +
+                    ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    public void extrairEscolas(String nomeArquivo, JdbcTemplate template) {
+    public void extrairEscolas(
+            String[] nomeArquivo,
+            Connection conexao
+    ) {
 
-        DataFormatter formatter = new DataFormatter();
-        List<Object[]> batch = new ArrayList<>();
+        DataFormatter formatter =
+                new DataFormatter();
 
-        try (
-                InputStream arquivo = S3Service.getArquivo(nomeArquivo);
-                Workbook workbook = WorkbookFactory.create(arquivo)
-        ) {
+        List<Escola> listaEscolas =
+                new ArrayList<>();
 
-            log(template, "Lendo arquivo do S3: " + nomeArquivo, "INFO");
+        Map<String, Escola> mapaEscolas =
+                new HashMap<>();
 
-            Sheet sheet = workbook.getSheetAt(0);
+        try {
 
-            for (Row row : sheet) {
-                if (row.getRowNum() == 0) {
-                    printarCabecalho(row, template);
-                    continue;
-                }
+            conexao.setAutoCommit(false);
 
-                try {
-                    Integer ano = parseInt(formatter, getCell(row, 0));
-                    String uf = formatter.formatCellValue(getCell(row, 1));
-                    Integer idMuni = parseInt(formatter, getCell(row, 2));
-                    String muniNome = formatter.formatCellValue(getCell(row, 3));
-                    String idEscola = formatter.formatCellValue(getCell(row, 4));
-                    String rede = formatter.formatCellValue(getCell(row, 5));
-                    String tipoCategoria = formatter.formatCellValue(getCell(row, 6));
-                    String tipoLocalizacao = formatter.formatCellValue(getCell(row, 7));
+            log(
+                    conexao,
+                    "Iniciando ETL",
+                    "INFO"
+            );
 
-                    Integer banheiroPne = parseInt(formatter, getCell(row, 8));
-                    Integer dependenciaPne = parseInt(formatter, getCell(row, 9));
-                    Integer corrimao = parseInt(formatter, getCell(row, 10));
-                    Integer elevador = parseInt(formatter, getCell(row, 11));
-                    Integer pisoTatil = parseInt(formatter, getCell(row, 12));
-                    Integer vaoLivre = parseInt(formatter, getCell(row, 13));
-                    Integer rampas = parseInt(formatter, getCell(row, 14));
-                    Integer sinalSonoro = parseInt(formatter, getCell(row, 15));
-                    Integer sinalTatil = parseInt(formatter, getCell(row, 16));
-                    Integer sinalVisual = parseInt(formatter, getCell(row, 17));
-                    Integer acessibilidadeInex = parseInt(formatter, getCell(row, 18));
-                    Integer qtdSalaUtilAcessivel = parseInt(formatter, getCell(row, 19));
-                    Integer materialPedagoSurdo = parseInt(formatter, getCell(row, 20));
-                    Integer qtdMatriculaEducBasica = parseInt(formatter, getCell(row, 21));
-                    Integer qtdMatriculaEspecial = parseInt(formatter, getCell(row, 22));
-                    Integer qtdDocenteEducBasica = parseInt(formatter, getCell(row, 23));
-                    Integer qtdTurmaEspecial = parseInt(formatter, getCell(row, 24));
-                    Integer qtdTurmaEspecialComum = parseInt(formatter, getCell(row, 25));
-                    Integer qtdTurmaEspecialExclusiva = parseInt(formatter, getCell(row, 26));
+            try (
 
-                    batch.add(new Object[]{
-                            ano, uf, idMuni, muniNome, idEscola, rede, tipoCategoria, tipoLocalizacao,
-                            banheiroPne, dependenciaPne, corrimao, elevador, pisoTatil, vaoLivre,
-                            rampas, sinalSonoro, sinalTatil, sinalVisual, acessibilidadeInex,
-                            qtdSalaUtilAcessivel, materialPedagoSurdo, qtdMatriculaEducBasica,
-                            qtdMatriculaEspecial, qtdDocenteEducBasica, qtdTurmaEspecial,
-                            qtdTurmaEspecialComum, qtdTurmaEspecialExclusiva
-                    });
+                    InputStream arquivo =
+                            S3Service.getArquivo(
+                                    nomeArquivo[0]
+                            );
 
-                    if (batch.size() == BATCH_SIZE) {
-                        template.batchUpdate(SQL_INSERT, batch);
-                        batch.clear();
-                        log(template, "Batch inserido: " + BATCH_SIZE + " registros", "INFO");
+                    Workbook workbook =
+                            WorkbookFactory.create(
+                                    arquivo
+                            )
+            ) {
+
+                Sheet sheet =
+                        workbook.getSheetAt(0);
+
+                for (Row row : sheet) {
+
+                    if (row.getRowNum() == 0) {
+                        continue;
                     }
 
-                } catch (Exception e) {
-                    log(template,
-                            "Erro na linha " + row.getRowNum() + ": " + e.getMessage(),
-                            "ERROR"
+                    Escola escola =
+                            new Escola();
+
+                    escola.setAno(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 0)
+                            )
                     );
-                    e.printStackTrace();
+
+                    escola.setSiglaUf(
+                            formatter.formatCellValue(
+                                    getCell(row, 1)
+                            )
+                    );
+
+                    escola.setIdMunicipio(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 2)
+                            )
+                    );
+
+                    escola.setIdMunicipioNome(
+                            formatter.formatCellValue(
+                                    getCell(row, 3)
+                            )
+                    );
+
+                    String codigoInep =
+                            formatter.formatCellValue(
+                                    getCell(row, 4)
+                            );
+
+                    escola.setCodigoInep(
+                            codigoInep
+                    );
+
+                    escola.setRede(
+                            formatter.formatCellValue(
+                                    getCell(row, 5)
+                            )
+                    );
+
+                    escola.setTipoCategoria(
+                            formatter.formatCellValue(
+                                    getCell(row, 6)
+                            )
+                    );
+
+                    escola.setTipoLocalizacao(
+                            formatter.formatCellValue(
+                                    getCell(row, 7)
+                            )
+                    );
+
+                    escola.setBanheiroPne(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 8)
+                            )
+                    );
+
+                    escola.setDependenciaPne(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 9)
+                            )
+                    );
+
+                    escola.setCorrimao(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 10)
+                            )
+                    );
+
+                    escola.setElevador(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 11)
+                            )
+                    );
+
+                    escola.setPisosTateis(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 12)
+                            )
+                    );
+
+                    escola.setVaoLivre(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 13)
+                            )
+                    );
+
+                    escola.setRampas(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 14)
+                            )
+                    );
+
+                    escola.setSinaisSonoros(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 15)
+                            )
+                    );
+
+                    escola.setSinalTatil(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 16)
+                            )
+                    );
+
+                    escola.setSinalVisual(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 17)
+                            )
+                    );
+
+                    escola.setAcessibilidadeInexistente(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 18)
+                            )
+                    );
+
+                    escola.setQtdSalaUtilAcessivel(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 19)
+                            )
+                    );
+
+                    escola.setMaterialPedagoSurdo(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 20)
+                            )
+                    );
+
+                    escola.setQtdMatriculaEducBasica(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 21)
+                            )
+                    );
+
+                    escola.setQtdMatriculaEspecial(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 22)
+                            )
+                    );
+
+                    escola.setQtdDocenteEducBasica(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 23)
+                            )
+                    );
+
+                    escola.setQtdTurmaEspecial(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 24)
+                            )
+                    );
+
+                    escola.setQtdTurmaEspecialComum(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 25)
+                            )
+                    );
+
+                    escola.setQtdTurmaEspecialExclusiva(
+                            parseInt(
+                                    formatter,
+                                    getCell(row, 26)
+                            )
+                    );
+
+                    listaEscolas.add(
+                            escola
+                    );
+
+                    mapaEscolas.put(
+                            codigoInep,
+                            escola
+                    );
                 }
             }
 
-            if (!batch.isEmpty()) {
-                template.batchUpdate(SQL_INSERT, batch);
-                log(template, "Batch final inserido: " + batch.size() + " registros", "INFO");
+            try (
+
+                    InputStream arquivo =
+                            S3Service.getArquivo(
+                                    nomeArquivo[1]
+                            );
+
+                    Workbook workbook =
+                            WorkbookFactory.create(
+                                    arquivo
+                            )
+            ) {
+
+                Sheet sheet =
+                        workbook.getSheetAt(0);
+
+                for (Row row : sheet) {
+
+                    if (row.getRowNum() == 0) {
+                        continue;
+                    }
+
+                    String codigoInep =
+                            formatter.formatCellValue(
+                                    getCell(row, 0)
+                            );
+
+                    Escola escola =
+                            mapaEscolas.get(
+                                    codigoInep
+                            );
+
+                    if (escola != null) {
+
+                        escola.setNomeEscola(
+                                formatter.formatCellValue(
+                                        getCell(row, 1)
+                                )
+                        );
+
+                        escola.setLogradouro(
+                                formatter.formatCellValue(
+                                        getCell(row, 2)
+                                )
+                        );
+
+                        escola.setNumero(
+                                formatter.formatCellValue(
+                                        getCell(row, 3)
+                                )
+                        );
+
+                        escola.setCep(
+                                formatter.formatCellValue(
+                                        getCell(row, 4)
+                                )
+                        );
+
+                        escola.setTelefone(
+                                formatter.formatCellValue(
+                                        getCell(row, 5)
+                                )
+                        );
+                    }
+                }
             }
 
-            log(template, "Leitura finalizada", "INFO");
+            try (
+
+                    PreparedStatement stmtEndereco =
+                            conexao.prepareStatement(
+                                    SQL_INSERT_ENDERECO,
+                                    PreparedStatement.RETURN_GENERATED_KEYS
+                            );
+
+                    PreparedStatement stmtEscola =
+                            conexao.prepareStatement(
+                                    SQL_INSERT_ESCOLA
+                            );
+
+                    PreparedStatement stmtBuscarEscola =
+                            conexao.prepareStatement(
+                                    SQL_BUSCAR_ESCOLA
+                            );
+
+                    PreparedStatement stmtCenso =
+                            conexao.prepareStatement(
+                                    SQL_INSERT_CENSO,
+                                    PreparedStatement.RETURN_GENERATED_KEYS
+                            );
+
+                    PreparedStatement stmtAcessibilidade =
+                            conexao.prepareStatement(
+                                    SQL_INSERT_ACESSIBILIDADE
+                            );
+
+                    PreparedStatement stmtQuantidades =
+                            conexao.prepareStatement(
+                                    SQL_INSERT_QUANTIDADES
+                            )
+
+            ) {
+
+                for (Escola escola : listaEscolas) {
+
+                    // ENDEREÇO
+
+                    stmtEndereco.setString(
+                            1,
+                            escola.getLogradouro()
+                    );
+
+                    stmtEndereco.setString(
+                            2,
+                            escola.getNumero()
+                    );
+
+                    stmtEndereco.setString(
+                            3,
+                            escola.getCep()
+                    );
+
+                    stmtEndereco.executeUpdate();
+
+                    ResultSet rsEndereco =
+                            stmtEndereco.getGeneratedKeys();
+
+                    int enderecoId = 0;
+
+                    if (rsEndereco.next()) {
+
+                        enderecoId =
+                                rsEndereco.getInt(1);
+                    }
+
+                    // ESCOLA
+
+                    stmtEscola.setString(
+                            1,
+                            escola.getCodigoInep()
+                    );
+
+                    stmtEscola.setString(
+                            2,
+                            escola.getNomeEscola()
+                    );
+
+                    stmtEscola.setString(
+                            3,
+                            escola.getTelefone()
+                    );
+
+                    stmtEscola.setInt(
+                            4,
+                            enderecoId
+                    );
+
+                    stmtEscola.executeUpdate();
+
+                    // BUSCAR ID ESCOLA
+
+                    stmtBuscarEscola.setString(
+                            1,
+                            escola.getCodigoInep()
+                    );
+
+                    ResultSet rs =
+                            stmtBuscarEscola.executeQuery();
+
+                    int escolaId = 0;
+
+                    if (rs.next()) {
+
+                        escolaId =
+                                rs.getInt("id");
+                    }
+
+                    // CENSO
+
+                    stmtCenso.setObject(
+                            1,
+                            escola.getAno()
+                    );
+
+                    stmtCenso.setString(
+                            2,
+                            escola.getSiglaUf()
+                    );
+
+                    stmtCenso.setObject(
+                            3,
+                            escola.getIdMunicipio()
+                    );
+
+                    stmtCenso.setString(
+                            4,
+                            escola.getIdMunicipioNome()
+                    );
+
+                    stmtCenso.setInt(
+                            5,
+                            escolaId
+                    );
+
+                    stmtCenso.setString(
+                            6,
+                            escola.getRede()
+                    );
+
+                    stmtCenso.setString(
+                            7,
+                            escola.getTipoCategoria()
+                    );
+
+                    stmtCenso.setString(
+                            8,
+                            escola.getTipoLocalizacao()
+                    );
+
+                    stmtCenso.setObject(
+                            9,
+                            escola.getBanheiroPne()
+                    );
+
+                    stmtCenso.setObject(
+                            10,
+                            escola.getDependenciaPne()
+                    );
+
+                    stmtCenso.setObject(
+                            11,
+                            escola.getMaterialPedagoSurdo()
+                    );
+
+                    stmtCenso.executeUpdate();
+
+                    ResultSet rsCenso =
+                            stmtCenso.getGeneratedKeys();
+
+                    int censoId = 0;
+
+                    if (rsCenso.next()) {
+
+                        censoId =
+                                rsCenso.getInt(1);
+                    }
+
+                    // ACESSIBILIDADE
+
+                    stmtAcessibilidade.setInt(
+                            1,
+                            censoId
+                    );
+
+                    stmtAcessibilidade.setObject(
+                            2,
+                            escola.getCorrimao()
+                    );
+
+                    stmtAcessibilidade.setObject(
+                            3,
+                            escola.getElevador()
+                    );
+
+                    stmtAcessibilidade.setObject(
+                            4,
+                            escola.getPisosTateis()
+                    );
+
+                    stmtAcessibilidade.setObject(
+                            5,
+                            escola.getVaoLivre()
+                    );
+
+                    stmtAcessibilidade.setObject(
+                            6,
+                            escola.getRampas()
+                    );
+
+                    stmtAcessibilidade.setObject(
+                            7,
+                            escola.getSinaisSonoros()
+                    );
+
+                    stmtAcessibilidade.setObject(
+                            8,
+                            escola.getSinalTatil()
+                    );
+
+                    stmtAcessibilidade.setObject(
+                            9,
+                            escola.getSinalVisual()
+                    );
+
+                    stmtAcessibilidade.setObject(
+                            10,
+                            escola.getAcessibilidadeInexistente()
+                    );
+
+                    stmtAcessibilidade.executeUpdate();
+
+                    // QUANTIDADES
+
+                    stmtQuantidades.setObject(
+                            1,
+                            escola.getAno()
+                    );
+
+                    stmtQuantidades.setInt(
+                            2,
+                            escolaId
+                    );
+
+                    stmtQuantidades.setObject(
+                            3,
+                            escola.getQtdSalaUtilAcessivel()
+                    );
+
+                    stmtQuantidades.setObject(
+                            4,
+                            escola.getQtdMatriculaEducBasica()
+                    );
+
+                    stmtQuantidades.setObject(
+                            5,
+                            escola.getQtdMatriculaEspecial()
+                    );
+
+                    stmtQuantidades.setObject(
+                            6,
+                            escola.getQtdDocenteEducBasica()
+                    );
+
+                    stmtQuantidades.setObject(
+                            7,
+                            escola.getQtdTurmaEspecial()
+                    );
+
+                    stmtQuantidades.setObject(
+                            8,
+                            escola.getQtdTurmaEspecialComum()
+                    );
+
+                    stmtQuantidades.setObject(
+                            9,
+                            escola.getQtdTurmaEspecialExclusiva()
+                    );
+
+                    stmtQuantidades.executeUpdate();
+                }
+
+                conexao.commit();
+
+                log(
+                        conexao,
+                        "ETL concluída com sucesso",
+                        "INFO"
+                );
+            }
 
         } catch (Exception e) {
-            log(template,
-                    "Erro ao ler arquivo do S3: " + e.getMessage(),
-                    "ERROR"
-            );
+
+            try {
+
+                conexao.rollback();
+
+            } catch (Exception ex) {
+
+                ex.printStackTrace();
+            }
+
             e.printStackTrace();
-        }
-    }
-
-    private void log(JdbcTemplate template, String mensagem, String nivel) {
-        try {
-            template.update(SQL_LOG, mensagem, nivel);
-        } catch (Exception e) {
-            System.err.println("Erro ao salvar log: " + mensagem);
-            e.printStackTrace();
-        }
-    }
-
-    private Cell getCell(Row row, int index) {
-        return row.getCell(index, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
-    }
-
-    private Integer parseInt(DataFormatter formatter, Cell cell) {
-        try {
-            String valor = formatter.formatCellValue(cell).trim();
-            if (valor.isEmpty()) return null;
-            return (int) Double.parseDouble(valor);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private void printarCabecalho(Row row, JdbcTemplate template) {
-        log(template, "----- CABECALHO -----", "INFO");
-        for (int i = 0; i < row.getLastCellNum(); i++) {
-            log(template, "Coluna " + i + ": " + row.getCell(i), "INFO");
         }
     }
 }

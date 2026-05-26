@@ -56,7 +56,6 @@ CREATE TABLE avaliacao (
   FOREIGN KEY (usuario_fk) REFERENCES usuario(id),
   FOREIGN KEY (escola_fk) REFERENCES escola(id)
 );
-
 -- Tabela meta
 CREATE TABLE meta (
   meta_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -101,8 +100,11 @@ CREATE TABLE base_dados_acessibilidade (
   acessibilidade_sinais_sonoros INT,
   acessibilidade_sinal_tatil INT,
   acessibilidade_sinal_visual INT,
-  acessibilidade_inexistente INT
-  ); 
+  acessibilidade_inexistente INT,
+
+  FOREIGN KEY (censo_escolar_id)
+  REFERENCES base_dados_censo_escolar(id)
+);
   
   -- Base censo escolar: campos de quantidades
   CREATE TABLE base_dados_quantidades (
