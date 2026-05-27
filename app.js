@@ -15,16 +15,16 @@ var HOST_APP = process.env.APP_HOST;
 
 var app = express();
 
-var indexRouter = require("./src/routes/index");
-var usuarioRouter = require("./src/routes/usuarios");
-var cadastrarRouter = require("./src/routes/cadastrar");
-var avisosRouter = require("./src/routes/avisos");
-var medidasRouter = require("./src/routes/medidas");
-var empresasRouter = require("./src/routes/empresas");
-var contatoRouter = require("./src/routes/contato.js");
-var avaliacaoRouter = require("./src/routes/avaliacao.js");
-var dashboardRouter = require("./src/routes/dashboard.js");
-var metaRouter = require("./src/routes/meta.js");
+var indexRouter = require("./public/src/routes/index");
+var usuarioRouter = require("./public/src/routes/usuarios");
+var cadastrarRouter = require("./public/src/routes/cadastrar");
+var avisosRouter = require("./public/src/routes/avisos");
+var medidasRouter = require("./public/src/routes/medidas");
+var empresasRouter = require("./public/src/routes/empresas");
+var contatoRouter = require("./public/src/routes/contato.js");
+var avaliacaoRouter = require("./public/src/routes/avaliacao.js");
+var dashboardRouter = require("./public/src/routes/dashboard.js");
+var metaRouter = require("./public/src/routes/meta.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
