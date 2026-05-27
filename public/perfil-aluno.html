@@ -60,22 +60,18 @@
         </div>
     </nav>
 
- <main class="area-perfil">
-       
-             <div class="topo-perfil">
-        <img 
-            src="assets/imgs/conecta_logo_transparente.png" 
-            alt="Logo Conecta+" 
-            class="logo-conecta"
-        >
+    <main class="area-perfil">
 
-        <div class="notificacao-container">
-            <button id="btnNotificacao" class="botao-notificacao">
-                <i class="fi fi-rs-bell"></i>
-            </button>
+        <div class="topo-perfil">
+            <img src="assets/imgs/conecta_logo_transparente.png" alt="Logo Conecta+" class="logo-conecta">
+
+            <div class="notificacao-container">
+                <button id="btnNotificacao" class="botao-notificacao">
+                    <i class="fi fi-rs-bell"></i>
+                </button>
+            </div>
         </div>
-    </div>
-   
+
 
         <section class="cabecalho-perfil">
             <h1>Meu perfil</h1>
@@ -142,7 +138,8 @@
                         <span>Senha</span>
 
                         <p class="texto-seguranca">
-                            Por segurança, sua senha atual não é exibida. Para alterá-la, confirme sua senha atual e cadastre uma nova.
+                            Por segurança, sua senha atual não é exibida. Para alterá-la, confirme sua senha atual e
+                            cadastre uma nova.
                         </p>
 
                         <button class="botao botao-senha" type="button" id="btnAbrirSenha" onclick="abrirTrocaSenha()">
@@ -171,7 +168,8 @@
                                 Salvar nova senha
                             </button>
 
-                            <button class="botao" type="button" style="background-color: #777;" onclick="cancelarTrocaSenha()">
+                            <button class="botao" type="button" style="background-color: #777;"
+                                onclick="cancelarTrocaSenha()">
                                 Cancelar
                             </button>
                         </div>
@@ -192,7 +190,7 @@
             var nomeUsuario = sessionStorage.getItem("NOME_USUARIO");
             var sobrenomeUsuario = sessionStorage.getItem("SOBRENOME_USUARIO");
             var emailUsuario = sessionStorage.getItem("EMAIL_USUARIO");
-            var escolaUsuario = sessionStorage.getItem("ESCOLA_USUARIO");
+            var escolaUsuario = sessionStorage.getItem("NOME_ESCOLA");
             var tipoUsuario = sessionStorage.getItem("TIPO_USUARIO");
 
             if (tipoUsuario == 1) {
@@ -213,7 +211,54 @@
             email_input.value = emailUsuario;
         }
 
+        var nomeEscolas = [];
+        var idEscolas = [];
+
         function alterarInformacoes() {
+
+            fetch("/cadastrar/listarEscolas", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+
+                .then(function (resposta) {
+
+                    console.log("Resposta:", resposta);
+
+                    if (resposta.ok) {
+
+                        resposta.json().then(function (dados) {
+
+                            console.log("Escolas:", dados);
+
+                            for (let i = 0; i < dados.length; i++) {
+                                idEscolas.push(dados[i].id)
+                                nomeEscolas.push(dados[i].nome_escola);
+
+
+                            }
+
+                            console.log("Nome das nomeEscolas:", nomeEscolas);
+                            console.log("Id das escolas:", idEscolas)
+
+                        });
+
+                    } else {
+
+                        throw "Houve um erro ao buscar as nomeEscolas!";
+
+                    }
+
+                })
+
+                .catch(function (erro) {
+
+                    console.log(`#ERRO: ${erro}`);
+
+                });
+
             document.getElementById("nome_input").disabled = false;
             document.getElementById("sobrenome_input").disabled = false;
             document.getElementById("email_input").disabled = false;
@@ -227,14 +272,47 @@
             mensagem_erro.innerHTML = "";
         }
 
+        var inputPerfil = document.getElementById("escolaPerfilInput");
+        var sugestoesPerfil = document.getElementById("sugestoesPerfil");
+
+        inputPerfil.addEventListener("input", function () {
+            var valor = inputPerfil.value.toLowerCase();
+            sugestoesPerfil.innerHTML = "";
+
+            if (valor === "") {
+                return;
+            }
+
+            for (var i = 0; i < nomeEscolas.length; i++) {
+                if (nomeEscolas[i].toLowerCase().indexOf(valor) !== -1) {
+                    var li = document.createElement("li");
+                    li.textContent = nomeEscolas[i];
+
+                    li.onclick = function () {
+                        inputPerfil.value = this.textContent;
+                        sugestoesPerfil.innerHTML = "";
+                    };
+
+                    sugestoesPerfil.appendChild(li);
+                }
+            }
+        });
+
         function salvarAlteracoes() {
             var nomeUser = nome_input.value.trim();
             var sobrenomeUser = sobrenome_input.value.trim();
             var emailUser = email_input.value.trim();
             var escolaDigitada = escolaPerfilInput.value.trim();
-            var escolaAtual = sessionStorage.getItem("ESCOLA_USUARIO");
-
-            var escolaFinal = escolaDigitada !== "" ? escolaDigitada : escolaAtual;
+            var escolaAtual = sessionStorage.getItem("NOME_ESCOLA");
+            var escolaSelecionada = escolaPerfilInput.value;
+            var idEscolaSelecionada = null;
+            
+            for (let i = 0; i < nomeEscolas.length; i++) {
+                if (escolaSelecionada == nomeEscolas[i]) {
+                    idEscolaSelecionada = idEscolas[i];
+                    break;
+                }
+            }
 
             mensagem_erro.style.color = "red";
 
@@ -274,10 +352,8 @@
                     id: sessionStorage.ID_USUARIO,
                     nome: nomeUser,
                     sobrenome: sobrenomeUser,
-                    email: emailUser
-
-                    // Quando vocês forem salvar escola no banco, podem adicionar:
-                    // escola: escolaFinal
+                    email: emailUser,
+                    escola: idEscolaSelecionada
                 })
             }).then(function (resposta) {
                 console.log("ESTOU NO THEN DO ATUALIZAR!");
@@ -289,12 +365,12 @@
                     sessionStorage.setItem("NOME_USUARIO", nomeUser);
                     sessionStorage.setItem("SOBRENOME_USUARIO", sobrenomeUser);
                     sessionStorage.setItem("EMAIL_USUARIO", emailUser);
-                    sessionStorage.setItem("ESCOLA_USUARIO", escolaFinal);
+                    sessionStorage.setItem("NOME_ESCOLA", escolaAtual);
 
                     var nomeCompletoNew = nomeUser + " " + sobrenomeUser;
 
                     document.getElementById("nome_user").innerText = nomeCompletoNew;
-                    document.getElementById("escolaAtualTexto").innerText = escolaFinal;
+                    document.getElementById("escolaAtualTexto").innerText = escolaSelecionada;
 
                     document.getElementById("nome_input").disabled = true;
                     document.getElementById("sobrenome_input").disabled = true;
@@ -452,29 +528,6 @@
 
             return false;
         }
-
-        inputPerfil.addEventListener("input", function () {
-            var valor = inputPerfil.value.toLowerCase();
-            sugestoesPerfil.innerHTML = "";
-
-            if (valor === "") {
-                return;
-            }
-
-            for (var i = 0; i < escolas.length; i++) {
-                if (escolas[i].toLowerCase().indexOf(valor) !== -1) {
-                    var li = document.createElement("li");
-                    li.textContent = escolas[i];
-
-                    li.onclick = function () {
-                        inputPerfil.value = this.textContent;
-                        sugestoesPerfil.innerHTML = "";
-                    };
-
-                    sugestoesPerfil.appendChild(li);
-                }
-            }
-        });
     </script>
 
     <script src="js/perfil.js"></script>
