@@ -486,6 +486,80 @@ body {
     transform: scale(1.05);
 }
 
+.modal-notificacao {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: 3000;
+
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-notificacao.ativo {
+    display: flex;
+}
+
+.modal-conteudo {
+    width: 100%;
+    max-width: 420px;
+    background-color: var(--branco);
+    border-radius: 18px;
+    padding: 28px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+    text-align: center;
+    animation: aparecerModal 0.25s ease;
+}
+
+.modal-conteudo h2 {
+    color: var(--roxo-forte);
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.modal-conteudo p {
+    color: var(--texto-secundario);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 22px;
+}
+
+.botoes-modal {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.botao-modal {
+    border: none;
+    border-radius: 10px;
+    padding: 11px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.botao-modal.sim {
+    background-color: var(--roxo-forte);
+    color: white;
+}
+
+.botao-modal.sim:hover {
+    background-color: var(--roxo-forte);
+}
+
+.botao-modal.nao {
+    background-color: #e5e7eb;
+    color: #333;
+}
+
+.botao-modal.nao:hover {
+    background-color: #d1d5db;
+}
+
 
 
 @media (max-width: 960px) {
