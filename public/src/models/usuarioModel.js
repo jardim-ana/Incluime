@@ -51,14 +51,15 @@ function autenticar(email, senha) {
         });
 }
 
-function atualizar(id, nome, sobrenome, email) {
+function atualizar(id, nome, sobrenome, email, escola) {
 
     var instrucaoSql = `
         UPDATE usuario 
         SET 
             nome = '${nome}',
             sobrenome = '${sobrenome}',
-            email = '${email}'
+            email = '${email}',
+            id_escola = '${escola}'
         WHERE id = ${id};
     `;
 

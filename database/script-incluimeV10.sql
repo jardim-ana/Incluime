@@ -1,3 +1,4 @@
+-- Active: 1776356926070@@127.0.0.1@3306@incluime
 CREATE DATABASE incluime;
 USE incluime;
 
@@ -120,5 +121,4 @@ CREATE TABLE logs_sistema (
   tipo VARCHAR(50),
   dtHora DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
-
+select * from usuario;

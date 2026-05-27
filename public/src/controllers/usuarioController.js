@@ -53,6 +53,7 @@ function atualizar(req, res) {
     var sobrenome = req.body.sobrenome;
     var email = req.body.email;
     var escola = req.body.escola;
+    
 
     if (id == undefined) {
         res.status(400).send("Seu id está undefined!");
@@ -62,9 +63,11 @@ function atualizar(req, res) {
         res.status(400).send("Seu sobrenome está undefined!");
     } else if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
+    } else if (escola == undefined) {
+        res.status(400).send("Seu email está undefined!") 
     } else {
 
-        usuarioModel.atualizar(id, nome, sobrenome, email)
+        usuarioModel.atualizar(id, nome, sobrenome, email,escola)
             .then(function (resultado) {
                 res.json(resultado);
             })
