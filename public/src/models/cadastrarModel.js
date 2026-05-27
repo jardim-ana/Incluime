@@ -13,8 +13,8 @@ function cadastrar(nome, sobrenome, email, senha, usuario, escola) {
     console.log("Iniciando cadastro de usuário...");
 
     var instrucao = `
-        INSERT INTO usuario (nome, sobrenome, email, senha, tipo_usuario)
-        VALUES ('${nome}', '${sobrenome}', '${email}', '${senha}', '${usuario}');
+        INSERT INTO usuario (nome, sobrenome, email, senha, tipo_usuario, id_escola)
+        VALUES ('${nome}', '${sobrenome}', '${email}', '${senha}', '${usuario}', '${escola}');
     `;
 
     console.log("Executando instrução: \n" + instrucao);
@@ -39,6 +39,20 @@ function cadastrar(nome, sobrenome, email, senha, usuario, escola) {
         });
 }
 
+function listarEscolas() {
+
+    var instrucaoSql = `
+        SELECT id, nome_escola
+        FROM escola;
+    `;
+
+    console.log("Executando SQL:");
+    console.log(instrucaoSql);
+
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
-    cadastrar
+    cadastrar,
+    listarEscolas
 };

@@ -13,24 +13,10 @@ function autenticar(email, senha) {
     console.log("Autenticando usuário...");
 
     var instrucaoSql = `
-    SELECT 
-        u.id,
-        u.nome,
-        u.sobrenome,
-        u.email,
-        u.tipo_usuario,
-        u.id_escola,
-
-        e.nome_escola
-
-    FROM usuario AS u
-
-    LEFT JOIN escola AS e
-        ON u.id_escola = e.id
-
-    WHERE u.email = '${email}'
-    AND u.senha = '${senha}';
-`;
+        SELECT u.id, u.nome, u.sobrenome, u.email, u.tipo_usuario, u.id_escola, e.id, e.nome_escola
+        FROM usuario AS u JOIN escola AS e ON u.id_escola = e.id
+        WHERE email = '${email}' AND senha = '${senha}';
+    `;
 
     console.log("Executando SQL: \n" + instrucaoSql);
 
