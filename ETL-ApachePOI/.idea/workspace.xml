@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d9a4d99-34fb-4af5-aa04-afd1468767c4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/BaseETL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Conexao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Escola.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Escola.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/LeitorExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/LeitorExcel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../database/script-incluimeV6.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../database/script-incluimeV6.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,13 +47,14 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/home/gabs/Documents/Incluime/ETL-ApachePOI",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "settings.editor.selected.configurable": "terminal",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -75,6 +78,13 @@
       <option name="filePath" />
       <method v="2" />
     </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
