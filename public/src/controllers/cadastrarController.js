@@ -6,8 +6,8 @@ function cadastrar(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var usuario = req.body.usuarioServer;
-    var escola = req.body.escolaServer;
-    
+    var escola = req.body.idEscolaServer;
+
     if (nome == undefined) {
         res.status(400).send("Seu nome está indefinido!");
     }
@@ -26,11 +26,11 @@ function cadastrar(req, res) {
     else {
         cadastrarModel.cadastrar(nome, sobrenome, email, senha, usuario, escola)
             .then(
-                function(resultado) {
+                function (resultado) {
                     res.json(resultado);
                 }
             ).catch(
-                function(erro) {
+                function (erro) {
                     console.log(erro);
                     console.log(
                         "\nHouve um erro no banco ao realizar o cadastro! Erro:",
@@ -42,6 +42,31 @@ function cadastrar(req, res) {
     }
 }
 
+function listarEscolas(req, res) {
+
+    cadastrarModel.listarEscolas()
+
+        .then(function (resultado) {
+
+            res.status(200).json(resultado);
+
+        })
+
+        .catch(function (erro) {
+
+            console.log(erro);
+
+            console.log(
+                "\nHouve um erro ao listar as escolas! Erro: ",
+                erro.sqlMessage
+            );
+
+            res.status(500).json(erro.sqlMessage);
+
+        });
+}
+
 module.exports = {
-    cadastrar
+    cadastrar,
+    listarEscolas
 };

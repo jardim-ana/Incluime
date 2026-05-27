@@ -18,7 +18,7 @@
     <div class="header">
         <div class="container">
             <div class="logo">
-                <img src="assets/imgs/inclui.me-semfundo.png" alt="Logo INCLUI.ME" >
+                <img src="assets/imgs/inclui.me-semfundo.png" alt="Logo INCLUI.ME">
             </div>
             <ul class="navbar">
                 <li><a href="index.html">Inicial</a></li>
@@ -95,39 +95,81 @@
     </div>
 
     <script>
-  var escolas = [
-    "Escola Estadual João Silva",
-  "Escola Municipal Machado de Assis",
-  "Colégio Objetivo",
-  "Etec de São Paulo",
-  "Escola Estadual Paulo Freire"
-  ];
 
-  var input = document.getElementById("escolaInput");
-  var sugestoes = document.getElementById("sugestoes");
 
-  input.addEventListener("input", function () {
-    var valor = input.value.toLowerCase();
-    sugestoes.innerHTML = "";
+        var nomeEscolas = [];
+        var idEscolas = [];
+        window.onload = function () {
 
-    if (valor === "") {
-      return;
-    }
+            fetch("/cadastrar/listarEscolas", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
 
-    for (var i = 0; i < escolas.length; i++) {
-      if (escolas[i].toLowerCase().indexOf(valor) !== -1) {
-        var li = document.createElement("li");
-        li.textContent = escolas[i];
+                .then(function (resposta) {
 
-        li.onclick = function () {
-          input.value = this.textContent;
-          sugestoes.innerHTML = "";
-        };
+                    console.log("Resposta:", resposta);
 
-        sugestoes.appendChild(li);
-      }
-    }
-  });
+                    if (resposta.ok) {
+
+                        resposta.json().then(function (dados) {
+
+                            console.log("Escolas:", dados);
+
+                            for (let i = 0; i < dados.length; i++) {
+                                idEscolas.push(dados[i].id)
+                                nomeEscolas.push(dados[i].nome_escola);
+
+
+                            }
+
+                            console.log("Nome das escolas:", nomeEscolas);
+                            console.log("Id das escolas:", idEscolas)
+
+                        });
+
+                    } else {
+
+                        throw "Houve um erro ao buscar as nomeEscolas!";
+
+                    }
+
+                })
+
+                .catch(function (erro) {
+
+                    console.log(`#ERRO: ${erro}`);
+
+                });
+        }
+
+        var input = document.getElementById("escolaInput");
+        var sugestoes = document.getElementById("sugestoes");
+
+        input.addEventListener("input", function () {
+            var valor = input.value.toLowerCase();
+            sugestoes.innerHTML = "";
+
+            if (valor === "") {
+                return;
+            }
+
+            for (var i = 0; i < nomeEscolas.length; i++) {
+                if (nomeEscolas[i].toLowerCase().indexOf(valor) !== -1) {
+                    var li = document.createElement("li");
+                    li.textContent = nomeEscolas[i];
+
+                    li.onclick = function () {
+                        input.value = this.textContent;
+                        sugestoes.innerHTML = "";
+                    };
+
+                    sugestoes.appendChild(li);
+                }
+            }
+        });
         function cadastrar() {
             var nomeVar = nome_input.value;
             var sobrenomeVar = sobrenome_input.value;
@@ -135,7 +177,17 @@
             var senhaVar = senha_input.value;
             var confirmacaoVar = confirmacao_senha_input.value;
             var usuarioVar = tipo_usuario_select.value;
-            var escolaVar = escolaInput.value;
+            var escolaSelecionada = escolaInput.value;
+            var idEscolaSelecionada = null;
+            
+            for (let i = 0; i < nomeEscolas.length; i++) {
+                if (escolaSelecionada == nomeEscolas[i]) {
+                    idEscolaSelecionada = idEscolas[i];
+                    break;
+                }
+            }
+
+            
 
             mensagem_erro.innerHTML = "";
             if (nomeVar == "" || sobrenomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoVar == "" || usuarioVar == "") {
@@ -164,7 +216,7 @@
                     emailServer: emailVar,
                     senhaServer: senhaVar,
                     usuarioServer: usuarioVar,
-                    escolaServer: escolaVar
+                    idEscolaServer: idEscolaSelecionada
                 }),
             })
                 .then(function (resposta) {
