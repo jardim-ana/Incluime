@@ -12,6 +12,10 @@ var logoutButton = document.getElementById("logout_button");
         }
     });
 
+
+
+
+
 var escolas = [
     "Escola Estadual João Silva",
     "Escola Municipal Machado de Assis",

@@ -75,6 +75,26 @@
             </button>
         </div>
     </div>
+
+    <div id="modalNotificacao" class="modal-notificacao">
+    <div class="modal-conteudo">
+        <h2>Ativar notificações?</h2>
+
+        <p>
+            Você deseja receber notificações pelo Slack quando houver atualizações sobre a base de dados?
+        </p>
+
+        <div class="botoes-modal">
+            <button class="botao-modal sim" onclick="aceitarNotificacoesSlack()">
+                Sim
+            </button>
+
+            <button class="botao-modal nao" onclick="recusarNotificacoesSlack()">
+                Não
+            </button>
+        </div>
+    </div>
+</div>
    
 
         <section class="cabecalho-perfil">
@@ -185,6 +205,35 @@
     </main>
 
     <script>
+           var btnNotificacao = document.getElementById("btnNotificacao");
+    var modalNotificacao = document.getElementById("modalNotificacao");
+
+    btnNotificacao.addEventListener("click", function () {
+        modalNotificacao.classList.add("ativo");
+    });
+
+    function aceitarNotificacoesSlack() {
+        sessionStorage.setItem("ACEITA_NOTIFICACOES_SLACK", "sim");
+
+        modalNotificacao.classList.remove("ativo");
+
+        alert("Notificações do Slack ativadas com sucesso!");
+    }
+
+    function recusarNotificacoesSlack() {
+        sessionStorage.setItem("ACEITA_NOTIFICACOES_SLACK", "nao");
+
+        modalNotificacao.classList.remove("ativo");
+
+        alert("Tudo bem! As notificações do Slack não foram ativadas.");
+    }
+
+    modalNotificacao.addEventListener("click", function (event) {
+        if (event.target === modalNotificacao) {
+            modalNotificacao.classList.remove("ativo");
+        }
+    });
+
         var inputPerfil = document.getElementById("escolaPerfilInput");
         var sugestoesPerfil = document.getElementById("sugestoesPerfil");
 
