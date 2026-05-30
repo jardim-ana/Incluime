@@ -46,7 +46,7 @@ public abstract class BaseETL {
     ) {
 
         String sql =
-                "INSERT INTO logss (acao, tipo) VALUES (?, ?)";
+                "INSERT INTO logs_sistema (acao, tipo) VALUES (?, ?)";
 
         try (
                 PreparedStatement stmt =

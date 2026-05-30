@@ -27,9 +27,6 @@ public class LeitorExcel extends BaseETL {
                     "codigo_inep, nome_escola, telefone, endereco_id" +
                     ") VALUES (?, ?, ?, ?)";
 
-    private static final String SQL_BUSCAR_ESCOLA =
-            "SELECT id FROM escola WHERE codigo_inep = ?";
-
     private static final String SQL_INSERT_CENSO =
             "INSERT INTO base_dados_censo_escolar (" +
                     "ano, sigla_uf, id_municipio, " +
@@ -61,6 +58,13 @@ public class LeitorExcel extends BaseETL {
                     "quantidade_turma_especial_comum, " +
                     "quantidade_turma_especial_exclusiva" +
                     ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    private static final String SQL_INSERT_ESCOLA_DEFICIENCIA =
+            "INSERT IGNORE INTO escola_deficiencia " +
+                    "(escola_id, deficiencia_id) VALUES (?, ?)";
+
+    private static final String SQL_BUSCAR_DEFICIENCIA =
+            "SELECT id FROM tipo_deficiencia WHERE nome = ?";
 
     public void extrairEscolas(
             String[] nomeArquivo,
@@ -385,12 +389,8 @@ public class LeitorExcel extends BaseETL {
 
                     PreparedStatement stmtEscola =
                             conexao.prepareStatement(
-                                    SQL_INSERT_ESCOLA
-                            );
-
-                    PreparedStatement stmtBuscarEscola =
-                            conexao.prepareStatement(
-                                    SQL_BUSCAR_ESCOLA
+                                    SQL_INSERT_ESCOLA,
+                                    PreparedStatement.RETURN_GENERATED_KEYS
                             );
 
                     PreparedStatement stmtCenso =
@@ -407,9 +407,38 @@ public class LeitorExcel extends BaseETL {
                     PreparedStatement stmtQuantidades =
                             conexao.prepareStatement(
                                     SQL_INSERT_QUANTIDADES
-                            )
+                            );
+
+                    PreparedStatement stmtBuscarDeficiencia =
+                            conexao.prepareStatement(
+                                    SQL_BUSCAR_DEFICIENCIA
+                            );
+
+                    PreparedStatement stmtEscolaDeficiencia =
+                            conexao.prepareStatement(
+                                    SQL_INSERT_ESCOLA_DEFICIENCIA
+                            );
+
 
             ) {
+
+                Integer idFisica =
+                        buscarIdDeficiencia(
+                                stmtBuscarDeficiencia,
+                                "Fisica"
+                        );
+
+                Integer idVisual =
+                        buscarIdDeficiencia(
+                                stmtBuscarDeficiencia,
+                                "Visual"
+                        );
+
+                Integer idAuditiva =
+                        buscarIdDeficiencia(
+                                stmtBuscarDeficiencia,
+                                "Auditiva"
+                        );
 
                 for (Escola escola : listaEscolas) {
 
@@ -467,24 +496,16 @@ public class LeitorExcel extends BaseETL {
 
                     stmtEscola.executeUpdate();
 
-                    // BUSCAR ID ESCOLA
-
-                    stmtBuscarEscola.setString(
-                            1,
-                            escola.getCodigoInep()
-                    );
-
-                    ResultSet rs =
-                            stmtBuscarEscola.executeQuery();
+                    ResultSet rsEscola =
+                            stmtEscola.getGeneratedKeys();
 
                     int escolaId = 0;
 
-                    if (rs.next()) {
+                    if (rsEscola.next()) {
 
                         escolaId =
-                                rs.getInt("id");
+                                rsEscola.getInt(1);
                     }
-
                     // CENSO
 
                     stmtCenso.setObject(
@@ -609,6 +630,85 @@ public class LeitorExcel extends BaseETL {
 
                     stmtAcessibilidade.executeUpdate();
 
+                    boolean fisica =
+                            (escola.getCorrimao() != null &&
+                                    escola.getCorrimao() == 1)
+
+                                    ||
+
+                                    (escola.getElevador() != null &&
+                                            escola.getElevador() == 1)
+
+                                    ||
+
+                                    (escola.getVaoLivre() != null &&
+                                            escola.getVaoLivre() == 1)
+
+                                    ||
+
+                                    (escola.getRampas() != null &&
+                                            escola.getRampas() == 1)
+
+                                    ||
+
+                                    (escola.getBanheiroPne() != null &&
+                                            escola.getBanheiroPne() == 1)
+
+                                    ||
+
+                                    (escola.getDependenciaPne() != null &&
+                                            escola.getDependenciaPne() == 1);
+
+                    boolean visual =
+                            (escola.getPisosTateis() != null &&
+                                    escola.getPisosTateis() == 1)
+
+                                    ||
+
+                                    (escola.getSinaisSonoros() != null &&
+                                            escola.getSinaisSonoros() == 1)
+
+                                    ||
+
+                                    (escola.getSinalTatil() != null &&
+                                            escola.getSinalTatil() == 1);
+
+                    boolean auditiva =
+                            (escola.getSinalVisual() != null &&
+                                    escola.getSinalVisual() == 1)
+
+                                    ||
+
+                                    (escola.getMaterialPedagoSurdo() != null &&
+                                            escola.getMaterialPedagoSurdo() == 1);
+
+                    if (fisica) {
+
+                        inserirDeficiencia(
+                                stmtEscolaDeficiencia,
+                                escolaId,
+                                idFisica
+                        );
+                    }
+
+                    if (visual) {
+
+                        inserirDeficiencia(
+                                stmtEscolaDeficiencia,
+                                escolaId,
+                                idVisual
+                        );
+                    }
+
+                    if (auditiva) {
+
+                        inserirDeficiencia(
+                                stmtEscolaDeficiencia,
+                                escolaId,
+                                idAuditiva
+                        );
+                    }
+
                     // QUANTIDADES
 
                     stmtQuantidades.setObject(
@@ -682,4 +782,51 @@ public class LeitorExcel extends BaseETL {
             e.printStackTrace();
         }
     }
+
+    private Integer buscarIdDeficiencia(
+            PreparedStatement stmt,
+            String nome
+    ) throws Exception {
+
+        stmt.setString(
+                1,
+                nome
+        );
+
+        ResultSet rs =
+                stmt.executeQuery();
+
+        if (rs.next()) {
+
+            return rs.getInt(
+                    "id"
+            );
+        }
+
+        return null;
+    }
+
+    private void inserirDeficiencia(
+            PreparedStatement stmt,
+            Integer escolaId,
+            Integer deficienciaId
+    ) throws Exception {
+
+        if (deficienciaId == null) {
+            return;
+        }
+
+        stmt.setInt(
+                1,
+                escolaId
+        );
+
+        stmt.setInt(
+                2,
+                deficienciaId
+        );
+
+        stmt.executeUpdate();
+    }
 }
+

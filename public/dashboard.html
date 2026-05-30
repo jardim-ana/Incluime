@@ -24,21 +24,14 @@
 
             <div id="user">
 
-                <img
-                    src="assets/imgs/avatar-do-usuario.png"
-                    alt="avatar"
-                    id="user_avatar">
+                <img src="assets/imgs/avatar-do-usuario.png" alt="avatar" id="user_avatar">
 
                 <p id="user_infos">
 
-                    <span
-                        id="nome_user"
-                        class="item-description">
+                    <span id="nome_user" class="item-description">
                     </span>
 
-                    <span
-                        id="tipo_user"
-                        class="item-description">
+                    <span id="tipo_user" class="item-description">
                     </span>
 
                 </p>
@@ -93,9 +86,7 @@
 
             <button id="abrir">
 
-                <i
-                    id="abrir_icon"
-                    class="fi fi-rs-angle-small-right">
+                <i id="abrir_icon" class="fi fi-rs-angle-small-right">
                 </i>
 
             </button>
@@ -130,9 +121,7 @@
                     Município:
                 </label>
 
-                <select
-                    name="municipio"
-                    id="municipio">
+                <select name="municipio" id="municipio">
 
                     <option value="">
                         Selecione um município
@@ -148,9 +137,7 @@
                     Rede:
                 </label>
 
-                <select
-                    name="rede"
-                    id="rede">
+                <select name="rede" id="rede">
 
                     <option value="">
                         Selecione a rede
@@ -166,9 +153,7 @@
                     Escola:
                 </label>
 
-                <select
-                    name="escolas"
-                    id="escolas">
+                <select name="escolas" id="escolas">
 
                     <option value="">
                         Selecione a escola
@@ -184,9 +169,7 @@
                     Ano:
                 </label>
 
-                <select
-                    name="ano"
-                    id="ano">
+                <select name="ano" id="ano">
 
                     <option value="2024">
                         2024
@@ -214,24 +197,22 @@
                     Deficiência:
                 </label>
 
-                <select
-                    name="deficiencia"
-                    id="deficiencia">
+                <select name="deficiencia" id="deficiencia">
 
-                    <option value="fisica">
+                    <option value="">
+                        Selecione uma deficiência
+                    </option>
+
+                    <option value="Física">
                         Física
                     </option>
 
-                    <option value="visual">
+                    <option value="Visual">
                         Visual
                     </option>
 
-                    <option value="auditiva">
+                    <option value="Auditiva">
                         Auditiva
-                    </option>
-
-                    <option value="mental">
-                        Intelectual/Mental
                     </option>
 
                 </select>
@@ -268,9 +249,7 @@
                             Ano Anterior
                         </div>
 
-                        <div
-                            class="ano-valor"
-                            id="ano-anterior">
+                        <div class="ano-valor" id="ano-anterior">
 
                             --
 
@@ -284,9 +263,7 @@
                             Ano Atual
                         </div>
 
-                        <div
-                            class="ano-valor"
-                            id="ano-atual">
+                        <div class="ano-valor" id="ano-atual">
 
                             --
 
@@ -300,17 +277,13 @@
 
                     <div class="variacao-wrapper">
 
-                        <span
-                            class="variacao-matricula"
-                            id="variacao-matricula">
+                        <span class="variacao-matricula" id="variacao-matricula">
 
                             --
 
                         </span>
 
-                        <span
-                            class="meta-matricula"
-                            id="meta-matricula">
+                        <span class="meta-matricula" id="meta-matricula">
 
                             Meta: %
 
@@ -354,9 +327,7 @@
 
         <div class="grafico-lista">
 
-            <div
-                class="grafico-linha"
-                style="height:400px;">
+            <div class="grafico-linha" style="height:400px;">
 
                 <canvas id="graficoMatriculas"></canvas>
 
@@ -426,6 +397,11 @@
 
         const escolaSelect =
             document.getElementById("escolas");
+
+        const deficienciaSelect =
+            document.getElementById(
+                "deficiencia"
+            );
 
         const ctx =
             document.getElementById(
@@ -618,50 +594,51 @@
 
         async function carregarEscolas() {
 
-            try {
+            const municipio =
+                municipioSelect.value;
 
-                const municipio =
-                    municipioSelect.value;
+            const rede =
+                redeSelect.value;
 
-                const rede =
-                    redeSelect.value;
+            const deficiencia =
+                deficienciaSelect.value;
 
-                if (!municipio || !rede)
-                    return;
+            if (
+                !municipio ||
+                !rede ||
+                !deficiencia
+            )
+                return;
 
-                const resposta =
-                    await fetch(
-                        `http://localhost:3333/dashboard/escolas/${municipio}/${rede}`
-                    );
+            const resposta =
+                await fetch(
 
-                const escolas =
-                    await resposta.json();
+                    `http://localhost:3333/dashboard/escolas/${municipio}/${rede}/${deficiencia}`
 
-                escolaSelect.innerHTML =
-                    `
-                    <option value="">
-                        Selecione a escola
-                    </option>
-                    `;
-
-                escolas.forEach(escola => {
-
-                    escolaSelect.innerHTML += `
-
-                        <option value="${escola.id}">
-                            ${escola.nome_escola}
-                        </option>
-
-                    `;
-                });
-
-            } catch (erro) {
-
-                console.error(
-                    "Erro ao carregar escolas:",
-                    erro
                 );
-            }
+
+            const escolas =
+                await resposta.json();
+
+            escolaSelect.innerHTML =
+                `
+        <option value="">
+            Selecione a escola
+        </option>
+        `;
+
+            escolas.forEach(escola => {
+
+                escolaSelect.innerHTML += `
+
+            <option value="${escola.id}">
+                ${escola.nome_escola}
+            </option>
+
+        `;
+
+            });
+
         }
 
         async function atualizarDashboard() {
@@ -773,8 +750,8 @@
                     ${variacao >= 0 ? "↑" : "↓"}
 
                     ${Math.abs(
-                        variacao
-                    ).toFixed(1)}%
+                    variacao
+                ).toFixed(1)}%
 
                 `;
 
@@ -865,8 +842,8 @@
                     <li class="
                         item-situacao
                         ${item.valor == 1
-                            ? "ativo"
-                            : "inativo"}
+                        ? "ativo"
+                        : "inativo"}
                     ">
 
                         <span>
@@ -876,8 +853,8 @@
                         <strong>
 
                             ${item.valor == 1
-                                ? "Disponível"
-                                : "Indisponível"}
+                        ? "Disponível"
+                        : "Indisponível"}
 
                         </strong>
 
@@ -889,62 +866,66 @@
 
         async function atualizarRanking() {
 
-            try {
+            const municipio =
+                municipioSelect.value;
 
-                const municipio =
-                    municipioSelect.value;
+            const rede =
+                redeSelect.value;
 
-                if (!municipio)
-                    return;
+            const deficiencia =
+                deficienciaSelect.value;
 
-                const resposta =
-                    await fetch(
-                        `http://localhost:3333/dashboard/ranking/${municipio}`
-                    );
+            if (
+                !municipio ||
+                !rede ||
+                !deficiencia
+            )
+                return;
 
-                const ranking =
-                    await resposta.json();
+            const resposta =
+                await fetch(
 
-                const rankingEl =
-                    document.querySelector(
-                        ".lista-ranking"
-                    );
+                    `http://localhost:3333/dashboard/ranking/${municipio}/${rede}/${deficiencia}`
 
-                rankingEl.innerHTML = "";
-
-                ranking.forEach((escola, i) => {
-
-                    rankingEl.innerHTML += `
-
-                        <li>
-
-                            <span class="nome-escola">
-
-                                ${i + 1}º
-                                ${escola.nome_escola}
-
-                            </span>
-
-                            <span class="porcentagem">
-
-                                ${Number(
-                                    escola.indice_acessibilidade
-                                ).toFixed(1)}%
-
-                            </span>
-
-                        </li>
-
-                    `;
-                });
-
-            } catch (erro) {
-
-                console.error(
-                    "Erro ao atualizar ranking:",
-                    erro
                 );
-            }
+
+            const ranking =
+                await resposta.json();
+
+            const rankingEl =
+                document.querySelector(
+                    ".lista-ranking"
+                );
+
+            rankingEl.innerHTML = "";
+
+            ranking.forEach((escola, i) => {
+
+                rankingEl.innerHTML += `
+
+            <li>
+
+                <span class="nome-escola">
+
+                    ${i + 1}º
+                    ${escola.nome_escola}
+
+                </span>
+
+                <span class="porcentagem">
+
+                    ${Number(
+                    escola.indice_acessibilidade
+                ).toFixed(1)}%
+
+                </span>
+
+            </li>
+
+        `;
+
+            });
+
         }
 
         async function carregarComentarios(escolaId) {
@@ -1079,18 +1060,33 @@
 
                 await carregarRedes();
 
+                deficienciaSelect.value = "";
+
                 escolaSelect.innerHTML =
                     `
-                    <option value="">
-                        Selecione a escola
-                    </option>
-                    `;
+            <option value="">
+                Selecione a escola
+            </option>
+            `;
             }
+        );
+
+        deficienciaSelect.addEventListener(
+            "change",
+            carregarEscolas
         );
 
         redeSelect.addEventListener(
             "change",
-            carregarEscolas
+            () => {
+
+                escolaSelect.innerHTML =
+                    `
+            <option value="">
+                Selecione a escola
+            </option>
+            `;
+            }
         );
 
         escolaSelect.addEventListener(
@@ -1102,6 +1098,21 @@
 
                 await atualizarDashboard();
             }
+        );
+
+        municipioSelect.addEventListener(
+            "change",
+            atualizarRanking
+        );
+
+        redeSelect.addEventListener(
+            "change",
+            atualizarRanking
+        );
+
+        deficienciaSelect.addEventListener(
+            "change",
+            atualizarRanking
         );
 
     </script>

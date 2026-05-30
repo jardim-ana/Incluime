@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0d9a4d99-34fb-4af5-aa04-afd1468767c4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/BaseETL.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Conexao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Conexao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Escola.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Escola.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/BaseETL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/BaseETL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/LeitorExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/LeitorExcel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/incluime/conectamais/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,10 +44,10 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feature/back-final",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/gabs/Documents/Incluime/ETL-ApachePOI",
+    "last_opened_file_path": "C:/Users/Gabri/OneDrive/Área de Trabalho/Segundo Semestre/Incluime/ETL-ApachePOI",
     "nodejs_package_manager_path": "npm",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
