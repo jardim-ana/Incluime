@@ -1,9 +1,8 @@
 incluime\conectamais\Escola.class
-incluime\conectamais\TesteSlack.class
-incluime\conectamais\SlackService.class
+incluime\conectamais\EmailService$1.class
 incluime\conectamais\LeitorExcel.class
-incluime\conectamais\SlackMensagemDto.class
 incluime\conectamais\client\S3Service.class
+incluime\conectamais\BaseETL.class
 incluime\conectamais\Conexao.class
-incluime\conectamais\NotificacaoSlack.class
+incluime\conectamais\EmailService.class
 incluime\conectamais\Main.class

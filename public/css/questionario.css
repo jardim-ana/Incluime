@@ -360,7 +360,7 @@ body {
     box-shadow: 0 0 0 3px rgba(63, 140, 255, 0.12);
 }
 
-/* ───── AÇÕES ───── */
+
 
 .acoes-questionario {
     display: flex;
@@ -389,6 +389,99 @@ body {
     font-size: 14px;
     font-weight: 500;
 }
+
+.questionario-layout {
+    width: 100%;
+    max-width: 1180px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.card-avaliacao-lateral {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 22px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e9e9e9;
+}
+
+.topo-avaliacao-lateral {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.topo-avaliacao-lateral h3 {
+    margin: 0;
+    font-size: 22px;
+    color: #6A3ECF;
+}
+
+.btn-lixeira-topo {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 12px;
+    background-color: #ffeded;
+    color: #e53935;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.btn-lixeira-topo:hover {
+    background-color: #e53935;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+.rotulo-avaliacao {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.bloco-nota {
+    margin-bottom: 20px;
+}
+
+.nota-destaque {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    color: var(--roxo-forte);
+    font-size: 28px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bloco-comentario {
+    background-color: #f8f9fc;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.bloco-comentario p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #374151;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+
 
 /* ───── RESPONSIVE — 960px ───── */
 
@@ -481,6 +574,20 @@ body {
     #sidebar.open-sidebar .item-description {
         width: 95px;
     }
+
+      .avaliacao-atual-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .avaliacao-botoes {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .btn-salvar-avaliacao {
+        flex: 1;
+    }
 }
 
 @media (max-width: 960px) {
@@ -571,6 +678,10 @@ body {
 
     #sidebar.open-sidebar .item-description {
         width: 95px;
+    }
+
+    .questionario-layout {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -664,5 +775,14 @@ body {
 
     #sidebar.open-sidebar .item-description {
         width: 95px;
+    }
+
+     .avaliacao-botoes {
+        flex-direction: column;
+    }
+
+    .btn-salvar-avaliacao,
+    .btn-lixeira {
+        width: 100%;
     }
 }

@@ -105,9 +105,35 @@ function deletar(req, res) {
     }
 }
 
+function atualizarNotificacaoEmail(req, res) {
+    var idUsuario = req.body.idUsuarioServer;
+    var notificacaoEmail = req.body.notificacaoEmailServer;
+
+    if (idUsuario == undefined) {
+        res.status(400).send("O id do usuário está undefined!");
+    } else if (notificacaoEmail == undefined) {
+        res.status(400).send("A preferência de notificação está undefined!");
+    } else if (notificacaoEmail != 0 && notificacaoEmail != 1) {
+        res.status(400).send("A preferência de notificação precisa ser 0 ou 1.");
+    } else {
+        usuarioModel.atualizarNotificacaoEmail(idUsuario, notificacaoEmail)
+            .then(function (resultado) {
+                res.status(200).json({
+                    mensagem: "Preferência de notificação atualizada com sucesso.",
+                    resultado: resultado
+                });
+            })
+            .catch(function (erro) {
+                console.log(erro);
+                res.status(500).json(erro.sqlMessage);
+            });
+    }
+}
+
 
 module.exports = {
     autenticar,
     atualizar,
-    deletar
+    deletar,
+      atualizarNotificacaoEmail
 }

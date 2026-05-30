@@ -6,30 +6,22 @@ public class Main {
 
     public static void main(String[] args) {
 
-        SlackService slackService =
-                new SlackService();
+        EmailService emailService = new EmailService();
 
         String[] nomeArquivo = {
                 "excel/escolas-query.xlsx",
                 "excel/nomes-escola.xlsx"
         };
 
-        BaseETL logger =
-                new LeitorExcel();
+        BaseETL logger = new LeitorExcel();
 
         try {
 
-            System.out.println(
-                    "Início da MAIN"
-            );
+            System.out.println("Início da MAIN");
 
-            Conexao conexaoBanco =
-                    new Conexao();
+            Conexao conexaoBanco = new Conexao();
 
-            try (
-                    Connection conexao =
-                            conexaoBanco.getConexao()
-            ) {
+            try (Connection conexao = conexaoBanco.getConexao()) {
 
                 logger.log(
                         conexao,
@@ -52,8 +44,7 @@ public class Main {
                         "INFO"
                 );
 
-                LeitorExcel leitor =
-                        new LeitorExcel();
+                LeitorExcel leitor = new LeitorExcel();
 
                 logger.log(
                         conexao,
@@ -61,9 +52,9 @@ public class Main {
                         "INFO"
                 );
 
-                leitor.extrairEscolas(
+               leitor.extrairEscolas(
                         nomeArquivo,
-                        conexao
+                       conexao
                 );
 
                 logger.log(
@@ -72,79 +63,51 @@ public class Main {
                         "INFO"
                 );
 
-                System.out.println(
-                        "Processamento finalizado"
+                System.out.println("Processamento finalizado");
+
+                emailService.enviarEmailParaUsuariosComNotificacaoAtiva(
+                        conexao,
+                        "Atualização de dados concluída",
+                        """
+                        A base de dados foi atualizada com sucesso.
+
+                        As informações mais recentes já estão disponíveis no sistema para consulta.
+
+                        Caso algum dado precise de revisão, ele poderá ser ajustado posteriormente pela equipe responsável.
+                        """
                 );
-
-                slackService.enviarMensagem("""
-                        ✅ ETL executado com sucesso
-
-                        Arquivos:
-                        - %s
-                        - %s
-
-                        Processo:
-                        Leitura e junção de bases com Apache POI
-
-                        Banco de destino:
-                        MySQL
-
-                        Status:
-                        Processamento finalizado
-                        """.formatted(
-                        nomeArquivo[0],
-                        nomeArquivo[1]
-                ));
             }
 
         } catch (Exception e) {
 
             try {
 
-                Conexao conexaoBanco =
-                        new Conexao();
+                Conexao conexaoBanco = new Conexao();
 
-                try (
-                        Connection conexao =
-                                conexaoBanco.getConexao()
-                ) {
+                try (Connection conexao = conexaoBanco.getConexao()) {
 
                     logger.log(
                             conexao,
-                            "Erro na MAIN: "
-                                    + e.getMessage(),
+                            "Erro na MAIN: " + e.getMessage(),
                             "ERROR"
+                    );
+
+                    emailService.enviarEmailParaUsuariosComNotificacaoAtiva(
+                            conexao,
+                            "Falha na atualização de dados",
+                            """
+                            Não foi possível concluir a atualização da base de dados.
+
+                            A equipe responsável poderá verificar o ocorrido.
+
+                            Tente novamente mais tarde ou aguarde uma nova atualização do sistema.
+                            """
                     );
                 }
 
             } catch (Exception ex) {
-
                 ex.printStackTrace();
             }
-
-            slackService.enviarMensagem("""
-                    ❌ Falha na execução do ETL
-
-                    Arquivos:
-                    - %s
-                    - %s
-
-                    Processo:
-                    Leitura e junção de bases com Apache POI
-
-                    Banco de destino:
-                    MySQL
-
-                    Erro:
-                    %s
-
-                    Status:
-                    Falha no processamento
-                    """.formatted(
-                    nomeArquivo[0],
-                    nomeArquivo[1],
-                    e.getMessage()
-            ));
 
             e.printStackTrace();
         }

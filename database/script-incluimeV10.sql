@@ -29,6 +29,7 @@ CREATE TABLE usuario (
   tipo_usuario INT NOT NULL, 
   codigo_inep VARCHAR(20) UNIQUE, 
   id_escola INT,
+  notificacao_email TINYINT DEFAULT 0,
   FOREIGN KEY (id_escola) REFERENCES escola(id)
 );
 
