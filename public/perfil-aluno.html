@@ -78,18 +78,20 @@
         <h2>Ativar notificações?</h2>
 
         <p>
-            Você deseja receber notificações pelo Slack quando houver atualizações sobre a base de dados?
+            Você deseja receber notificações pelo e-mail quando houver atualizações sobre a base de dados?
         </p>
 
-        <div class="botoes-modal">
-            <button class="botao-modal sim" onclick="aceitarNotificacoesSlack()">
-                Sim
-            </button>
+    <div class="switch-area">
+    <span class="switch-texto off">OFF</span>
 
-            <button class="botao-modal nao" onclick="recusarNotificacoesSlack()">
-                Não
-            </button>
-        </div>
+    <label class="switch">
+        <input type="checkbox" id="toggleemail">
+        <span class="slider"></span>
+    </label>
+
+    <span class="switch-texto on">ON</span>
+</div>
+</div>
     </div>
 </div>
    
@@ -204,32 +206,32 @@
     </main>
 
     <script>
-           var btnNotificacao = document.getElementById("btnNotificacao");
+     var btnNotificacao = document.getElementById("btnNotificacao");
     var modalNotificacao = document.getElementById("modalNotificacao");
 
     btnNotificacao.addEventListener("click", function () {
         modalNotificacao.classList.add("ativo");
     });
 
-    function aceitarNotificacoesSlack() {
-        sessionStorage.setItem("ACEITA_NOTIFICACOES_SLACK", "sim");
-
-        modalNotificacao.classList.remove("ativo");
-
-        alert("Notificações do Slack ativadas com sucesso!");
-    }
-
-    function recusarNotificacoesSlack() {
-        sessionStorage.setItem("ACEITA_NOTIFICACOES_SLACK", "nao");
-
-        modalNotificacao.classList.remove("ativo");
-
-        alert("Tudo bem! As notificações do Slack não foram ativadas.");
-    }
-
     modalNotificacao.addEventListener("click", function (event) {
         if (event.target === modalNotificacao) {
             modalNotificacao.classList.remove("ativo");
+        }
+    });
+
+    var toggleemail = document.getElementById("toggleemail");
+
+    var notificacaoSalva = sessionStorage.getItem("Notificações aceitas");
+
+    if (notificacaoSalva === "sim") {
+        toggleemail.checked = true;
+    }
+
+    toggleemail.addEventListener("change", function () {
+        if (toggleemail.checked) {
+            sessionStorage.setItem("Notificações aceitas", "sim");
+        } else {
+            sessionStorage.setItem("Notificações aceitas", "nao");
         }
     });
 
