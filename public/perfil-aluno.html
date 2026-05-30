@@ -78,18 +78,20 @@
         <h2>Ativar notificações?</h2>
 
         <p>
-            Você deseja receber notificações pelo Slack quando houver atualizações sobre a base de dados?
+            Você deseja receber notificações pelo e-mail quando houver atualizações sobre a base de dados?
         </p>
 
-        <div class="botoes-modal">
-            <button class="botao-modal sim" onclick="aceitarNotificacoesSlack()">
-                Sim
-            </button>
+    <div class="switch-area">
+    <span class="switch-texto off">OFF</span>
 
-            <button class="botao-modal nao" onclick="recusarNotificacoesSlack()">
-                Não
-            </button>
-        </div>
+    <label class="switch">
+        <input type="checkbox" id="toggleemail">
+        <span class="slider"></span>
+    </label>
+
+    <span class="switch-texto on">ON</span>
+</div>
+</div>
     </div>
 </div>
    
@@ -204,34 +206,70 @@
     </main>
 
     <script>
-           var btnNotificacao = document.getElementById("btnNotificacao");
-    var modalNotificacao = document.getElementById("modalNotificacao");
+        
+    var btnNotificacao = document.getElementById("btnNotificacao");
+var modalNotificacao = document.getElementById("modalNotificacao");
 
-    btnNotificacao.addEventListener("click", function () {
-        modalNotificacao.classList.add("ativo");
-    });
+btnNotificacao.addEventListener("click", function () {
+    modalNotificacao.classList.add("ativo");
+});
 
-    function aceitarNotificacoesSlack() {
-        sessionStorage.setItem("ACEITA_NOTIFICACOES_SLACK", "sim");
-
+modalNotificacao.addEventListener("click", function (event) {
+    if (event.target === modalNotificacao) {
         modalNotificacao.classList.remove("ativo");
+    }
+});
 
-        alert("Notificações do Slack ativadas com sucesso!");
+var toggleemail = document.getElementById("toggleemail");
+
+var notificacaoSalva = sessionStorage.getItem("NOTIFICACAO_EMAIL");
+
+if (notificacaoSalva == "1") {
+    toggleemail.checked = true;
+} else {
+    toggleemail.checked = false;
+}
+
+toggleemail.addEventListener("change", function () {
+    var idUsuario = sessionStorage.getItem("ID_USUARIO");
+    var notificacao = toggleemail.checked ? 1 : 0;
+
+    if (idUsuario == null || idUsuario == undefined || idUsuario == "") {
+        alert("Usuário não identificado. Faça login novamente.");
+        toggleemail.checked = !toggleemail.checked;
+        return;
     }
 
-    function recusarNotificacoesSlack() {
-        sessionStorage.setItem("ACEITA_NOTIFICACOES_SLACK", "nao");
+    fetch("/usuarios/notificacao-email", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            idUsuarioServer: idUsuario,
+            notificacaoEmailServer: notificacao
+        })
+    })
+    .then(function (resposta) {
+        if (resposta.ok) {
+            sessionStorage.setItem("NOTIFICACAO_EMAIL", notificacao);
 
-        modalNotificacao.classList.remove("ativo");
-
-        alert("Tudo bem! As notificações do Slack não foram ativadas.");
-    }
-
-    modalNotificacao.addEventListener("click", function (event) {
-        if (event.target === modalNotificacao) {
-            modalNotificacao.classList.remove("ativo");
+            if (notificacao == 1) {
+                alert("Notificações por e-mail ativadas!");
+            } else {
+                alert("Notificações por e-mail desativadas.");
+            }
+        } else {
+            alert("Erro ao atualizar preferência de notificação.");
+            toggleemail.checked = !toggleemail.checked;
         }
+    })
+    .catch(function (erro) {
+        console.log(erro);
+        alert("Erro na requisição.");
+        toggleemail.checked = !toggleemail.checked;
     });
+});
 
         var inputPerfil = document.getElementById("escolaPerfilInput");
         var sugestoesPerfil = document.getElementById("sugestoesPerfil");

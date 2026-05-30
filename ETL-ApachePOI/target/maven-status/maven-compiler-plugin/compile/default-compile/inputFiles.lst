@@ -1,9 +1,7 @@
-c:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\SlackMensagemDto.java
-c:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\client\S3Service.java
-c:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\Escola.java
-c:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\SlackService.java
-c:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\Main.java
-c:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\LeitorExcel.java
-c:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\TesteSlack.java
-c:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\Conexao.java
-c:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\NotificacaoSlack.java
+C:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\client\S3Service.java
+C:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\Escola.java
+C:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\BaseETL.java
+C:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\Main.java
+C:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\LeitorExcel.java
+C:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\Conexao.java
+C:\Users\T-GAMER\Downloads\Incluime\ETL-ApachePOI\src\main\java\incluime\conectamais\EmailService.java

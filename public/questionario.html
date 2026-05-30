@@ -74,43 +74,64 @@
             </div>
         </section>
 
-        <section class="card-questionario">
-            <h2>Formulário</h2>
+      <div class="questionario-layout">
 
-            <div class="formulario-questionario">
+    <section class="card-questionario">
+        <h2>Formulário</h2>
 
-                <div class="campo-questionario">
-                    <label>Selecione a nota:</label>
-                    <select class="select-nota" id="nota">
-                        <option value="0">Selecione...</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-                </div>
+        <div class="formulario-questionario">
 
-                <div class="campo-questionario">
-                    <label>Comentário</label>
-                    <textarea class="textarea-comentario" id="comentario"></textarea>
-                </div>
-
-                <div id="mensagem_erro" class="msg-validacao"></div>
-                <div class="acoes-questionario">
-                    <button class="botao" id="btnEnviar" onclick="enviar()">Enviar avaliação</button>
-                    <button class="botao" id="btnAlterar" style="display: none;" onclick="alterarComentario()">Salvar
-                        alterações</button>
-                    <button class="botao" style="background-color: red; display: none;" id="btnDeletar"
-                        onclick="deletarComentario()">Deletar
-                        comentario</button>
-                </div>
-
-                <div id="msg" class="msg-validacao"></div>
-
+            <div class="campo-questionario">
+                <label>Selecione a nota:</label>
+                <select class="select-nota" id="nota">
+                    <option value="0">Selecione...</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
             </div>
 
-        </section>
+            <div class="campo-questionario">
+                <label>Comentário</label>
+                <textarea class="textarea-comentario" id="comentario"></textarea>
+            </div>
+
+            <div id="mensagem_erro" class="msg-validacao"></div>
+
+            <div class="acoes-questionario">
+                <button class="botao" id="btnEnviar" onclick="enviar()">Enviar avaliação</button>
+                <button class="botao" id="btnAlterar" style="display: none;" onclick="alterarComentario()">
+                    Salvar alterações
+                </button>
+            </div>
+
+            <div id="msg" class="msg-validacao"></div>
+        </div>
+    </section>
+
+    <aside class="card-avaliacao-lateral" id="cardAvaliacaoAtual" style="display: none;">
+        <div class="topo-avaliacao-lateral">
+            <h3>Minha avaliação</h3>
+
+            <button class="btn-lixeira-topo" onclick="deletarComentario()" title="Apagar avaliação">
+                <i class="fi fi-rs-trash"></i>
+            </button>
+        </div>
+
+        <div class="bloco-nota">
+            <span class="rotulo-avaliacao">Nota</span>
+            <div class="nota-destaque" id="notaAtualValor">0</div>
+        </div>
+
+        <div class="bloco-comentario">
+            <span class="rotulo-avaliacao">Comentário</span>
+            <p id="comentarioAtualTexto">Nenhum comentário informado.</p>
+        </div>
+    </aside>
+
+</div>
 
     </main>
     <script>
@@ -156,18 +177,18 @@
                                 nota.value = json[0].nota;
                                 comentario.value = json[0].descricao;
 
-                                mensagem_erro.style.color = "green";
-                                mensagem_erro.innerHTML = `
-                        <div class="avaliacao-atual">
-        <strong>Sua avaliação atual:</strong><br>
-        Nota: ${json[0].nota}<br>
-        Comentário:
-        <div class="comentario-atual">${json[0].descricao}</div>
-    </div>
-                    `;
-                                document.getElementById("btnAlterar").style.display = "block";
-                                document.getElementById("btnDeletar").style.display = "block";
-                                document.getElementById("btnEnviar").style.display = "none";
+         document.getElementById("notaAtualValor").innerText = json[0].nota + "⭐";
+document.getElementById("comentarioAtualTexto").innerText =
+    json[0].descricao && json[0].descricao.trim() !== ""
+        ? json[0].descricao
+        : "Nenhum comentário informado.";
+
+document.getElementById("cardAvaliacaoAtual").style.display = "block";
+document.getElementById("btnAlterar").style.display = "block";
+document.getElementById("btnEnviar").style.display = "none";
+
+mensagem_erro.style.color = "green";
+mensagem_erro.innerHTML = "";
 
                             } else {
 

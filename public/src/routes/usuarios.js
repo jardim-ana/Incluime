@@ -15,4 +15,8 @@ router.delete("/deletar", function (req, res) {
     usuarioController.deletar(req, res);
 });
 
+router.put("/notificacao-email", function (req, res) {
+    usuarioController.atualizarNotificacaoEmail(req, res);
+});
+
 module.exports = router;
