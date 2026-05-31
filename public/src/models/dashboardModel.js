@@ -51,7 +51,8 @@ async function buscarRedes(
 
 async function buscarEscolas(
     municipio,
-    rede
+    rede,
+    deficiencia
 ) {
 
     const instrucaoSql = `
@@ -68,22 +69,40 @@ async function buscarEscolas(
 
         ON b.escola_id = e.id
 
+        INNER JOIN
+            escola_deficiencia ed
+
+        ON ed.escola_id = e.id
+
+        INNER JOIN
+            tipo_deficiencia td
+
+        ON td.id =
+            ed.deficiencia_id
+
         WHERE
 
-            b.id_municipio_nome = '${municipio}'
+            b.id_municipio_nome =
+                '${municipio}'
+
             AND
-            b.rede = '${rede}';
+
+            b.rede =
+                '${rede}'
+
+            AND
+
+            td.nome =
+                '${deficiencia}'
+
+        ORDER BY
+            e.nome_escola;
 
     `;
 
-    console.log(instrucaoSql);
-
-    const resultado =
-        await database.executar(
-            instrucaoSql
-        );
-
-    return resultado;
+    return await database.executar(
+        instrucaoSql
+    );
 }
 
 async function buscarDashboard(
@@ -189,28 +208,79 @@ async function buscarDashboard(
 }
 
 async function buscarRanking(
-    municipio
+    municipio,
+    rede,
+    deficiencia
 ) {
 
     const instrucaoSql = `
 
-        SELECT
+                SELECT
 
             e.nome_escola,
 
             ROUND(
 
                 (
+
                     (
-                        IFNULL(a.acessibilidade_corrimao, 0) +
-                        IFNULL(a.acessibilidade_elevador, 0) +
-                        IFNULL(a.acessibilidade_pisos_tateis, 0) +
-                        IFNULL(a.acessibilidade_vao_livre, 0) +
-                        IFNULL(a.acessibilidade_rampas, 0) +
-                        IFNULL(a.acessibilidade_sinais_sonoros, 0) +
-                        IFNULL(a.acessibilidade_sinal_tatil, 0) +
-                        IFNULL(a.acessibilidade_sinal_visual, 0)
+
+                        IFNULL(
+                            a.acessibilidade_corrimao,
+                            0
+                        )
+
+                        +
+
+                        IFNULL(
+                            a.acessibilidade_elevador,
+                            0
+                        )
+
+                        +
+
+                        IFNULL(
+                            a.acessibilidade_pisos_tateis,
+                            0
+                        )
+
+                        +
+
+                        IFNULL(
+                            a.acessibilidade_vao_livre,
+                            0
+                        )
+
+                        +
+
+                        IFNULL(
+                            a.acessibilidade_rampas,
+                            0
+                        )
+
+                        +
+
+                        IFNULL(
+                            a.acessibilidade_sinais_sonoros,
+                            0
+                        )
+
+                        +
+
+                        IFNULL(
+                            a.acessibilidade_sinal_tatil,
+                            0
+                        )
+
+                        +
+
+                        IFNULL(
+                            a.acessibilidade_sinal_visual,
+                            0
+                        )
+
                     ) / 8
+
                 ) * 100,
 
                 1
@@ -229,8 +299,31 @@ async function buscarRanking(
 
         ON a.censo_escolar_id = b.id
 
+        INNER JOIN
+            escola_deficiencia ed
+
+        ON ed.escola_id = e.id
+
+        INNER JOIN
+            tipo_deficiencia td
+
+        ON td.id =
+            ed.deficiencia_id
+
         WHERE
-            b.id_municipio_nome = '${municipio}'
+
+            b.id_municipio_nome =
+                '${municipio}'
+
+            AND
+
+            b.rede =
+                '${rede}'
+
+            AND
+
+            td.nome =
+                '${deficiencia}'
 
         ORDER BY
             indice_acessibilidade DESC;
@@ -380,6 +473,60 @@ async function buscarEscolaPorId(
         );
 
     return resultado[0];
+}
+
+async function buscarDeficiencias(
+    municipio,
+    rede
+) {
+
+    const instrucaoSql = `
+
+                SELECT DISTINCT
+
+            td.nome
+
+        FROM tipo_deficiencia td
+
+        INNER JOIN
+            escola_deficiencia ed
+
+        ON td.id =
+            ed.deficiencia_id
+
+        INNER JOIN
+            escola e
+
+        ON e.id =
+            ed.escola_id
+
+        INNER JOIN
+            base_dados_censo_escolar b
+
+        ON b.escola_id =
+            e.id
+
+        WHERE
+
+            b.id_municipio_nome =
+                '${municipio}'
+
+            AND
+
+            b.rede =
+                '${rede}'
+
+        ORDER BY
+            td.nome;
+
+    `;
+
+    const resultado =
+        await database.executar(
+            instrucaoSql
+        );
+
+    return resultado;
 }
 
 module.exports = {

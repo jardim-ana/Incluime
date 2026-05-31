@@ -65,5 +65,29 @@ router.get(
         .buscarEscolaPorId
 );
 
+router.get(
+
+    "/escolas/:municipio/:rede/:deficiencia",
+
+    dashboardController
+        .buscarEscolas
+);
+
+router.get(
+
+    "/ranking/:municipio/:rede/:deficiencia",
+
+    dashboardController
+        .buscarRanking
+);
+
+router.get(
+
+    "/deficiencias/:municipio/:rede",
+
+    dashboardController
+        .buscarDeficiencias
+);
+
 module.exports =
     router;

@@ -20,7 +20,7 @@ async function buscarMunicipios(
 
         res.status(500).json({
             erro:
-            "Erro ao buscar municípios"
+                "Erro ao buscar municípios"
         });
     }
 }
@@ -49,7 +49,7 @@ async function buscarRedes(
 
         res.status(500).json({
             erro:
-            "Erro ao buscar redes"
+                "Erro ao buscar redes"
         });
     }
 }
@@ -67,11 +67,17 @@ async function buscarEscolas(
         const rede =
             req.params.rede;
 
+        const deficiencia =
+            req.params.deficiencia;
+
         const resultado =
             await dashboardModel
                 .buscarEscolas(
+
                     municipio,
-                    rede
+                    rede,
+                    deficiencia
+
                 );
 
         res.json(resultado);
@@ -82,7 +88,7 @@ async function buscarEscolas(
 
         res.status(500).json({
             erro:
-            "Erro ao buscar escolas"
+                "Erro ao buscar escolas"
         });
     }
 }
@@ -120,7 +126,7 @@ async function buscarDashboard(
 
         res.status(500).json({
             erro:
-            "Erro ao buscar dashboard"
+                "Erro ao buscar dashboard"
         });
     }
 }
@@ -131,17 +137,24 @@ async function buscarRanking(
 ) {
 
     try {
-
         const municipio =
             req.params.municipio;
+
+        const rede =
+            req.params.rede;
+
+        const deficiencia =
+            req.params.deficiencia;
 
         const resultado =
             await dashboardModel
                 .buscarRanking(
-                    municipio
-                );
 
-        res.json(resultado);
+                    municipio,
+                    rede,
+                    deficiencia
+
+                );
 
     } catch (erro) {
 
@@ -149,7 +162,7 @@ async function buscarRanking(
 
         res.status(500).json({
             erro:
-            "Erro ao buscar ranking"
+                "Erro ao buscar ranking"
         });
     }
 }
@@ -178,7 +191,7 @@ async function buscarComentarios(
 
         res.status(500).json({
             erro:
-            "Erro ao buscar comentários"
+                "Erro ao buscar comentários"
         });
     }
 }
@@ -207,10 +220,33 @@ async function buscarEscolaPorId(
 
         res.status(500).json({
             erro:
-            "Erro ao buscar escola"
+                "Erro ao buscar escola"
         });
     }
 }
+
+async function buscarDeficiencias(
+    req,
+    res
+) {
+
+    const municipio =
+        req.params.municipio;
+
+    const rede =
+        req.params.rede;
+
+    const resultado =
+        await dashboardModel
+            .buscarDeficiencias(
+                municipio,
+                rede
+            );
+
+    res.json(resultado);
+}
+
+
 
 module.exports = {
 
@@ -220,5 +256,6 @@ module.exports = {
     buscarDashboard,
     buscarRanking,
     buscarComentarios,
-    buscarEscolaPorId
+    buscarEscolaPorId,
+    buscarDeficiencias
 };
