@@ -5,6 +5,7 @@ import java.sql.Connection;
 public class Main {
 
     public static void main(String[] args) {
+        
 
         EmailService emailService = new EmailService();
 
@@ -69,11 +70,16 @@ public class Main {
                         conexao,
                         "Atualização de dados concluída",
                         """
-                        A base de dados foi atualizada com sucesso.
+               Olá! Tudo bem? 
+               
+               Passando para avisar que a base de dados foi atualizada com sucesso.
 
-                        As informações mais recentes já estão disponíveis no sistema para consulta.
+               Os dados mais recentes já estão no sistema para você consultar. Se houver qualquer informação que precise de revisão, a equipe responsável fará os ajustes necessários posteriormente.
 
-                        Caso algum dado precise de revisão, ele poderá ser ajustado posteriormente pela equipe responsável.
+               Um abraço,
+               INCLUI🌻ME
+
+
                         """
                 );
             }
@@ -96,11 +102,14 @@ public class Main {
                             conexao,
                             "Falha na atualização de dados",
                             """
-                            Não foi possível concluir a atualização da base de dados.
+                        ⚠️
 
-                            A equipe responsável poderá verificar o ocorrido.
+                Não conseguimos concluir a atualização no momento. Sentimos muito pelo inconveniente!
 
-                            Tente novamente mais tarde ou aguarde uma nova atualização do sistema.
+                Tente novamente mais tarde ou aguarde a estabilização do sistema. Se o problema persistir, nossa equipe técnica já está acompanhando o caso.
+
+                Um abraço,
+                INCLUI🌻ME
                             """
                     );
                 }

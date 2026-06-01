@@ -18,8 +18,8 @@ import java.util.Properties;
 
 public class EmailService {
 
-    private final String remetente = "felisouza30@gmail.com";
-    private final String senhaApp = "";
+    private final String remetente = System.getenv("remete");
+private final String senhaApp = System.getenv("senhaAPP");
 
     public void enviarEmail(String destinatario, String assunto, String corpo) {
         try {
