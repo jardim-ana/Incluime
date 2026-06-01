@@ -513,7 +513,7 @@ canvas {
 .select select {
   width: 100%;
   padding: 5px 10px;
-  font-size: 20px;
+  font-size: 16.5px;
   border-radius: 10px;
   background-color: #FFFFFF;
   border: 1px solid #6EB5FF; 
@@ -563,7 +563,7 @@ canvas {
 
 .kpis > div > span:first-of-type {
   display: block;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: bold;
   color: #6A3ECF;
   margin-bottom: 5px;
