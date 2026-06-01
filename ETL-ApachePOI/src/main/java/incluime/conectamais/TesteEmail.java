@@ -7,15 +7,17 @@ public class TesteEmail {
         EmailService emailService = new EmailService();
 
         emailService.enviarEmail(
-                "felisouza30@gmail.com",
-                "Teste",
+                "jardims.ana@gmail.com",
+                "Atualização de dados concluída",
                 """
+        Olá! Tudo bem? 
+               
+        Passando para avisar que a base de dados foi atualizada com sucesso.
 
-                A base de dados foi atualizada com sucesso.
-
-                As informações mais recentes já estão disponíveis no sistema para consulta.
-
-                Caso algum dado precise de revisão, ele poderá ser ajustado posteriormente pela equipe responsável.
+        Os dados mais recentes já estão no sistema para você consultar. Se houver qualquer informação que precise de revisão, a equipe responsável fará os ajustes necessários posteriormente.
+        
+        Um abraço,
+        INCLUI🌻ME
                 """
         );
 
