@@ -526,7 +526,7 @@ canvas {
 }
 
 .select label {
-  font-size: 20px;
+  font-size: 18px;
   margin-right: 10px;
   color: #333333;
   display: flex;
@@ -733,8 +733,13 @@ canvas {
 
 .ranking-escolas h3,
 .comentarios-ranking h3 {
-  color: #333333;
+
   text-align: center;
+  font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555555;
+    text-align: center;
 }
 
 .ranking-escolas hr,

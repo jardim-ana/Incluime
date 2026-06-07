@@ -819,6 +819,14 @@ canvas {
 .comentarios-ranking h3 {
   color: #555555;
   text-align: center;
+
+  text-align: center;
+  font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #555555;
+    text-align: center;
+
 }
 
 .ranking-escolas hr,
