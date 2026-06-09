@@ -137,6 +137,7 @@ async function buscarRanking(
 ) {
 
     try {
+
         const municipio =
             req.params.municipio;
 
@@ -155,6 +156,8 @@ async function buscarRanking(
                     deficiencia
 
                 );
+
+        res.json(resultado);
 
     } catch (erro) {
 

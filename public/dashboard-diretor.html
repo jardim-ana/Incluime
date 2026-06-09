@@ -165,7 +165,6 @@
 
             if (tipoUsuario == 1) {
                 document.getElementById("avalieId").style.display = "none";
-                document.querySelector("#dashboardId").href = "./dashboard-diretor.html"
                 document.getElementById("tipo_user").innerText = "Coordenador"
             } else {
                 document.getElementById("tipo_user").innerText = "Familiar"
@@ -347,7 +346,8 @@
 
         if (
             anoAtual &&
-            anoAnterior
+            anoAnterior &&
+            Number(anoAnterior.valor) > 0
         ) {
 
             const variacao =
