@@ -730,7 +730,7 @@ canvas {
   justify-content: flex-end;
   margin-right: 50px;
   max-height: 350px;
-   flex-direction: column;
+   flex-direction: row;
 }
 .comentario{
    overflow-y: auto;
