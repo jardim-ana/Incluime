@@ -713,6 +713,15 @@ canvas {
   background-color: #ac8bf8;
 }
 
+.lista-ranking {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  overflow-y: auto;
+  flex: 1;
+}
+
 .ranking-comentarios {
   display: flex;
   gap: 5px;
@@ -720,6 +729,13 @@ canvas {
   flex-wrap: wrap;
   justify-content: flex-end;
   margin-right: 50px;
+  max-height: 350px;
+   flex-direction: column;
+}
+.comentario{
+   overflow-y: auto;
+  flex: 1;
+
 }
 
 .ranking-escolas,
@@ -756,9 +772,9 @@ canvas {
   display: flex;
   justify-content: space-between;
   font-weight: 600;
-  padding: 8px 0;
+  padding: 8px 10px;
   border-bottom: 1px solid #F0F0F0;
-  margin-right: 80px;
+  margin-right: 0;
 }
 
 .ranking-escolas .nome-escola {
@@ -770,7 +786,9 @@ canvas {
 }
 
 .ranking-escolas {
-  margin-left: auto; 
+   max-height: 350px;
+  display: flex;
+  flex-direction: column;
 }
 
 .comentarios-ranking .comentario {

@@ -72,14 +72,6 @@
             <div class="kpi kpi-percentual-matriculas">
                 <h4>Taxa de variação de Matrículas</h4>
                 <div class="anos-container">
-                     <div class="variacao-container">
-                    <div class="variacao-wrapper"> <span class="variacao-matricula" id="variacao-matricula">--</span>
-                        <span class="meta-matricula" id="meta-matricula"> Meta: <span class="valor">1.0%</span> </span>
-                        <button class="btn-editar" data-meta="matricula">Alterar meta</button> <span
-                            class="edit-container" id="edit-matricula" style="display:none;"> <input type="number"
-                                step="0.1" id="input-matricula"> <button class="btn-salvar"
-                                data-meta="matricula">Salvar</button> </span>
-                    </div>
                     <div class="ano-item">
                         <div class="ano-label">Ano Anterior</div>
                         <div class="ano-valor" id="ano-anterior">--</div>
@@ -88,29 +80,51 @@
                         <div class="ano-label">Ano Atual</div>
                         <div class="ano-valor" id="ano-atual">--</div>
                     </div>
-                    
                 </div>
-               
-                </div> <i><span>*Dados da sua escola</span></i>
+                <div class="variacao-container">
+                    <div class="variacao-wrapper"> <span class="variacao-matricula" id="variacao-matricula">--</span>
+                        <span class="meta-matricula" id="meta-matricula"> Meta: <span class="valor">1.0%</span> </span>
+                        <button class="btn-editar" data-meta="matricula">Alterar meta</button>
+                        <span class="edit-container" id="edit-matricula" style="display:none;"> <input
+                                type="number" step="0.1" id="input-matricula"> <button class="btn-salvar"
+                                data-meta="matricula">Salvar</button> </span>
+                                <button class="btn-excluir" data-meta="matricula">
+                            Excluir meta
+                        </button> 
+                    </div>
+                    
+                </div> <i><span>** As metas possuem valores sugeridos como padrão. Caso sejam alteradas, você pode
+                        excluir para voltar ao valor original.</span></i>
             </div>
             <div class="kpi kpi-acessibilidade-escola">
-                <h4>Índice de acessibilidade</h4> <span class="acessibilidade">--</span> <span
-                    class="meta-acessibilidade" id="meta-acessibilidade"> Meta: <span class="valor">90%</span> </span>
+                <h4>Índice de acessibilidade</h4> <span class="acessibilidade">--</span> 
+                 <div class="meta-area">
+                <span class="meta-acessibilidade" id="meta-acessibilidade"> Meta: <span class="valor">90%</span> </span>
+                    <button class="btn-editar" data-meta="acessibilidade">Alterar meta</button> 
+                    <span class="edit-container" id="edit-acessibilidade" style="display:none;"> <input type="number" id="input-acessibilidade">
+                    <button class="btn-salvar" data-meta="acessibilidade">Salvar</button>
+                </span>
+                <button class="btn-excluir" data-meta="acessibilidade">
+                    Excluir meta
+                </button>
+                </div>
+
                 <div class="kpi kpi-indice-meta">
                     <h4>Diferença entre o índice e a meta</h4> <span class="diferenca-meta">--</span>
                 </div>
-                <button class="btn-editar" data-meta="acessibilidade">Alterar meta</button> <span class="edit-container"
-                    id="edit-acessibilidade" style="display:none;"> <input type="number" id="input-acessibilidade">
-                    <button class="btn-salvar" data-meta="acessibilidade">Salvar</button> </span> <i><span>*Dados da sua
-                        escola</span></i>
+                <i><span>** As metas
+                        possuem valores sugeridos como padrão. Caso sejam alteradas, você pode excluir para voltar ao
+                        valor original.</span></i>
+
             </div>
 
         </div>
         <div class="grafico-lista">
-            <div class="grafico-linha" style="height: 400px;"> <canvas id="graficoMatriculas"></canvas> </div>
+            <div class="grafico-linha"> <canvas id="graficoMatriculas"></canvas> </div>
             <div class="menor-indicador">
                 <h4>Indicador de acessibilidade</h4>
                 <ul class="lista-situacoes"></ul> <i><span>*Dados da sua escola</span></i>
+
             </div>
         </div>
         <div class="ranking-comentarios">
@@ -129,42 +143,42 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
 
-    let grafico;
+        let grafico;
 
-    const ctx =
-        document.getElementById(
-            "graficoMatriculas"
-        ).getContext("2d");
+        const ctx =
+            document.getElementById(
+                "graficoMatriculas"
+            ).getContext("2d");
 
-    let metas = {
-        matricula: 1.0,
-        acessibilidade: 90
-    };
+        let metas = {
+            matricula: 1.0,
+            acessibilidade: 90
+        };
 
-    let escolaIdGlobal = null;
+        let escolaIdGlobal = null;
 
-    window.onload = async function () {
+        window.onload = async function () {
 
-        const nomeUsuario =
-            sessionStorage.getItem(
-                "NOME_USUARIO"
-            );
+            const nomeUsuario =
+                sessionStorage.getItem(
+                    "NOME_USUARIO"
+                );
 
-        const sobrenomeUsuario =
-            sessionStorage.getItem(
-                "SOBRENOME_USUARIO"
-            );
+            const sobrenomeUsuario =
+                sessionStorage.getItem(
+                    "SOBRENOME_USUARIO"
+                );
 
-        const tipoUsuario =
-            sessionStorage.getItem(
-                "TIPO_USUARIO"
-            );
+            const tipoUsuario =
+                sessionStorage.getItem(
+                    "TIPO_USUARIO"
+                );
 
-        const escolaId =
-            sessionStorage.getItem(
-                "ID_ESCOLA"
-            );
-        console.log("ID_ESCOLA:", escolaId);
+            const escolaId =
+                sessionStorage.getItem(
+                    "ID_ESCOLA"
+                );
+            console.log("ID_ESCOLA:", escolaId);
             if (tipoUsuario == 1) {
                 document.getElementById("avalieId").style.display = "none";
                 document.getElementById("tipo_user").innerText = "Coordenador"
@@ -172,208 +186,208 @@
                 document.getElementById("tipo_user").innerText = "Familiar"
             }
 
-        escolaIdGlobal =
-            escolaId;
+            escolaIdGlobal =
+                escolaId;
 
-        document.getElementById(
-            "nome_user"
-        ).innerText =
-            `${nomeUsuario} ${sobrenomeUsuario}`;
+            document.getElementById(
+                "nome_user"
+            ).innerText =
+                `${nomeUsuario} ${sobrenomeUsuario}`;
 
-        document.getElementById(
-            "tipo_user"
-        ).innerText =
-            tipoUsuario;
+            document.getElementById(
+                "tipo_user"
+            ).innerText =
+                tipoUsuario;
 
-        iniciarGrafico();
+            iniciarGrafico();
 
-        if (escolaId) {
+            if (escolaId) {
 
-            await carregarMetas(
-                escolaId
-            );
-
-            await atualizarDashboard(
-                escolaId
-            );
-        }
-    };
-
-    async function carregarMetas(escolaId) {
-
-        try {
-
-            const resposta =
-                await fetch(
-                    `/meta/${escolaId}`
+                await carregarMetas(
+                    escolaId
                 );
 
-            const metasBanco =
-                await resposta.json();
-
-            if (
-                metasBanco &&
-                metasBanco.length > 0
-            ) {
-
-                metas.matricula =
-                    Number(
-                        metasBanco[0]
-                            .meta_matricula || 1
-                    );
-
-                metas.acessibilidade =
-                    Number(
-                        metasBanco[0]
-                            .meta_acessibilidade || 90
-                    );
+                await atualizarDashboard(
+                    escolaId
+                );
             }
+        };
+
+        async function carregarMetas(escolaId) {
+
+            try {
+
+                const resposta =
+                    await fetch(
+                        `/meta/${escolaId}`
+                    );
+
+                const metasBanco =
+                    await resposta.json();
+
+                if (
+                    metasBanco &&
+                    metasBanco.length > 0
+                ) {
+
+                    metas.matricula =
+                        Number(
+                            metasBanco[0]
+                                .meta_matricula || 1
+                        );
+
+                    metas.acessibilidade =
+                        Number(
+                            metasBanco[0]
+                                .meta_acessibilidade || 90
+                        );
+                }
+
+                atualizarMeta("matricula");
+                atualizarMeta("acessibilidade");
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao carregar metas:",
+                    erro
+                );
+            }
+        }
+
+        async function salvarMeta() {
+
+            try {
+
+                await fetch(
+
+                    `/meta/${escolaIdGlobal}`,
+
+                    {
+                        method: "PUT",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body: JSON.stringify({
+
+                            metaMatricula:
+                                metas.matricula,
+
+                            metaAcessibilidade:
+                                metas.acessibilidade
+                        })
+                    }
+                );
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao salvar meta:",
+                    erro
+                );
+            }
+        }
+
+        async function atualizarDashboard(escolaId) {
+
+            try {
+
+                const resposta =
+                    await fetch(
+                        `/dashboard/dashboard/${escolaId}`
+                    );
+
+                const info =
+                    await resposta.json();
+
+                console.log(info);
+
+                atualizarKPIs(info);
+
+                atualizarListaAcessibilidade(info);
+
+                atualizarRanking(
+                    info.id_municipio_nome
+                );
+
+                carregarComentarios(
+                    escolaId
+                );
+
+                atualizarGrafico(
+                    info.historico
+                );
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro ao carregar dashboard:",
+                    erro
+                );
+            }
+        }
+
+        function atualizarKPIs(info) {
+
+            document.querySelector(
+                ".acessibilidade"
+            ).textContent =
+
+                Number(
+                    info.indice_acessibilidade || 0
+                ).toFixed(1) + "%";
 
             atualizarMeta("matricula");
             atualizarMeta("acessibilidade");
 
-        } catch (erro) {
+            const historico =
+                info.historico || [];
 
-            console.error(
-                "Erro ao carregar metas:",
-                erro
-            );
-        }
-    }
+            const anoAtual =
+                historico[historico.length - 1];
 
-    async function salvarMeta() {
+            const anoAnterior =
+                historico[historico.length - 2];
 
-        try {
+            document.getElementById(
+                "ano-atual"
+            ).textContent =
+                anoAtual?.valor || "--";
 
-            await fetch(
+            document.getElementById(
+                "ano-anterior"
+            ).textContent =
+                anoAnterior?.valor || "--";
 
-                `/meta/${escolaIdGlobal}`,
+            if (
+                anoAtual &&
+                anoAnterior &&
+                Number(anoAnterior.valor) > 0
+            ) {
 
-                {
-                    method: "PUT",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-
-                        metaMatricula:
-                            metas.matricula,
-
-                        metaAcessibilidade:
-                            metas.acessibilidade
-                    })
-                }
-            );
-
-        } catch (erro) {
-
-            console.error(
-                "Erro ao salvar meta:",
-                erro
-            );
-        }
-    }
-
-    async function atualizarDashboard(escolaId) {
-
-        try {
-
-            const resposta =
-                await fetch(
-                    `/dashboard/dashboard/${escolaId}`
-                );
-
-            const info =
-                await resposta.json();
-            
-            console.log(info);
-
-            atualizarKPIs(info);
-
-            atualizarListaAcessibilidade(info);
-
-            atualizarRanking(
-                info.id_municipio_nome
-            );
-
-            carregarComentarios(
-                escolaId
-            );
-
-            atualizarGrafico(
-                info.historico
-            );
-
-        } catch (erro) {
-
-            console.error(
-                "Erro ao carregar dashboard:",
-                erro
-            );
-        }
-    }
-
-    function atualizarKPIs(info) {
-
-        document.querySelector(
-            ".acessibilidade"
-        ).textContent =
-
-            Number(
-                info.indice_acessibilidade || 0
-            ).toFixed(1) + "%";
-
-        atualizarMeta("matricula");
-        atualizarMeta("acessibilidade");
-
-        const historico =
-            info.historico || [];
-
-        const anoAtual =
-            historico[historico.length - 1];
-
-        const anoAnterior =
-            historico[historico.length - 2];
-
-        document.getElementById(
-            "ano-atual"
-        ).textContent =
-            anoAtual?.valor || "--";
-
-        document.getElementById(
-            "ano-anterior"
-        ).textContent =
-            anoAnterior?.valor || "--";
-
-        if (
-            anoAtual &&
-            anoAnterior &&
-            Number(anoAnterior.valor) > 0
-        ) {
-
-            const variacao =
-                (
+                const variacao =
                     (
-                        anoAtual.valor -
+                        (
+                            anoAtual.valor -
+                            anoAnterior.valor
+                        ) /
                         anoAnterior.valor
-                    ) /
-                    anoAnterior.valor
-                ) * 100;
+                    ) * 100;
 
-            const variacaoEl =
-                document.getElementById(
-                    "variacao-matricula"
-                );
+                const variacaoEl =
+                    document.getElementById(
+                        "variacao-matricula"
+                    );
 
-            const seta =
-                variacao >= 0
-                    ? "↑"
-                    : "↓";
+                const seta =
+                    variacao >= 0
+                        ? "↑"
+                        : "↓";
 
-            variacaoEl.innerHTML = `
+                variacaoEl.innerHTML = `
 
                 Variação:
                 <span class="seta">
@@ -386,128 +400,128 @@
 
             `;
 
-            variacaoEl.classList.remove(
-                "positivo",
-                "negativo"
-            );
+                variacaoEl.classList.remove(
+                    "positivo",
+                    "negativo"
+                );
 
-            variacaoEl.classList.add(
-                variacao >= 0
-                    ? "positivo"
-                    : "negativo"
-            );
-        }
-
-        atualizarDiferencaMeta(info);
-    }
-
-    function atualizarDiferencaMeta(info) {
-
-        document.querySelector(
-            ".diferenca-meta"
-        ).textContent =
-
-            (
-                metas.acessibilidade -
-                Number(
-                    info.indice_acessibilidade || 0
-                )
-            ).toFixed(1) + "%";
-    }
-
-    function atualizarMeta(tipo) {
-
-        if (tipo === "matricula") {
-
-            document.querySelector(
-                "#meta-matricula .valor"
-            ).textContent =
-
-                metas.matricula + "%";
-        }
-
-        if (tipo === "acessibilidade") {
-
-            document.querySelector(
-                "#meta-acessibilidade .valor"
-            ).textContent =
-
-                metas.acessibilidade + "%";
-        }
-    }
-
-    function atualizarListaAcessibilidade(info) {
-
-        const lista =
-            document.querySelector(
-                ".lista-situacoes"
-            );
-
-        const itens = [
-
-            {
-                nome: "Corrimão",
-                valor:
-                    info.acessibilidade_corrimao
-            },
-
-            {
-                nome: "Elevador",
-                valor:
-                    info.acessibilidade_elevador
-            },
-
-            {
-                nome: "Pisos Táteis",
-                valor:
-                    info.acessibilidade_pisos_tateis
-            },
-
-            {
-                nome: "Vão Livre",
-                valor:
-                    info.acessibilidade_vao_livre
-            },
-
-            {
-                nome: "Rampas",
-                valor:
-                    info.acessibilidade_rampas
-            },
-
-            {
-                nome: "Sinais Sonoros",
-                valor:
-                    info.acessibilidade_sinais_sonoros
-            },
-
-            {
-                nome: "Sinal Tátil",
-                valor:
-                    info.acessibilidade_sinal_tatil
-            },
-
-            {
-                nome: "Sinal Visual",
-                valor:
-                    info.acessibilidade_sinal_visual
-            },
-
-            {
-                nome: "Acessibilidade Inexistente",
-                valor:
-                    info.acessibilidade_inexistente
+                variacaoEl.classList.add(
+                    variacao >= 0
+                        ? "positivo"
+                        : "negativo"
+                );
             }
-        ];
 
-        lista.innerHTML =
-            itens.map(item => `
+            atualizarDiferencaMeta(info);
+        }
+
+        function atualizarDiferencaMeta(info) {
+
+            document.querySelector(
+                ".diferenca-meta"
+            ).textContent =
+
+                (
+                    metas.acessibilidade -
+                    Number(
+                        info.indice_acessibilidade || 0
+                    )
+                ).toFixed(1) + "%";
+        }
+
+        function atualizarMeta(tipo) {
+
+            if (tipo === "matricula") {
+
+                document.querySelector(
+                    "#meta-matricula .valor"
+                ).textContent =
+
+                    metas.matricula + "%";
+            }
+
+            if (tipo === "acessibilidade") {
+
+                document.querySelector(
+                    "#meta-acessibilidade .valor"
+                ).textContent =
+
+                    metas.acessibilidade + "%";
+            }
+        }
+
+        function atualizarListaAcessibilidade(info) {
+
+            const lista =
+                document.querySelector(
+                    ".lista-situacoes"
+                );
+
+            const itens = [
+
+                {
+                    nome: "Corrimão",
+                    valor:
+                        info.acessibilidade_corrimao
+                },
+
+                {
+                    nome: "Elevador",
+                    valor:
+                        info.acessibilidade_elevador
+                },
+
+                {
+                    nome: "Pisos Táteis",
+                    valor:
+                        info.acessibilidade_pisos_tateis
+                },
+
+                {
+                    nome: "Vão Livre",
+                    valor:
+                        info.acessibilidade_vao_livre
+                },
+
+                {
+                    nome: "Rampas",
+                    valor:
+                        info.acessibilidade_rampas
+                },
+
+                {
+                    nome: "Sinais Sonoros",
+                    valor:
+                        info.acessibilidade_sinais_sonoros
+                },
+
+                {
+                    nome: "Sinal Tátil",
+                    valor:
+                        info.acessibilidade_sinal_tatil
+                },
+
+                {
+                    nome: "Sinal Visual",
+                    valor:
+                        info.acessibilidade_sinal_visual
+                },
+
+                {
+                    nome: "Acessibilidade Inexistente",
+                    valor:
+                        info.acessibilidade_inexistente
+                }
+            ];
+
+            lista.innerHTML =
+                itens.map(item => `
 
             <li class="
                 item-situacao
                 ${item.valor == 1
-                    ? "ativo"
-                    : "inativo"}
+                        ? "ativo"
+                        : "inativo"}
             ">
 
                 <span>
@@ -525,27 +539,27 @@
             </li>
 
         `).join("");
-    }
+        }
 
-    async function atualizarRanking(municipio) {
+        async function atualizarRanking(municipio) {
 
-        try {
+            try {
 
-            const resposta =
-                await fetch(
-                    `/dashboard/ranking/${municipio}`
-                );
+                const resposta =
+                    await fetch(
+                        `/dashboard/ranking/${municipio}`
+                    );
 
-            const ranking =
-                await resposta.json();
+                const ranking =
+                    await resposta.json();
 
-            const rankingEl =
-                document.querySelector(
-                    ".lista-ranking"
-                );
+                const rankingEl =
+                    document.querySelector(
+                        ".lista-ranking"
+                    );
 
-            rankingEl.innerHTML =
-                ranking.map((escola, i) => `
+                rankingEl.innerHTML =
+                    ranking.map((escola, i) => `
 
                 <li>
 
@@ -559,8 +573,8 @@
                     <span class="porcentagem">
 
                         ${Number(
-                            escola.indice_acessibilidade
-                        ).toFixed(1)}%
+                        escola.indice_acessibilidade
+                    ).toFixed(1)}%
 
                     </span>
 
@@ -568,47 +582,47 @@
 
             `).join("");
 
-        } catch (erro) {
+            } catch (erro) {
 
-            console.error(
-                "Erro ao carregar ranking:",
-                erro
-            );
+                console.error(
+                    "Erro ao carregar ranking:",
+                    erro
+                );
+            }
         }
-    }
 
-    async function carregarComentarios(escolaId) {
+        async function carregarComentarios(escolaId) {
 
-        try {
+            try {
 
-            const resposta =
-                await fetch(
-                    `/dashboard/comentarios/${escolaId}`
+                const resposta =
+                    await fetch(
+                        `/dashboard/comentarios/${escolaId}`
+                    );
+
+                const comentarios =
+                    await resposta.json();
+
+                atualizarComentarios(
+                    comentarios
                 );
 
-            const comentarios =
-                await resposta.json();
+            } catch (erro) {
 
-            atualizarComentarios(
-                comentarios
-            );
-
-        } catch (erro) {
-
-            console.error(
-                "Erro ao carregar comentários:",
-                erro
-            );
+                console.error(
+                    "Erro ao carregar comentários:",
+                    erro
+                );
+            }
         }
-    }
 
-    function atualizarComentarios(comentarios) {
+        function atualizarComentarios(comentarios) {
 
-        document.querySelector(
-            ".comentarios"
-        ).innerHTML =
+            document.querySelector(
+                ".comentarios"
+            ).innerHTML =
 
-            comentarios.map(c => `
+                comentarios.map(c => `
 
             <div class="comentario">
 
@@ -624,208 +638,209 @@
             </div>
 
         `).join("");
-    }
+        }
 
-    function iniciarGrafico() {
+        function iniciarGrafico() {
 
-        grafico = new Chart(ctx, {
+            grafico = new Chart(ctx, {
 
-            type: "line",
+                type: "line",
 
-            data: {
+                data: {
 
-                labels: [],
+                    labels: [],
 
-                datasets: [
+                    datasets: [
 
-                    {
-                        label: "Matrículas",
+                        {
+                            label: "Matrículas",
 
-                        data: [],
+                            data: [],
 
-                        borderColor: "blue",
+                            borderColor: "blue",
 
-                        fill: false,
+                            fill: false,
 
-                        tension: 0.3
+                            tension: 0.3
 
-                       
-                    }
-                ]
-            },
 
-            options: {
+                        }
+                    ]
+                },
 
-                responsive: true,
+                options: {
 
-                plugins: {
+                    responsive: true,
+                    maintainAspectRatio: false,
 
-                    legend: {
-                        position: "bottom"
-                    },
+                    plugins: {
 
-                    title: {
-
-                        display: true,
-
-                        text:
-                            "Gráfico da diferença de matrículas",
-
-                        font: {
-                            size: 18
+                        legend: {
+                            position: "bottom"
                         },
 
-                        padding: {
-                            top: 10,
-                            bottom: 30
+                        title: {
+
+                            display: true,
+
+                            text:
+                                "Gráfico da diferença de matrículas",
+
+                            font: {
+                                size: 18
+                            },
+
+                            padding: {
+                                top: 10,
+                                bottom: 30
+                            }
                         }
                     }
                 }
-            }
-        });
-    }
-
-    function atualizarGrafico(historico) {
-
-        if (
-            !historico ||
-            !Array.isArray(historico)
-        ) {
-
-            console.log(
-                "Histórico inválido:",
-                historico
-            );
-
-            return;
+            });
         }
 
-        grafico.data.labels =
-            historico.map(
-                item => item.ano
-            );
+        function atualizarGrafico(historico) {
 
-        grafico.data.datasets[0].data =
-            historico.map(
-                item => item.valor
-            );
+            if (
+                !historico ||
+                !Array.isArray(historico)
+            ) {
 
-        grafico.update();
-    }
+                console.log(
+                    "Histórico inválido:",
+                    historico
+                );
 
-    document.querySelectorAll(
-        ".edit-container"
-    ).forEach((container) => {
+                return;
+            }
 
-        const botaoCancelar =
-            document.createElement("button");
+            grafico.data.labels =
+                historico.map(
+                    item => item.ano
+                );
 
-        botaoCancelar.textContent =
-            "Cancelar";
+            grafico.data.datasets[0].data =
+                historico.map(
+                    item => item.valor
+                );
 
-        botaoCancelar.className =
-            "btn-cancelar-meta";
+            grafico.update();
+        }
 
-        botaoCancelar.addEventListener(
-            "click",
-            () => {
+        document.querySelectorAll(
+            ".edit-container"
+        ).forEach((container) => {
 
-                container.style.display =
-                    "none";
+            const botaoCancelar =
+                document.createElement("button");
 
-                const tipoMeta =
-                    container.id.replace(
-                        "edit-",
-                        ""
-                    );
+            botaoCancelar.textContent =
+                "Cancelar";
 
-                const botaoEditar =
-                    document.querySelector(
-                        `.btn-editar[data-meta="${tipoMeta}"]`
-                    );
+            botaoCancelar.className =
+                "btn-cancelar-meta";
 
-                if (botaoEditar) {
+            botaoCancelar.addEventListener(
+                "click",
+                () => {
 
-                    botaoEditar.style.display =
-                        "inline-block";
+                    container.style.display =
+                        "none";
+
+                    const tipoMeta =
+                        container.id.replace(
+                            "edit-",
+                            ""
+                        );
+
+                    const botaoEditar =
+                        document.querySelector(
+                            `.btn-editar[data-meta="${tipoMeta}"]`
+                        );
+
+                    if (botaoEditar) {
+
+                        botaoEditar.style.display =
+                            "inline-block";
+                    }
                 }
-            }
-        );
+            );
 
-        container.appendChild(
-            botaoCancelar
-        );
-    });
+            container.appendChild(
+                botaoCancelar
+            );
+        });
 
-    document.querySelectorAll(
-        ".btn-editar"
-    ).forEach(btn => {
+        document.querySelectorAll(
+            ".btn-editar"
+        ).forEach(btn => {
 
-        btn.addEventListener(
-            "click",
-            () => {
+            btn.addEventListener(
+                "click",
+                () => {
 
-                const tipo =
-                    btn.dataset.meta;
+                    const tipo =
+                        btn.dataset.meta;
 
-                btn.style.display =
-                    "none";
+                    btn.style.display =
+                        "none";
 
-                document.getElementById(
-                    `edit-${tipo}`
-                ).style.display =
-                    "inline-block";
+                    document.getElementById(
+                        `edit-${tipo}`
+                    ).style.display =
+                        "inline-block";
 
-                document.getElementById(
-                    `input-${tipo}`
-                ).value =
-                    metas[tipo];
-            }
-        );
-    });
-
-    document.querySelectorAll(
-        ".btn-salvar"
-    ).forEach(btn => {
-
-        btn.addEventListener(
-            "click",
-            async () => {
-
-                const tipo =
-                    btn.dataset.meta;
-
-                const input =
                     document.getElementById(
                         `input-${tipo}`
-                    );
+                    ).value =
+                        metas[tipo];
+                }
+            );
+        });
 
-                const novoValor =
-                    parseFloat(
-                        input.value
-                    );
+        document.querySelectorAll(
+            ".btn-salvar"
+        ).forEach(btn => {
 
-                if (isNaN(novoValor))
-                    return;
+            btn.addEventListener(
+                "click",
+                async () => {
 
-                metas[tipo] =
-                    novoValor;
+                    const tipo =
+                        btn.dataset.meta;
 
-                atualizarMeta(tipo);
+                    const input =
+                        document.getElementById(
+                            `input-${tipo}`
+                        );
 
-                await salvarMeta();
+                    const novoValor =
+                        parseFloat(
+                            input.value
+                        );
 
-                document.getElementById(
-                    `edit-${tipo}`
-                ).style.display =
-                    "none";
+                    if (isNaN(novoValor))
+                        return;
 
-                document.querySelector(
-                    `.btn-editar[data-meta="${tipo}"]`
-                ).style.display =
-                    "inline-block";
-            }
-        );
-    });
+                    metas[tipo] =
+                        novoValor;
 
-</script>
+                    atualizarMeta(tipo);
+
+                    await salvarMeta();
+
+                    document.getElementById(
+                        `edit-${tipo}`
+                    ).style.display =
+                        "none";
+
+                    document.querySelector(
+                        `.btn-editar[data-meta="${tipo}"]`
+                    ).style.display =
+                        "inline-block";
+                }
+            );
+        });
+
+    </script>
