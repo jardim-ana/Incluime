@@ -162,7 +162,7 @@
             sessionStorage.getItem(
                 "ID_ESCOLA"
             );
-
+        console.log("ID_ESCOLA:", escolaId);
             if (tipoUsuario == 1) {
                 document.getElementById("avalieId").style.display = "none";
                 document.getElementById("tipo_user").innerText = "Coordenador"
@@ -203,7 +203,7 @@
 
             const resposta =
                 await fetch(
-                    `http://localhost:3333/meta/${escolaId}`
+                    `/meta/${escolaId}`
                 );
 
             const metasBanco =
@@ -245,7 +245,7 @@
 
             await fetch(
 
-                `http://localhost:3333/meta/${escolaIdGlobal}`,
+                `/meta/${escolaIdGlobal}`,
 
                 {
                     method: "PUT",
@@ -281,11 +281,13 @@
 
             const resposta =
                 await fetch(
-                    `http://localhost:3333/dashboard/dashboard/${escolaId}`
+                    `/dashboard/dashboard/${escolaId}`
                 );
 
             const info =
                 await resposta.json();
+            
+            console.log(info);
 
             atualizarKPIs(info);
 
@@ -529,7 +531,7 @@
 
             const resposta =
                 await fetch(
-                    `http://localhost:3333/dashboard/ranking/${municipio}`
+                    `/dashboard/ranking/${municipio}`
                 );
 
             const ranking =
@@ -579,7 +581,7 @@
 
             const resposta =
                 await fetch(
-                    `http://localhost:3333/dashboard/comentarios/${escolaId}`
+                    `/dashboard/comentarios/${escolaId}`
                 );
 
             const comentarios =

@@ -518,7 +518,7 @@
 
                 const resposta =
                     await fetch(
-                        `/dashboard/redes/${encondeURIComponent(municipio)}`
+                        `/dashboard/redes/${encodeURIComponent(municipio)}`
                     );
 
                 const redes =
@@ -649,11 +649,6 @@
         }
 
         function atualizarKPIs(info) {
-
-            document.querySelector(
-                ".matriculas"
-            ).textContent =
-                info.nome_escola || "--";
 
             document.querySelector(
                 ".acessibilidade"
@@ -868,6 +863,14 @@
 
             const ranking =
                 await resposta.json();
+
+            if (ranking.length > 0) {
+
+                document.querySelector(
+                    ".matriculas"
+                ).textContent =
+                    ranking[0].nome_escola;
+            }
 
             const rankingEl =
                 document.querySelector(

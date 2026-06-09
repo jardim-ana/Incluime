@@ -311,7 +311,9 @@ async function buscarRanking(
                     '${deficiencia}'
 
             ORDER BY
-                indice_acessibilidade DESC;
+                indice_acessibilidade DESC
+                
+            LIMIT 10;
 
         `;
 
@@ -386,7 +388,9 @@ async function buscarRanking(
                     '${municipio}'
 
             ORDER BY
-                indice_acessibilidade DESC;
+                indice_acessibilidade DESC
+
+            LIMIT 10;
 
         `;
     }

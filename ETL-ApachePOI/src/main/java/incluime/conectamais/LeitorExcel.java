@@ -84,8 +84,8 @@ public class LeitorExcel extends BaseETL {
         List<Escola> listaEscolas =
                 new ArrayList<>();
 
-        Map<String, Escola> mapaEscolas =
-                new HashMap<>();
+        Map<String, List<Escola>> mapaEscolas =
+        new HashMap<>();
 
         try {
 
@@ -308,10 +308,10 @@ public class LeitorExcel extends BaseETL {
                             )
                     );
 
-                    mapaEscolas.put(
-                            codigoInep,
-                            escola
-                    );
+                    mapaEscolas.computeIfAbsent(
+                                codigoInep,
+                                k -> new ArrayList<>()
+                        ).add(escola);
                 }
             }
 
@@ -342,15 +342,15 @@ public class LeitorExcel extends BaseETL {
                                     getCell(row, 0)
                             );
 
-                    Escola escola =
-                            mapaEscolas.get(
-                                    codigoInep
-                            );
+                    List<Escola> escolas =
+                        mapaEscolas.get(
+                                codigoInep
+                        );
 
-                    if (escola != null) {
-
-                        escola.setNomeEscola(
-                                formatter.formatCellValue(
+                    if (escolas != null) {
+                        for (Escola escola : escolas) {
+                            escola.setNomeEscola(
+                                    formatter.formatCellValue(
                                         getCell(row, 1)
                                 )
                         );
@@ -385,6 +385,7 @@ public class LeitorExcel extends BaseETL {
                     }
                 }
             }
+        }
 
             try (
 
