@@ -146,39 +146,6 @@
                 </select>
 
             </div>
-
-            <div class="select">
-
-                <label for="escolas">
-                    Escola:
-                </label>
-
-                <select name="escolas" id="escolas">
-
-                    <option value="">
-                        Selecione a escola
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="select">
-
-                <label for="ano">
-                    Ano:
-                </label>
-
-                <select name="ano" id="ano">
-                    <option value="">Selecione o ano</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                </select>
-
-            </div>
-
             <div class="select">
 
                 <label for="deficiencia">
@@ -206,6 +173,25 @@
                 </select>
 
             </div>
+
+            <div class="select">
+
+                <label for="escolas">
+                    Escola:
+                </label>
+
+                <select name="escolas" id="escolas">
+
+                    <option value="">
+                        Selecione a escola
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
 
         </div>
 
@@ -302,7 +288,7 @@
 
         <div class="grafico-lista">
 
-            <div class="grafico-linha" style="height:400px;">
+            <div class="grafico-linha">
 
                 <canvas id="graficoMatriculas"></canvas>
 
@@ -435,37 +421,37 @@
 
         async function carregarDadosIniciaisUsuario() {
 
-                const resposta =
-                    await fetch(
-                        `/dashboard/escola/${escolaId}`
-                    );
+            const resposta =
+                await fetch(
+                    `/dashboard/escola/${escolaId}`
+                );
 
-                const escolaUsuario =
-                    await resposta.json();
+            const escolaUsuario =
+                await resposta.json();
 
-                await carregarMunicipios();
+            await carregarMunicipios();
 
-                municipioSelect.value =
-                    escolaUsuario.id_municipio_nome;
+            municipioSelect.value =
+                escolaUsuario.id_municipio_nome;
 
-                await carregarRedes();
+            await carregarRedes();
 
-                redeSelect.value =
-                    escolaUsuario.rede;
+            redeSelect.value =
+                escolaUsuario.rede;
 
-                escolaSelect.innerHTML = `
+            escolaSelect.innerHTML = `
                     <option value="${escolaUsuario.id}">
                         ${escolaUsuario.nome_escola}
                     </option>
                 `;
 
-                escolaSelect.value =
-                    escolaUsuario.id;
+            escolaSelect.value =
+                escolaUsuario.id;
 
-                await atualizarDashboard();
+            await atualizarDashboard();
 
-                await atualizarRanking();
-            }
+            await atualizarRanking();
+        }
 
         async function carregarMunicipios() {
 
@@ -569,7 +555,7 @@
             const deficiencia =
                 deficienciaSelect.value;
 
-           if (
+            if (
                 !municipio ||
                 !rede ||
                 !deficiencia
@@ -895,8 +881,8 @@
                     <span class="porcentagem">
 
                         ${Number(
-                            escola.indice_acessibilidade
-                        ).toFixed(1)}%
+                    escola.indice_acessibilidade
+                ).toFixed(1)}%
 
                     </span>
 
@@ -989,6 +975,7 @@
                 options: {
 
                     responsive: true,
+                    maintainAspectRatio: false,
 
                     plugins: {
 
@@ -997,7 +984,16 @@
                             display: true,
 
                             text:
-                                "Gráfico da diferença de matrículas"
+                                "Gráfico da diferença de matrículas",
+                            font: {
+                                size: 18,
+                                weight: "bold"
+                            },
+                            color: "#555555"
+                        },
+                        legend: {
+                            display: true,
+                            position: "bottom"
                         }
                     }
                 }
@@ -1098,37 +1094,37 @@
 
         function limparDashboard() {
 
-                document.querySelector(".matriculas")
-                    .textContent = "--";
+            document.querySelector(".matriculas")
+                .textContent = "--";
 
-                document.querySelector(".acessibilidade")
-                    .textContent = "--";
+            document.querySelector(".acessibilidade")
+                .textContent = "--";
 
-                document.querySelector(".meta-acessibilidade")
-                    .textContent = "Meta: --";
+            document.querySelector(".meta-acessibilidade")
+                .textContent = "Meta: --";
 
-                document.getElementById("ano-atual")
-                    .textContent = "--";
+            document.getElementById("ano-atual")
+                .textContent = "--";
 
-                document.getElementById("ano-anterior")
-                    .textContent = "--";
+            document.getElementById("ano-anterior")
+                .textContent = "--";
 
-                document.getElementById("variacao-matricula")
-                    .textContent = "--";
+            document.getElementById("variacao-matricula")
+                .textContent = "--";
 
-                document.querySelector(".lista-situacoes")
-                    .innerHTML = "";
+            document.querySelector(".lista-situacoes")
+                .innerHTML = "";
 
-                document.querySelector(".comentarios")
-                    .innerHTML = "";
+            document.querySelector(".comentarios")
+                .innerHTML = "";
 
-                document.querySelector(".lista-ranking")
-                    .innerHTML = "";
+            document.querySelector(".lista-ranking")
+                .innerHTML = "";
 
-                grafico.data.labels = [];
-                grafico.data.datasets[0].data = [];
-                grafico.update();
-            }
+            grafico.data.labels = [];
+            grafico.data.datasets[0].data = [];
+            grafico.update();
+        }
 
     </script>
 
