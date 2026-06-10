@@ -1,0 +1,66 @@
+version: "3.9"
+
+services:
+
+  bd:
+    image: gabldocker/bd:latest
+    container_name: bd
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: incluime100
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-pincluime100"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+    networks:
+      - incluime-network
+
+  app:
+    image: gabldocker/app:latest
+    container_name: app
+    restart: unless-stopped
+
+    depends_on:
+      - bd
+
+    ports:
+      - "3000:3333"
+      - "5000:5000"
+
+    networks:
+      - incluime-network
+
+  etl:
+    image: gabldocker/etl:latest
+    container_name: etl
+
+    depends_on:
+      bd:
+        condition: service_healthy
+
+    environment:
+      DB_DRIVER: com.mysql.cj.jdbc.Driver
+      DB_URL: jdbc:mysql://bd:3306/incluime
+      DB_USER: root
+      DB_PASSWORD: incluime100
+
+    networks:
+      - incluime-network
+
+networks:
+  incluime-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
