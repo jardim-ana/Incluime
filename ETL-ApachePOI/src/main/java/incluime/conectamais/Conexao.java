@@ -13,31 +13,28 @@ public class Conexao {
 
     public Conexao() {
 
-        public Conexao() {
+        DriverManagerDataSource driver =
+                new DriverManagerDataSource();
 
-                DriverManagerDataSource driver =
-                        new DriverManagerDataSource();
+        driver.setDriverClassName(
+                System.getenv("DB_DRIVER")
+        );
 
-                driver.setDriverClassName(
-                        System.getenv("DB_DRIVER")
-                );
+        driver.setUrl(
+                System.getenv("DB_URL")
+        );
 
-                driver.setUrl(
-                        System.getenv("DB_URL")
-                );
+        driver.setUsername(
+                System.getenv("DB_USER")
+        );
 
-                driver.setUsername(
-                        System.getenv("DB_USER")
-                );
+        driver.setPassword(
+                System.getenv("DB_PASSWORD")
+        );
 
-                driver.setPassword(
-                        System.getenv("DB_PASSWORD")
-                );
-
-                this.dataSource = driver;
-        }
+        this.dataSource = driver;
     }
-    
+
     public Connection getConexao()
             throws SQLException {
 
