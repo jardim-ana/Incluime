@@ -230,48 +230,22 @@ async function buscarRanking(
                 e.nome_escola,
 
                 ROUND(
-
-                    (
-
                         (
+                            (
+                                MAX(IFNULL(a.acessibilidade_corrimao,0)) +
+                                MAX(IFNULL(a.acessibilidade_elevador,0)) +
+                                MAX(IFNULL(a.acessibilidade_pisos_tateis,0)) +
+                                MAX(IFNULL(a.acessibilidade_vao_livre,0)) +
+                                MAX(IFNULL(a.acessibilidade_rampas,0)) +
+                                MAX(IFNULL(a.acessibilidade_sinais_sonoros,0)) +
+                                MAX(IFNULL(a.acessibilidade_sinal_tatil,0)) +
+                                MAX(IFNULL(a.acessibilidade_sinal_visual,0))
+                            ) / 8
+                        ) * 100,
 
-                            IFNULL(a.acessibilidade_corrimao, 0)
+                        1
 
-                            +
-
-                            IFNULL(a.acessibilidade_elevador, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_pisos_tateis, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_vao_livre, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_rampas, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_sinais_sonoros, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_sinal_tatil, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_sinal_visual, 0)
-
-                        ) / 8
-
-                    ) * 100,
-
-                    1
-
-                ) AS indice_acessibilidade
+                    ) AS indice_acessibilidade
 
             FROM escola e
 
@@ -310,8 +284,6 @@ async function buscarRanking(
                 td.nome =
                     '${deficiencia}'
 
-            GROUP BY e.id, e.nome_escola
-
             ORDER BY
                 indice_acessibilidade DESC
                 
@@ -329,48 +301,22 @@ async function buscarRanking(
                 e.nome_escola,
 
                 ROUND(
-
-                    (
-
                         (
+                            (
+                                MAX(IFNULL(a.acessibilidade_corrimao,0)) +
+                                MAX(IFNULL(a.acessibilidade_elevador,0)) +
+                                MAX(IFNULL(a.acessibilidade_pisos_tateis,0)) +
+                                MAX(IFNULL(a.acessibilidade_vao_livre,0)) +
+                                MAX(IFNULL(a.acessibilidade_rampas,0)) +
+                                MAX(IFNULL(a.acessibilidade_sinais_sonoros,0)) +
+                                MAX(IFNULL(a.acessibilidade_sinal_tatil,0)) +
+                                MAX(IFNULL(a.acessibilidade_sinal_visual,0))
+                            ) / 8
+                        ) * 100,
 
-                            IFNULL(a.acessibilidade_corrimao, 0)
+                        1
 
-                            +
-
-                            IFNULL(a.acessibilidade_elevador, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_pisos_tateis, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_vao_livre, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_rampas, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_sinais_sonoros, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_sinal_tatil, 0)
-
-                            +
-
-                            IFNULL(a.acessibilidade_sinal_visual, 0)
-
-                        ) / 8
-
-                    ) * 100,
-
-                    1
-
-                ) AS indice_acessibilidade
+                    ) AS indice_acessibilidade
 
             FROM escola e
 
@@ -388,8 +334,6 @@ async function buscarRanking(
 
                 b.id_municipio_nome =
                     '${municipio}'
-
-            GROUP BY e.id, e.nome_escola
 
             ORDER BY
                 indice_acessibilidade DESC

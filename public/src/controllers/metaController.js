@@ -70,12 +70,7 @@ async function atualizar(req, res) {
 
     try {
 
-        const resultado =
-            await metaModel.atualizar(
-                idEscola,
-                metaMatricula,
-                metaAcessibilidade
-            );
+        let resultado;
 
 
         const existente = await metaModel.buscarPorEscola(idEscola);
