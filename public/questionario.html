@@ -237,6 +237,7 @@ mensagem_erro.innerHTML = "";
                 var notaVar = nota.value;
                 var comentarioVar = comentario.value;
                 var idUsuarioVar = sessionStorage.getItem("ID_USUARIO")
+                var idEscolaVar = sessionStorage.getItem("ID_ESCOLA")
                 console.log(idUsuarioVar)
 
                 fetch("/avaliacao/cadastrar", {
@@ -247,7 +248,8 @@ mensagem_erro.innerHTML = "";
                     body: JSON.stringify({
                         notaServer: notaVar,
                         comentarioServer: comentarioVar,
-                        idUsuarioServer: idUsuarioVar
+                        idUsuarioServer: idUsuarioVar,
+                        idEscolaServer: idEscolaVar
                     }),
                 })
                     .then(function (resposta) {

@@ -96,7 +96,7 @@
 
     <script>
 
-
+        let idEscolaSelecionada = null;
         var nomeEscolas = [];
         var idEscolas = [];
         window.onload = function () {
@@ -156,13 +156,19 @@
                 return;
             }
 
-            for (var i = 0; i < nomeEscolas.length; i++) {
+            for (let i = 0; i < nomeEscolas.length; i++) {
                 if (nomeEscolas[i].toLowerCase().indexOf(valor) !== -1) {
                     var li = document.createElement("li");
                     li.textContent = nomeEscolas[i];
 
+                    const idEscola = idEscolas[i];
+
                     li.onclick = function () {
+
                         input.value = this.textContent;
+
+                        idEscolaSelecionada = idEscola;
+
                         sugestoes.innerHTML = "";
                     };
 
@@ -178,16 +184,14 @@
             var confirmacaoVar = confirmacao_senha_input.value;
             var usuarioVar = tipo_usuario_select.value;
             var escolaSelecionada = escolaInput.value;
-            var idEscolaSelecionada = null;
-            
-            for (let i = 0; i < nomeEscolas.length; i++) {
-                if (escolaSelecionada == nomeEscolas[i]) {
-                    idEscolaSelecionada = idEscolas[i];
-                    break;
-                }
-            }
 
-            
+             if (idEscolaSelecionada == null) {
+
+                mensagem_erro.innerHTML =
+                    "Selecione uma escola da lista.";
+
+                return;
+            }
 
             mensagem_erro.innerHTML = "";
             if (nomeVar == "" || sobrenomeVar == "" || emailVar == "" || senhaVar == "" || confirmacaoVar == "" || usuarioVar == "") {
