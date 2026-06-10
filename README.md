@@ -1,89 +1,210 @@
 # 📚 inclui.me
 
-## 🚀 Projeto: **conecta+**
+## 🚀 Projeto: Conecta+
 
-> Tecnologia a serviço da inclusão escolar.
-
----
-
-## 📌 Sobre a Problemática
-
-Nos últimos anos, estudos feitos em Bases de Dados, além de diversas reportagens e relatos têm evidenciado falhas graves na efetivação da educação inclusiva no Brasil.
-
-Embora existam avanços promovidos pelo Ministério da Educação (MEC), como o fortalecimento da Política Nacional de Educação Especial Inclusiva, a realidade de muitas famílias ainda é marcada por:
-
-* ❌ Falta de acompanhantes especializados
-* ❌ Recusa ou dificultação de matrículas
-* ❌ Falta de estrutura adequada
-* ❌ Ausência de monitoramento do cumprimento da lei
+Tecnologia a serviço da inclusão escolar.
 
 ---
 
-# 💡 Nossa Solução: conecta+
+# 📌 Sobre o Projeto
 
-O **conecta+** é uma plataforma digital criada pela **inclui.me** para conectar famílias, escolas e órgãos públicos, promovendo:
+O **Conecta+** é uma plataforma desenvolvida pela **inclui.me** com o objetivo de fortalecer a educação inclusiva no Brasil, promovendo a conexão entre famílias, escolas e órgãos públicos.
 
-### 🎯 Objetivos
-
-* Mapear denúncias de recusa de matrícula
-* Apoiar gestores na tomada de decisão
-* Produzir dados e relatórios sobre inclusão escolar
+A solução busca reduzir barreiras enfrentadas por estudantes com deficiência ou necessidades educacionais especiais, fornecendo mecanismos de acompanhamento, comunicação e geração de indicadores para apoio à tomada de decisão.
 
 ---
 
-## 🧩 Funcionalidades do Sistema
+# ⚠️ Problema
 
-### 👨‍👩‍👧 Para Famílias
+Apesar dos avanços promovidos pela legislação brasileira e pelas políticas públicas de inclusão, muitas famílias ainda enfrentam dificuldades como:
 
-* Cadastro do Aluno para acompanhamento escolar
-* Consulta de direitos garantidos por lei
-* Feedbacks de escolas da região
-
-### 🏫 Para Escolas
-
-* Gestão de alunos que necessitam acompanhante
-* Relatórios internos de inclusão
-* Canal de comunicação com responsáveis
+* ❌ Falta de acompanhantes especializados;
+* ❌ Recusa ou dificultação de matrículas;
+* ❌ Estrutura escolar inadequada;
+* ❌ Falta de monitoramento do cumprimento da legislação.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+# 💡 Solução
 
-### 🔹 Front-end
+O **Conecta+** foi criado para centralizar informações e promover maior transparência sobre a realidade da inclusão escolar.
 
-* HTML
-* CSS
+A plataforma permite:
+
+* Registro e acompanhamento de estudantes;
+* Avaliação e feedback de instituições de ensino;
+* Produção de indicadores e relatórios;
+* Apoio à gestão escolar;
+* Compartilhamento de informações sobre direitos educacionais.
+
+---
+
+# 🎯 Objetivos
+
+* Mapear situações de exclusão e recusa de matrícula;
+* Produzir dados sobre inclusão escolar;
+* Apoiar gestores na tomada de decisão;
+* Aproximar famílias e instituições de ensino;
+* Promover permanência e inclusão efetiva dos estudantes.
+
+---
+
+# 🧩 Funcionalidades
+
+## 👨‍👩‍👧 Área das Famílias
+
+* Cadastro de estudantes;
+* Acompanhamento escolar;
+* Consulta de direitos garantidos por lei;
+* Avaliação de escolas;
+* Consulta de informações sobre inclusão.
+
+## 🏫 Área das Escolas
+
+* Gestão de estudantes que necessitam de acompanhamento;
+* Relatórios internos;
+* Canal de comunicação com responsáveis;
+* Compartilhamento de boas práticas de inclusão.
+
+---
+
+# 🛠️ Tecnologias Utilizadas
+
+## Front-end
+
+* HTML5
+* CSS3
 * JavaScript
 
-### 🔹 Back-end
+## Back-end
 
 * Java
-* API Web-Data-Viz (NodeJS)
-* Banco de dados MySQL
+* Node.js
+* API Web-Data-Viz
+
+## Banco de Dados
+
+* MySQL
+
+## Infraestrutura
+
+* Docker
+* Docker Compose
+* Linux (Ubuntu)
 
 ---
 
-## 📊 Impacto Esperado
+# 📦 Instalação da Aplicação
 
-O conecta+ busca:
+## Pré-requisitos
 
-* 📈 Reduzir casos de exclusão escolar
-* 📊 Gerar dados confiáveis sobre educação inclusiva
-* 🧩 Aproximar famílias e escolas
-* ⚖️ Garantir cumprimento da legislação
-* 🤝 Promover inclusão real, não apenas formal
+* Ubuntu 22.04 ou superior
+* Acesso à internet
+* Permissão de administrador (sudo)
 
 ---
 
-## 🔐 Diferencial da inclui.me
+## 1. Clonar o repositório
 
-A **inclui.me** acredita que inclusão não é apenas cumprir a lei — é garantir dignidade, acesso e permanência.
+```bash
+git clone https://github.com/jardim-ana/Incluime.git
 
-Nosso diferencial está em:
+cd Incluime
+```
 
-* Centralização de dados
-* Transparência pública
-* Tecnologia acessível
-* Foco em impacto social
+---
 
-> “Inclusão que transforma”
+## 2. Conceder permissão ao script
+
+```bash
+chmod +x install.sh
+```
+
+---
+
+## 3. Executar a instalação
+
+```bash
+./install.sh
+```
+
+O script realiza automaticamente:
+
+* Instalação do Git;
+* Instalação do Docker;
+* Instalação do Docker Compose;
+* Download das imagens da aplicação;
+* Inicialização dos containers.
+
+---
+
+## 4. Verificar containers
+
+```bash
+docker ps -a
+```
+
+Resultado esperado:
+
+```text
+app   Up
+bd    Up (healthy)
+etl   Exited (0)
+```
+
+---
+
+## 5. Descobrir o IP da máquina
+
+```bash
+curl ifconfig.me
+```
+
+---
+
+## 6. Acessar a aplicação
+
+```text
+http://IP_PUBLICO:3000
+```
+
+---
+
+# 📊 Impacto Esperado
+
+O Conecta+ busca:
+
+* 📈 Reduzir casos de exclusão escolar;
+* 📊 Gerar dados confiáveis sobre educação inclusiva;
+* 🤝 Aproximar famílias e escolas;
+* ⚖️ Fortalecer o cumprimento da legislação;
+* 🧩 Promover inclusão efetiva e permanente.
+
+---
+
+# 🔐 Diferenciais
+
+* Centralização de dados;
+* Transparência das informações;
+* Tecnologia acessível;
+* Apoio à gestão escolar;
+* Foco em impacto social.
+
+> "Inclusão que transforma."
+
+---
+
+# 👥 Equipe
+
+* Ana Luisa Santos Jardim
+* Arthur Bispo dos Santos
+* Enrico Assef Antonucci Ferreira
+* Felipe Alves de Souza
+* Gabriel Medeiros Nascimento
+* Lucas Santos Máximo
+
+---
+
+# 📄 Licença
+
+Este projeto está licenciado sob a licença MIT.
