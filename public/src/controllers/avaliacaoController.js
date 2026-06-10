@@ -20,7 +20,7 @@ function cadastrar(req, res) {
         res.status(400).send("Seu idEscola está indefinido!");
     }
     else {
-        avaliacaoModel.cadastrar(comentario, nota, idUsuario)
+        avaliacaoModel.cadastrar(comentario, nota, idUsuario, idEscola)
             .then(function (resultado) {
 
                 res.json(resultado);
