@@ -310,6 +310,8 @@ async function buscarRanking(
                 td.nome =
                     '${deficiencia}'
 
+            GROUP BY e.id, e.nome_escola
+
             ORDER BY
                 indice_acessibilidade DESC
                 
@@ -386,6 +388,8 @@ async function buscarRanking(
 
                 b.id_municipio_nome =
                     '${municipio}'
+
+            GROUP BY e.id, e.nome_escola
 
             ORDER BY
                 indice_acessibilidade DESC
