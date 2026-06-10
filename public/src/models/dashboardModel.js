@@ -225,69 +225,57 @@ async function buscarRanking(
         instrucaoSql = `
 
             SELECT
+                    e.id,
+                    e.nome_escola,
 
-                e.id,
-                e.nome_escola,
-
-                ROUND(
+                    ROUND(
                         (
                             (
-                                MAX(IFNULL(a.acessibilidade_corrimao,0)) +
-                                MAX(IFNULL(a.acessibilidade_elevador,0)) +
-                                MAX(IFNULL(a.acessibilidade_pisos_tateis,0)) +
-                                MAX(IFNULL(a.acessibilidade_vao_livre,0)) +
-                                MAX(IFNULL(a.acessibilidade_rampas,0)) +
-                                MAX(IFNULL(a.acessibilidade_sinais_sonoros,0)) +
-                                MAX(IFNULL(a.acessibilidade_sinal_tatil,0)) +
-                                MAX(IFNULL(a.acessibilidade_sinal_visual,0))
+                                IFNULL(a.acessibilidade_corrimao,0) +
+                                IFNULL(a.acessibilidade_elevador,0) +
+                                IFNULL(a.acessibilidade_pisos_tateis,0) +
+                                IFNULL(a.acessibilidade_vao_livre,0) +
+                                IFNULL(a.acessibilidade_rampas,0) +
+                                IFNULL(a.acessibilidade_sinais_sonoros,0) +
+                                IFNULL(a.acessibilidade_sinal_tatil,0) +
+                                IFNULL(a.acessibilidade_sinal_visual,0)
                             ) / 8
                         ) * 100,
-
                         1
-
                     ) AS indice_acessibilidade
 
-            FROM escola e
+                FROM escola e
 
-            INNER JOIN
-                base_dados_censo_escolar b
+                INNER JOIN base_dados_censo_escolar b
+                    ON b.escola_id = e.id
 
-            ON b.escola_id = e.id
+                INNER JOIN base_dados_acessibilidade a
+                    ON a.censo_escolar_id = b.id
 
-            INNER JOIN
-                base_dados_acessibilidade a
+                INNER JOIN escola_deficiencia ed
+                    ON ed.escola_id = e.id
 
-            ON a.censo_escolar_id = b.id
+                INNER JOIN tipo_deficiencia td
+                    ON td.id = ed.deficiencia_id
 
-            INNER JOIN
-                escola_deficiencia ed
+                WHERE
 
-            ON ed.escola_id = e.id
+                    b.id_municipio_nome = '${municipio}'
 
-            INNER JOIN
-                tipo_deficiencia td
+                    AND b.rede = '${rede}'
 
-            ON td.id = ed.deficiencia_id
+                    AND td.nome = '${deficiencia}'
 
-            WHERE
+                    AND b.ano = (
+                        SELECT MAX(b2.ano)
+                        FROM base_dados_censo_escolar b2
+                        WHERE b2.escola_id = e.id
+                    )
 
-                b.id_municipio_nome =
-                    '${municipio}'
+                ORDER BY
+                    indice_acessibilidade DESC
 
-                AND
-
-                b.rede =
-                    '${rede}'
-
-                AND
-
-                td.nome =
-                    '${deficiencia}'
-
-            ORDER BY
-                indice_acessibilidade DESC
-                
-            LIMIT 10;
+                LIMIT 10;
 
         `;
 
@@ -295,50 +283,45 @@ async function buscarRanking(
 
         instrucaoSql = `
 
-            SELECT
+                    SELECT
 
-                e.id,
-                e.nome_escola,
+                        e.id,
+                        e.nome_escola,
 
-                ROUND(
-                        (
+                        ROUND(
                             (
-                                MAX(IFNULL(a.acessibilidade_corrimao,0)) +
-                                MAX(IFNULL(a.acessibilidade_elevador,0)) +
-                                MAX(IFNULL(a.acessibilidade_pisos_tateis,0)) +
-                                MAX(IFNULL(a.acessibilidade_vao_livre,0)) +
-                                MAX(IFNULL(a.acessibilidade_rampas,0)) +
-                                MAX(IFNULL(a.acessibilidade_sinais_sonoros,0)) +
-                                MAX(IFNULL(a.acessibilidade_sinal_tatil,0)) +
-                                MAX(IFNULL(a.acessibilidade_sinal_visual,0))
-                            ) / 8
-                        ) * 100,
+                                (
+                                    IFNULL(a.acessibilidade_corrimao,0) +
+                                    IFNULL(a.acessibilidade_elevador,0) +
+                                    IFNULL(a.acessibilidade_pisos_tateis,0) +
+                                    IFNULL(a.acessibilidade_vao_livre,0) +
+                                    IFNULL(a.acessibilidade_rampas,0) +
+                                    IFNULL(a.acessibilidade_sinais_sonoros,0) +
+                                    IFNULL(a.acessibilidade_sinal_tatil,0) +
+                                    IFNULL(a.acessibilidade_sinal_visual,0)
+                                ) / 8
+                            ) * 100,
+                            1
+                        ) AS indice_acessibilidade
 
-                        1
+                    FROM escola e
 
-                    ) AS indice_acessibilidade
+                    INNER JOIN base_dados_censo_escolar b
+                        ON b.escola_id = e.id
 
-            FROM escola e
+                    INNER JOIN base_dados_acessibilidade a
+                        ON a.censo_escolar_id = b.id
 
-            INNER JOIN
-                base_dados_censo_escolar b
+                    WHERE
+                        b.id_municipio_nome = '${municipio}'
+                        AND b.ano = (
+                            SELECT MAX(b2.ano)
+                            FROM base_dados_censo_escolar b2
+                            WHERE b2.escola_id = e.id
+                        )
 
-            ON b.escola_id = e.id
-
-            INNER JOIN
-                base_dados_acessibilidade a
-
-            ON a.censo_escolar_id = b.id
-
-            WHERE
-
-                b.id_municipio_nome =
-                    '${municipio}'
-
-            ORDER BY
-                indice_acessibilidade DESC
-
-            LIMIT 10;
+                    ORDER BY indice_acessibilidade DESC
+                    LIMIT 10;
 
         `;
     }

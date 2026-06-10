@@ -75,7 +75,7 @@ async function atualizar(req, res) {
 
         const existente = await metaModel.buscarPorEscola(idEscola);
 
-        if (existente.length == 0) {
+        if (existente.length === 0) {
 
             resultado = await metaModel.cadastrar(
                 idEscola,
