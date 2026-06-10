@@ -785,7 +785,7 @@ canvas {
  
 }
 .menor-indicador span {
-  color: white;
+  color: #555555;
 }
 .menor-indicador h3 {
   color: #FFFFFF;
@@ -800,6 +800,8 @@ canvas {
     list-style: none;
     padding: 0;
     margin: 0;
+    overflow-y: auto;
+    flex: 1;
 }
 
 .item-situacao {
