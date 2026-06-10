@@ -155,8 +155,8 @@
             ).getContext("2d");
 
         let metas = {
-            matricula: 1.0,
-            acessibilidade: 90
+            matricula: 10.0,
+            acessibilidade: 70.0
         };
 
         let escolaIdGlobal = null;
@@ -237,13 +237,13 @@
                     metas.matricula =
                         Number(
                             metasBanco[0]
-                                .meta_matricula || 1
+                                .meta_matricula || 10
                         );
 
                     metas.acessibilidade =
                         Number(
                             metasBanco[0]
-                                .meta_acessibilidade || 90
+                                .meta_acessibilidade || 70
                         );
                 }
 

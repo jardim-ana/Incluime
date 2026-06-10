@@ -13,24 +13,31 @@ public class Conexao {
 
     public Conexao() {
 
-        DriverManagerDataSource driver =
-                new DriverManagerDataSource();
+        public Conexao() {
 
-        driver.setDriverClassName(
-                "com.mysql.cj.jdbc.Driver"
-        );
+                DriverManagerDataSource driver =
+                        new DriverManagerDataSource();
 
-        driver.setUrl(
-                "jdbc:mysql://bd:3306/incluime"
-        );
+                driver.setDriverClassName(
+                        System.getenv("DB_DRIVER")
+                );
 
-        driver.setUsername("root");
+                driver.setUrl(
+                        System.getenv("DB_URL")
+                );
 
-        driver.setPassword("incluime100");
+                driver.setUsername(
+                        System.getenv("DB_USER")
+                );
 
-        this.dataSource = driver;
+                driver.setPassword(
+                        System.getenv("DB_PASSWORD")
+                );
+
+                this.dataSource = driver;
+        }
     }
-
+    
     public Connection getConexao()
             throws SQLException {
 
