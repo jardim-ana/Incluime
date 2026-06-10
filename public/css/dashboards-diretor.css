@@ -786,6 +786,7 @@ canvas {
 }
 .menor-indicador span {
   color: #555555;
+  font-weight: bold;
 }
 .menor-indicador h3 {
   color: #FFFFFF;
