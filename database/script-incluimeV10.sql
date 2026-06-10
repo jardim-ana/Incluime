@@ -115,12 +115,12 @@ CREATE TABLE avaliacao (
 
 CREATE TABLE meta (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    valor DOUBLE,
-    valor_base DOUBLE,
-    usuario_id INT,
-    escola_id INT,
-    FOREIGN KEY (usuario_id) REFERENCES usuario(id),
-    FOREIGN KEY (escola_id) REFERENCES escola(id)
+    escola_id INT UNIQUE,
+    meta_matricula DOUBLE DEFAULT 10.0,
+    meta_acessibilidade DOUBLE DEFAULT 70.0,
+
+    FOREIGN KEY (escola_id)
+        REFERENCES escola(id)
 );
 
 CREATE TABLE mensagens_contate_nos (

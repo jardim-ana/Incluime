@@ -77,6 +77,26 @@ async function atualizar(req, res) {
                 metaAcessibilidade
             );
 
+
+        const existente = await metaModel.buscarPorEscola(idEscola);
+
+        if (existente.length == 0) {
+
+            resultado = await metaModel.cadastrar(
+                idEscola,
+                metaMatricula,
+                metaAcessibilidade
+            );
+
+        } else {
+
+            resultado = await metaModel.atualizar(
+                idEscola,
+                metaMatricula,
+                metaAcessibilidade
+            );
+        }
+
         res.status(200).json(
             resultado
         );

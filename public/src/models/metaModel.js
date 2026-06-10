@@ -52,14 +52,16 @@ function deletar(idEscola) {
 
     const instrucao = `
 
-        DELETE FROM meta
-        WHERE fk_escola = ${idEscola}
+        UPDATE meta
+        SET
+            meta_matricula = 10.0,
+            meta_acessibilidade = 70.0
+        WHERE escola_id = ${idEscola};
 
     `;
 
     return database.executar(instrucao);
 }
-
 module.exports = {
     buscarPorEscola,
     cadastrar,

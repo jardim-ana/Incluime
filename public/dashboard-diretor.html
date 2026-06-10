@@ -85,28 +85,30 @@
                     <div class="variacao-wrapper"> <span class="variacao-matricula" id="variacao-matricula">--</span>
                         <span class="meta-matricula" id="meta-matricula"> Meta: <span class="valor">1.0%</span> </span>
                         <button class="btn-editar" data-meta="matricula">Alterar meta</button>
-                        <span class="edit-container" id="edit-matricula" style="display:none;"> <input
-                                type="number" step="0.1" id="input-matricula"> <button class="btn-salvar"
+                        <span class="edit-container" id="edit-matricula" style="display:none;"> <input type="number"
+                                step="0.1" id="input-matricula"> <button class="btn-salvar"
                                 data-meta="matricula">Salvar</button> </span>
-                                <button class="btn-excluir" data-meta="matricula">
+                        <button class="btn-excluir" data-meta="matricula">
                             Excluir meta
-                        </button> 
+                        </button>
                     </div>
-                    
+
                 </div> <i><span>** As metas possuem valores sugeridos como padrão. Caso sejam alteradas, você pode
                         excluir para voltar ao valor original.</span></i>
             </div>
             <div class="kpi kpi-acessibilidade-escola">
-                <h4>Índice de acessibilidade</h4> <span class="acessibilidade">--</span> 
-                 <div class="meta-area">
-                <span class="meta-acessibilidade" id="meta-acessibilidade"> Meta: <span class="valor">90%</span> </span>
-                    <button class="btn-editar" data-meta="acessibilidade">Alterar meta</button> 
-                    <span class="edit-container" id="edit-acessibilidade" style="display:none;"> <input type="number" id="input-acessibilidade">
-                    <button class="btn-salvar" data-meta="acessibilidade">Salvar</button>
-                </span>
-                <button class="btn-excluir" data-meta="acessibilidade">
-                    Excluir meta
-                </button>
+                <h4>Índice de acessibilidade</h4> <span class="acessibilidade">--</span>
+                <div class="meta-area">
+                    <span class="meta-acessibilidade" id="meta-acessibilidade"> Meta: <span class="valor">90%</span>
+                    </span>
+                    <button class="btn-editar" data-meta="acessibilidade">Alterar meta</button>
+                    <span class="edit-container" id="edit-acessibilidade" style="display:none;"> <input type="number"
+                            id="input-acessibilidade">
+                        <button class="btn-salvar" data-meta="acessibilidade">Salvar</button>
+                    </span>
+                    <button class="btn-excluir" data-meta="acessibilidade">
+                        Excluir meta
+                    </button>
                 </div>
 
                 <div class="kpi kpi-indice-meta">
@@ -142,6 +144,8 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+
+
 
         let grafico;
 
@@ -842,5 +846,25 @@
                 }
             );
         });
+
+        document.querySelectorAll(".btn-excluir")
+            .forEach(btn => {
+
+                btn.addEventListener("click", async () => {
+
+                    await fetch(
+                        `/meta/${escolaIdGlobal}`,
+                        {
+                            method: "DELETE"
+                        }
+                    );
+
+                    metas.matricula = 10.0;
+                    metas.acessibilidade = 70.0;
+
+                    atualizarMeta("matricula");
+                    atualizarMeta("acessibilidade");
+                });
+            });
 
     </script>
