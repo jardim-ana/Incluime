@@ -763,10 +763,13 @@ canvas {
 
 .grafico-lista .menor-indicador {
   flex: 1;
-  background-color: white;
-  padding: 15px;
-  border-radius: 12px;
-  border: none;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    color: #555555;
 }
 
 .menor-indicador h4{

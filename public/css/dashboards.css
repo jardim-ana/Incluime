@@ -673,6 +673,7 @@ canvas {
     margin: 0;
     overflow-y: auto;
     flex: 1;
+    
 }
 
 .item-situacao {
@@ -808,6 +809,7 @@ canvas {
   .grafico-lista .grafico-linha,
   .grafico-lista .menor-indicador {
     width: 10%;
+    color: #555555;
   }
 }
 
