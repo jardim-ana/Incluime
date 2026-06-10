@@ -7,7 +7,7 @@ function buscarPorEscola(idEscola) {
         SELECT
             *
         FROM meta
-        WHERE fk_escola = ${idEscola}
+        WHERE escola_id = ${idEscola}
 
     `;
 
@@ -19,7 +19,7 @@ function cadastrar(idEscola, metaMatricula, metaAcessibilidade) {
     const instrucao = `
 
         INSERT INTO meta (
-            fk_escola,
+            escola_id,
             meta_matricula,
             meta_acessibilidade
         ) VALUES (
@@ -41,7 +41,7 @@ function atualizar(idEscola, metaMatricula, metaAcessibilidade) {
         SET
             meta_matricula = ${metaMatricula},
             meta_acessibilidade = ${metaAcessibilidade}
-        WHERE fk_escola = ${idEscola}
+        WHERE escola_id = ${idEscola}
 
     `;
 
@@ -52,14 +52,16 @@ function deletar(idEscola) {
 
     const instrucao = `
 
-        DELETE FROM meta
-        WHERE fk_escola = ${idEscola}
+        UPDATE meta
+        SET
+            meta_matricula = 10.0,
+            meta_acessibilidade = 70.0
+        WHERE escola_id = ${idEscola};
 
     `;
 
     return database.executar(instrucao);
 }
-
 module.exports = {
     buscarPorEscola,
     cadastrar,

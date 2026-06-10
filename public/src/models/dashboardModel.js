@@ -37,7 +37,9 @@ async function buscarRedes(
             base_dados_censo_escolar
 
         WHERE
-            id_municipio_nome = '${municipio}';
+            id_municipio_nome = '${municipio}'
+        ORDER BY
+            rede;
 
     `;
 
@@ -213,131 +215,122 @@ async function buscarRanking(
     deficiencia
 ) {
 
-    const instrucaoSql = `
+    let instrucaoSql = "";
 
-                SELECT
+    if (
+        rede &&
+        deficiencia
+    ) {
 
-            e.nome_escola,
+        instrucaoSql = `
 
-            ROUND(
+            SELECT
+                    e.id,
+                    e.nome_escola,
 
-                (
+                    ROUND(
+                        (
+                            (
+                                IFNULL(a.acessibilidade_corrimao,0) +
+                                IFNULL(a.acessibilidade_elevador,0) +
+                                IFNULL(a.acessibilidade_pisos_tateis,0) +
+                                IFNULL(a.acessibilidade_vao_livre,0) +
+                                IFNULL(a.acessibilidade_rampas,0) +
+                                IFNULL(a.acessibilidade_sinais_sonoros,0) +
+                                IFNULL(a.acessibilidade_sinal_tatil,0) +
+                                IFNULL(a.acessibilidade_sinal_visual,0)
+                            ) / 8
+                        ) * 100,
+                        1
+                    ) AS indice_acessibilidade
 
-                    (
+                FROM escola e
 
-                        IFNULL(
-                            a.acessibilidade_corrimao,
-                            0
+                INNER JOIN base_dados_censo_escolar b
+                    ON b.escola_id = e.id
+
+                INNER JOIN base_dados_acessibilidade a
+                    ON a.censo_escolar_id = b.id
+
+                INNER JOIN escola_deficiencia ed
+                    ON ed.escola_id = e.id
+
+                INNER JOIN tipo_deficiencia td
+                    ON td.id = ed.deficiencia_id
+
+                WHERE
+
+                    b.id_municipio_nome = '${municipio}'
+
+                    AND b.rede = '${rede}'
+
+                    AND td.nome = '${deficiencia}'
+
+                    AND b.ano = (
+                        SELECT MAX(b2.ano)
+                        FROM base_dados_censo_escolar b2
+                        WHERE b2.escola_id = e.id
+                    )
+
+                ORDER BY
+                    indice_acessibilidade DESC
+
+                LIMIT 10;
+
+        `;
+
+    } else {
+
+        instrucaoSql = `
+
+                    SELECT
+
+                        e.id,
+                        e.nome_escola,
+
+                        ROUND(
+                            (
+                                (
+                                    IFNULL(a.acessibilidade_corrimao,0) +
+                                    IFNULL(a.acessibilidade_elevador,0) +
+                                    IFNULL(a.acessibilidade_pisos_tateis,0) +
+                                    IFNULL(a.acessibilidade_vao_livre,0) +
+                                    IFNULL(a.acessibilidade_rampas,0) +
+                                    IFNULL(a.acessibilidade_sinais_sonoros,0) +
+                                    IFNULL(a.acessibilidade_sinal_tatil,0) +
+                                    IFNULL(a.acessibilidade_sinal_visual,0)
+                                ) / 8
+                            ) * 100,
+                            1
+                        ) AS indice_acessibilidade
+
+                    FROM escola e
+
+                    INNER JOIN base_dados_censo_escolar b
+                        ON b.escola_id = e.id
+
+                    INNER JOIN base_dados_acessibilidade a
+                        ON a.censo_escolar_id = b.id
+
+                    WHERE
+                        b.id_municipio_nome = '${municipio}'
+                        AND b.ano = (
+                            SELECT MAX(b2.ano)
+                            FROM base_dados_censo_escolar b2
+                            WHERE b2.escola_id = e.id
                         )
 
-                        +
+                    ORDER BY indice_acessibilidade DESC
+                    LIMIT 10;
 
-                        IFNULL(
-                            a.acessibilidade_elevador,
-                            0
-                        )
-
-                        +
-
-                        IFNULL(
-                            a.acessibilidade_pisos_tateis,
-                            0
-                        )
-
-                        +
-
-                        IFNULL(
-                            a.acessibilidade_vao_livre,
-                            0
-                        )
-
-                        +
-
-                        IFNULL(
-                            a.acessibilidade_rampas,
-                            0
-                        )
-
-                        +
-
-                        IFNULL(
-                            a.acessibilidade_sinais_sonoros,
-                            0
-                        )
-
-                        +
-
-                        IFNULL(
-                            a.acessibilidade_sinal_tatil,
-                            0
-                        )
-
-                        +
-
-                        IFNULL(
-                            a.acessibilidade_sinal_visual,
-                            0
-                        )
-
-                    ) / 8
-
-                ) * 100,
-
-                1
-
-            ) AS indice_acessibilidade
-
-        FROM escola e
-
-        INNER JOIN
-            base_dados_censo_escolar b
-
-        ON b.escola_id = e.id
-
-        INNER JOIN
-            base_dados_acessibilidade a
-
-        ON a.censo_escolar_id = b.id
-
-        INNER JOIN
-            escola_deficiencia ed
-
-        ON ed.escola_id = e.id
-
-        INNER JOIN
-            tipo_deficiencia td
-
-        ON td.id =
-            ed.deficiencia_id
-
-        WHERE
-
-            b.id_municipio_nome =
-                '${municipio}'
-
-            AND
-
-            b.rede =
-                '${rede}'
-
-            AND
-
-            td.nome =
-                '${deficiencia}'
-
-        ORDER BY
-            indice_acessibilidade DESC;
-
-    `;
+        `;
+    }
 
     console.log(instrucaoSql);
 
-    const resultado =
-        await database.executar(
-            instrucaoSql
-        );
-
-    return resultado;
+    return await database.executar(
+        instrucaoSql
+    );
 }
 
 async function buscarComentarios(
@@ -400,44 +393,6 @@ async function buscarHistorico(
     return Array.isArray(resultado)
         ? resultado
         : [];
-}
-
-async function buscarEscolaPorId(
-    id
-) {
-
-    const instrucaoSql = `
-
-        SELECT
-
-            e.id,
-            e.nome_escola,
-
-            b.id_municipio_nome,
-            b.rede
-
-        FROM escola e
-
-        INNER JOIN
-            base_dados_censo_escolar b
-
-        ON b.escola_id = e.id
-
-        WHERE
-            e.id = ${id}
-
-        LIMIT 1;
-
-    `;
-
-    console.log(instrucaoSql);
-
-    const resultado =
-        await database.executar(
-            instrucaoSql
-        );
-
-    return resultado[0];
 }
 
 async function buscarEscolaPorId(
@@ -537,5 +492,6 @@ module.exports = {
     buscarRedes,
     buscarEscolas,
     buscarHistorico,
-    buscarEscolaPorId
+    buscarEscolaPorId,
+    buscarDeficiencias
 };

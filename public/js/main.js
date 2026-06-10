@@ -70,15 +70,21 @@ async function enviarPergunta() {
   respostaDiv.innerText = "Pensando...";
 
   try {
-    const resposta = await fetch("http://localhost:5000/resposta", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        pergunta: pergunta
-      })
-    });
+    const API_URL =
+    `${window.location.protocol}//${window.location.hostname}:5000`;
+
+    const resposta = await fetch(
+        `${API_URL}/resposta`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                pergunta
+            })
+        }
+    );
 
     const dados = await resposta.json();
 

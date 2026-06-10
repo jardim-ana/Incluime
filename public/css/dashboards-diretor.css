@@ -518,10 +518,37 @@ canvas {
 }
 
 
+.kpi-acessibilidade-escola .meta-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  margin-bottom: 2px
+}
 
-
-
-
+.meta-acessibilidade {
+  background-color: #c0c0c0;
+  color: #5a32b8;
+  padding: 6px 6px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  min-width: 80px;
+  text-align: center;
+  align-items: center;
+  display: block;       
+  margin-top: 5px;  
+  padding-bottom: 2px;
+    padding-top: 2px;
+    border-radius: 8px;
+  
+}
+.kpi-acessibilidade-escola .btn-excluir {
+   
+    margin-top: 6px; 
+    
+}
 
 
 
@@ -646,7 +673,7 @@ canvas {
 
 .kpis > div > span:first-of-type {
   display: block;
-  font-size: 30px;
+
   font-weight: bold;
   color: #6A3ECF;
   margin-bottom: 5px;
@@ -654,11 +681,25 @@ canvas {
 }
 
 .kpis > div > span:not(:first-of-type) {
-  display: block;
-  font-size: 20px;
-  text-align: center;
+  align-items: center;
+  font-size: 17px;
+
   color: #5a32b8;
   border-radius: 10px;
+  padding-left: 4px;
+  padding-right: 2px;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  margin-right: 2px;
+
+
+      background-color: #c0c0c0;
+ 
+    align-items: center;
+   
+    font-weight: bold;
+    margin-top: 5px;
+
 }
 
 .kpis i span {
@@ -675,8 +716,11 @@ canvas {
   border-radius: 12px;
   padding: 20px;
   width: 100%;
- max-width: 48.5%;
+  max-width: 48.5%;
+  height: 350px;
+  position: relative;
   border: 1px solid #EAEAEA;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -685,7 +729,7 @@ canvas {
 
 .grafico-linha canvas {
   width: 100% !important;
-  height: 400px !important;
+  height: 100% !important;
 }
 
 .chart-legend span {
@@ -719,10 +763,13 @@ canvas {
 
 .grafico-lista .menor-indicador {
   flex: 1;
-  background-color: white;
-  padding: 15px;
-  border-radius: 12px;
-  border: none;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 12px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    color: #555555;
 }
 
 .menor-indicador h4{
@@ -738,7 +785,8 @@ canvas {
  
 }
 .menor-indicador span {
-  color: white;
+  color: #555555;
+  font-weight: bold;
 }
 .menor-indicador h3 {
   color: #FFFFFF;
@@ -753,6 +801,8 @@ canvas {
     list-style: none;
     padding: 0;
     margin: 0;
+    overflow-y: auto;
+    flex: 1;
 }
 
 .item-situacao {
@@ -792,16 +842,39 @@ canvas {
 
 .btn-comentario:hover {
   background-color: #ac8bf8;
+
+}
+.lista-ranking {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  overflow-y: auto;
+  flex: 1;
 }
 
 .ranking-comentarios {
-  display: flex;
+ display: flex;
   gap: 5px;
   margin-top: 5px;
   flex-wrap: wrap;
   justify-content: flex-end;
   margin-right: 50px;
+
+  align-items: stretch;
 }
+
+.comentarios {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+.comentarios-ranking {
+  max-height: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
 
 .ranking-escolas,
 .comentarios-ranking {
@@ -837,12 +910,12 @@ canvas {
 }
 
 .ranking-escolas li {
-  display: flex;
+display: flex;
   justify-content: space-between;
   font-weight: 600;
-  padding: 8px 0;
+  padding: 8px 10px;
   border-bottom: 1px solid #F0F0F0;
-  margin-right: 80px;
+  margin-right: 0;
 }
 
 .ranking-escolas .nome-escola {
@@ -854,7 +927,9 @@ canvas {
 }
 
 .ranking-escolas {
-  margin-left: auto; 
+    max-height: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .comentarios-ranking .comentario {
@@ -963,6 +1038,9 @@ canvas {
     display: block;       
     font-weight: bold;   
     margin-top: 5px;  
+    padding-bottom: 2px;
+    padding-top: 2px;
+    border-radius: 8px;
 }
 
 .variacao-matricula .seta {
@@ -972,4 +1050,20 @@ canvas {
 }
 
 
+.btn-excluir {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 7px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 5px;
+  
+}
+
+.btn-excluir:hover {
+  background-color: #b52a37;
+}
 

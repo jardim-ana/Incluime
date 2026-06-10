@@ -66,6 +66,13 @@ public class LeitorExcel extends BaseETL {
     private static final String SQL_BUSCAR_DEFICIENCIA =
             "SELECT id FROM tipo_deficiencia WHERE nome = ?";
 
+    private static final String SQL_BUSCAR_ESCOLA =
+                "SELECT id FROM escola WHERE codigo_inep = ?";
+
+    private static final String SQL_BUSCAR_ENDERECO =
+                "SELECT id FROM endereco " +
+                "WHERE logradouro = ? AND numero = ? AND cep = ?";
+
     public void extrairEscolas(
             String[] nomeArquivo,
             Connection conexao
@@ -77,8 +84,8 @@ public class LeitorExcel extends BaseETL {
         List<Escola> listaEscolas =
                 new ArrayList<>();
 
-        Map<String, Escola> mapaEscolas =
-                new HashMap<>();
+        Map<String, List<Escola>> mapaEscolas =
+        new HashMap<>();
 
         try {
 
@@ -301,14 +308,10 @@ public class LeitorExcel extends BaseETL {
                             )
                     );
 
-                    listaEscolas.add(
-                            escola
-                    );
-
-                    mapaEscolas.put(
-                            codigoInep,
-                            escola
-                    );
+                    mapaEscolas.computeIfAbsent(
+                                codigoInep,
+                                k -> new ArrayList<>()
+                        ).add(escola);
                 }
             }
 
@@ -339,15 +342,15 @@ public class LeitorExcel extends BaseETL {
                                     getCell(row, 0)
                             );
 
-                    Escola escola =
-                            mapaEscolas.get(
-                                    codigoInep
-                            );
+                    List<Escola> escolas =
+                        mapaEscolas.get(
+                                codigoInep
+                        );
 
-                    if (escola != null) {
-
-                        escola.setNomeEscola(
-                                formatter.formatCellValue(
+                    if (escolas != null) {
+                        for (Escola escola : escolas) {
+                            escola.setNomeEscola(
+                                    formatter.formatCellValue(
                                         getCell(row, 1)
                                 )
                         );
@@ -375,9 +378,14 @@ public class LeitorExcel extends BaseETL {
                                         getCell(row, 5)
                                 )
                         );
+
+                           listaEscolas.add(
+                            escola
+                         );
                     }
                 }
             }
+        }
 
             try (
 
@@ -418,6 +426,15 @@ public class LeitorExcel extends BaseETL {
                             conexao.prepareStatement(
                                     SQL_INSERT_ESCOLA_DEFICIENCIA
                             );
+                    PreparedStatement stmtBuscarEscola =
+                            conexao.prepareStatement(
+                                    SQL_BUSCAR_ESCOLA
+                            );
+
+                    PreparedStatement stmtBuscarEndereco =
+                            conexao.prepareStatement(
+                                    SQL_BUSCAR_ENDERECO
+                            );
 
 
             ) {
@@ -440,72 +457,153 @@ public class LeitorExcel extends BaseETL {
                                 "Auditiva"
                         );
 
+                Map<String, Integer> cacheEscolas = new HashMap<>();
+
+                Map<String, Integer> cacheEnderecos = new HashMap<>();
+
                 for (Escola escola : listaEscolas) {
 
                     // ENDEREÇO
 
-                    stmtEndereco.setString(
-                            1,
-                            escola.getLogradouro()
-                    );
+                    String chaveEndereco =
+                        escola.getLogradouro() + "|" +
+                        escola.getNumero() + "|" +
+                        escola.getCep();
 
-                    stmtEndereco.setString(
-                            2,
-                            escola.getNumero()
-                    );
+                Integer enderecoId =
+                        cacheEnderecos.get(
+                                chaveEndereco
+                        );
 
-                    stmtEndereco.setString(
-                            3,
-                            escola.getCep()
-                    );
+                if (enderecoId == null) {
 
-                    stmtEndereco.executeUpdate();
+                stmtBuscarEndereco.setString(
+                        1,
+                        escola.getLogradouro()
+                );
 
-                    ResultSet rsEndereco =
-                            stmtEndereco.getGeneratedKeys();
+                stmtBuscarEndereco.setString(
+                        2,
+                        escola.getNumero()
+                );
 
-                    int enderecoId = 0;
+                stmtBuscarEndereco.setString(
+                        3,
+                        escola.getCep()
+                );
 
-                    if (rsEndereco.next()) {
+                ResultSet rsEnderecoBusca =
+                        stmtBuscarEndereco.executeQuery();
+
+                if (rsEnderecoBusca.next()) {
 
                         enderecoId =
-                                rsEndereco.getInt(1);
-                    }
+                                rsEnderecoBusca.getInt(
+                                        "id"
+                                );
+
+                } else {
+
+                        stmtEndereco.setString(
+                                1,
+                                escola.getLogradouro()
+                        );
+
+                        stmtEndereco.setString(
+                                2,
+                                escola.getNumero()
+                        );
+
+                        stmtEndereco.setString(
+                                3,
+                                escola.getCep()
+                        );
+
+                        stmtEndereco.executeUpdate();
+
+                        ResultSet rsEnderecoNovo =
+                                stmtEndereco.getGeneratedKeys();
+
+                        if (rsEnderecoNovo.next()) {
+
+                        enderecoId =
+                                rsEnderecoNovo.getInt(
+                                        1
+                                );
+                        }
+                }
+
+                cacheEnderecos.put(
+                        chaveEndereco,
+                        enderecoId
+                );
+                }
 
                     // ESCOLA
 
-                    stmtEscola.setString(
-                            1,
-                            escola.getCodigoInep()
-                    );
+                Integer escolaId =
+                cacheEscolas.get(
+                        escola.getCodigoInep()
+                );
 
-                    stmtEscola.setString(
-                            2,
-                            escola.getNomeEscola()
-                    );
+                if (escolaId == null) {
 
-                    stmtEscola.setString(
-                            3,
-                            escola.getTelefone()
-                    );
+                stmtBuscarEscola.setString(
+                        1,
+                        escola.getCodigoInep()
+                );
 
-                    stmtEscola.setInt(
-                            4,
-                            enderecoId
-                    );
+                ResultSet rsBuscaEscola =
+                        stmtBuscarEscola.executeQuery();
 
-                    stmtEscola.executeUpdate();
-
-                    ResultSet rsEscola =
-                            stmtEscola.getGeneratedKeys();
-
-                    int escolaId = 0;
-
-                    if (rsEscola.next()) {
+                if (rsBuscaEscola.next()) {
 
                         escolaId =
-                                rsEscola.getInt(1);
-                    }
+                                rsBuscaEscola.getInt(
+                                        "id"
+                                );
+
+                } else {
+
+                        stmtEscola.setString(
+                                1,
+                                escola.getCodigoInep()
+                        );
+
+                        stmtEscola.setString(
+                                2,
+                                escola.getNomeEscola()
+                        );
+
+                        stmtEscola.setString(
+                                3,
+                                escola.getTelefone()
+                        );
+
+                        stmtEscola.setInt(
+                                4,
+                                enderecoId
+                        );
+
+                        stmtEscola.executeUpdate();
+
+                        ResultSet rsNovaEscola =
+                                stmtEscola.getGeneratedKeys();
+
+                        if (rsNovaEscola.next()) {
+
+                        escolaId =
+                                rsNovaEscola.getInt(
+                                        1
+                                );
+                        }
+                }
+
+                cacheEscolas.put(
+                        escola.getCodigoInep(),
+                        escolaId
+                );
+                }
                     // CENSO
 
                     stmtCenso.setObject(

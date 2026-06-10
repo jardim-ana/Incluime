@@ -5,6 +5,7 @@ function cadastrar(req, res) {
     var comentario = req.body.comentarioServer;
     var nota = req.body.notaServer;
     var idUsuario = req.body.idUsuarioServer;
+    var idEscola = req.body.idEscolaServer;
 
     if (nota == undefined) {
         res.status(400).send("Sua nota está indefinida!");
@@ -15,8 +16,11 @@ function cadastrar(req, res) {
     else if (idUsuario == undefined) {
         res.status(400).send("Seu idUsuario está indefinido!");
     }
+    else if (idEscola == undefined) {
+        res.status(400).send("Seu idEscola está indefinido!");
+    }
     else {
-        avaliacaoModel.cadastrar(comentario, nota, idUsuario)
+        avaliacaoModel.cadastrar(comentario, nota, idUsuario, idEscola)
             .then(function (resultado) {
 
                 res.json(resultado);

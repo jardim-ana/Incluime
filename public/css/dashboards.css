@@ -9,9 +9,7 @@ body {
   font-family: 'Barlow', 'Segoe UI', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-  #select-superior {
-    margin-top: 10px;
-  }
+
   
 .label-captura {
   display: flex;
@@ -589,21 +587,21 @@ canvas {
 
 
 .grafico-linha {
-  background-color: #FFFFFF;
+ background-color: #FFFFFF;
   border-radius: 12px;
   padding: 20px;
   width: 100%;
- max-width: 48.5%;
+  max-width: 48.5%;
   border: 1px solid #EAEAEA;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+  height: 350px;
+  position: relative;
 
 }
 
 .grafico-linha canvas {
-  width: 100% !important;
-  height: 400px !important;
+ width: 100% !important;
+  height: 100% !important;
 }
 
 .chart-legend span {
@@ -640,7 +638,10 @@ canvas {
   background-color: #fff;
   padding: 15px;
   border-radius: 12px;
-  border: none;
+ height: 350px;
+  display: flex;
+  flex-direction: column;
+
 }
 
 .menor-indicador h4{
@@ -656,7 +657,8 @@ canvas {
  
 }
 .menor-indicador span {
-  color: white;
+  color: #555555;
+  font-weight: bold;
 }
 .menor-indicador h3 {
   color: #444444;
@@ -670,6 +672,9 @@ canvas {
     list-style: none;
     padding: 0;
     margin: 0;
+    overflow-y: auto;
+    flex: 1;
+    
 }
 
 .item-situacao {
@@ -710,6 +715,15 @@ canvas {
   background-color: #ac8bf8;
 }
 
+.lista-ranking {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  overflow-y: auto;
+  flex: 1;
+}
+
 .ranking-comentarios {
   display: flex;
   gap: 5px;
@@ -717,6 +731,13 @@ canvas {
   flex-wrap: wrap;
   justify-content: flex-end;
   margin-right: 50px;
+  max-height: 350px;
+   flex-direction: row;
+}
+.comentario{
+   overflow-y: auto;
+  flex: 1;
+
 }
 
 .ranking-escolas,
@@ -753,9 +774,9 @@ canvas {
   display: flex;
   justify-content: space-between;
   font-weight: 600;
-  padding: 8px 0;
+  padding: 8px 10px;
   border-bottom: 1px solid #F0F0F0;
-  margin-right: 80px;
+  margin-right: 0;
 }
 
 .ranking-escolas .nome-escola {
@@ -767,7 +788,9 @@ canvas {
 }
 
 .ranking-escolas {
-  margin-left: auto; 
+   max-height: 350px;
+  display: flex;
+  flex-direction: column;
 }
 
 .comentarios-ranking .comentario {
@@ -787,6 +810,7 @@ canvas {
   .grafico-lista .grafico-linha,
   .grafico-lista .menor-indicador {
     width: 10%;
+    color: #555555;
   }
 }
 
@@ -818,7 +842,7 @@ canvas {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-bottom: 12px;
+
 }
 
 .kpi-percentual-matriculas .ano-item {
@@ -840,7 +864,6 @@ canvas {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
 }
 
 .variacao-wrapper {

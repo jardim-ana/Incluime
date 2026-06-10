@@ -146,39 +146,6 @@
                 </select>
 
             </div>
-
-            <div class="select">
-
-                <label for="escolas">
-                    Escola:
-                </label>
-
-                <select name="escolas" id="escolas">
-
-                    <option value="">
-                        Selecione a escola
-                    </option>
-
-                </select>
-
-            </div>
-
-            <div class="select">
-
-                <label for="ano">
-                    Ano:
-                </label>
-
-                <select name="ano" id="ano">
-                    <option value="">Selecione o ano</option>
-                    <option value="2024">2024</option>
-                    <option value="2023">2023</option>
-                    <option value="2022">2022</option>
-                    <option value="2021">2021</option>
-                </select>
-
-            </div>
-
             <div class="select">
 
                 <label for="deficiencia">
@@ -206,6 +173,25 @@
                 </select>
 
             </div>
+
+            <div class="select">
+
+                <label for="escolas">
+                    Escola:
+                </label>
+
+                <select name="escolas" id="escolas">
+
+                    <option value="">
+                        Selecione a escola
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
 
         </div>
 
@@ -302,7 +288,7 @@
 
         <div class="grafico-lista">
 
-            <div class="grafico-linha" style="height:400px;">
+            <div class="grafico-linha">
 
                 <canvas id="graficoMatriculas"></canvas>
 
@@ -435,40 +421,36 @@
 
         async function carregarDadosIniciaisUsuario() {
 
-            try {
-
-                const resposta =
-                    await fetch(
-                        `http://localhost:3333/dashboard/escola/${escolaId}`
-                    );
-
-                const escolaUsuario =
-                    await resposta.json();
-
-                await carregarMunicipios();
-
-                municipioSelect.value =
-                    escolaUsuario.id_municipio_nome;
-
-                await carregarRedes();
-
-                redeSelect.value =
-                    escolaUsuario.rede;
-
-                await carregarEscolas();
-
-                escolaSelect.value =
-                    escolaUsuario.id;
-
-                await atualizarDashboard();
-
-            } catch (erro) {
-
-                console.error(
-                    "Erro ao carregar dados iniciais:",
-                    erro
+            const resposta =
+                await fetch(
+                    `/dashboard/escola/${escolaId}`
                 );
-            }
+
+            const escolaUsuario =
+                await resposta.json();
+
+            await carregarMunicipios();
+
+            municipioSelect.value =
+                escolaUsuario.id_municipio_nome;
+
+            await carregarRedes();
+
+            redeSelect.value =
+                escolaUsuario.rede;
+
+            escolaSelect.innerHTML = `
+                    <option value="${escolaUsuario.id}">
+                        ${escolaUsuario.nome_escola}
+                    </option>
+                `;
+
+            escolaSelect.value =
+                escolaUsuario.id;
+
+            await atualizarDashboard();
+
+            await atualizarRanking();
         }
 
         async function carregarMunicipios() {
@@ -477,7 +459,7 @@
 
                 const resposta =
                     await fetch(
-                        "http://localhost:3333/dashboard/municipios"
+                        "/dashboard/municipios"
                     );
 
                 const municipios =
@@ -522,7 +504,7 @@
 
                 const resposta =
                     await fetch(
-                        `http://localhost:3333/dashboard/redes/${municipio}`
+                        `/dashboard/redes/${encodeURIComponent(municipio)}`
                     );
 
                 const redes =
@@ -583,7 +565,7 @@
             const resposta =
                 await fetch(
 
-                    `http://localhost:3333/dashboard/escolas/${municipio}/${rede}/${deficiencia}`
+                    `/dashboard/escolas/${encodeURIComponent(municipio)}/${encodeURIComponent(rede)}/${encodeURIComponent(deficiencia)}`
 
                 );
 
@@ -623,7 +605,7 @@
 
                 const resposta =
                     await fetch(
-                        `http://localhost:3333/dashboard/dashboard/${escolaId}`
+                        `/dashboard/dashboard/${escolaId}`
                     );
 
                 const info =
@@ -653,11 +635,6 @@
         }
 
         function atualizarKPIs(info) {
-
-            document.querySelector(
-                ".matriculas"
-            ).textContent =
-                info.nome_escola || "--";
 
             document.querySelector(
                 ".acessibilidade"
@@ -695,7 +672,8 @@
 
             if (
                 anoAtual &&
-                anoAnterior
+                anoAnterior &&
+                Number(anoAnterior.valor) > 0
             ) {
 
                 const variacao =
@@ -845,22 +823,40 @@
             const deficiencia =
                 deficienciaSelect.value;
 
+            let url;
+
             if (
-                !municipio ||
-                !rede ||
-                !deficiencia
-            )
+                municipio &&
+                rede &&
+                deficiencia
+            ) {
+
+                url =
+                    `/dashboard/ranking/${encodeURIComponent(municipio)}/${encodeURIComponent(rede)}/${encodeURIComponent(deficiencia)}`;
+
+            } else if (municipio) {
+
+                url =
+                    `/dashboard/ranking/${encodeURIComponent(municipio)}`;
+
+            } else {
+
                 return;
+            }
 
             const resposta =
-                await fetch(
-
-                    `http://localhost:3333/dashboard/ranking/${municipio}/${rede}/${deficiencia}`
-
-                );
+                await fetch(url);
 
             const ranking =
                 await resposta.json();
+
+            if (ranking.length > 0) {
+
+                document.querySelector(
+                    ".matriculas"
+                ).textContent =
+                    ranking[0].nome_escola;
+            }
 
             const rankingEl =
                 document.querySelector(
@@ -873,29 +869,27 @@
 
                 rankingEl.innerHTML += `
 
-            <li>
+                <li>
 
-                <span class="nome-escola">
+                    <span class="nome-escola">
 
-                    ${i + 1}º
-                    ${escola.nome_escola}
+                        ${i + 1}º
+                        ${escola.nome_escola}
 
-                </span>
+                    </span>
 
-                <span class="porcentagem">
+                    <span class="porcentagem">
 
-                    ${Number(
+                        ${Number(
                     escola.indice_acessibilidade
                 ).toFixed(1)}%
 
-                </span>
+                    </span>
 
-            </li>
+                </li>
 
-        `;
-
+                `;
             });
-
         }
 
         async function carregarComentarios(escolaId) {
@@ -904,7 +898,7 @@
 
                 const resposta =
                     await fetch(
-                        `http://localhost:3333/dashboard/comentarios/${escolaId}`
+                        `/dashboard/comentarios/${escolaId}`
                     );
 
                 const comentarios =
@@ -981,6 +975,7 @@
                 options: {
 
                     responsive: true,
+                    maintainAspectRatio: false,
 
                     plugins: {
 
@@ -989,7 +984,16 @@
                             display: true,
 
                             text:
-                                "Gráfico da diferença de matrículas"
+                                "Gráfico da diferença de matrículas",
+                            font: {
+                                size: 18,
+                                weight: "bold"
+                            },
+                            color: "#555555"
+                        },
+                        legend: {
+                            display: true,
+                            position: "bottom"
                         }
                     }
                 }
@@ -1028,34 +1032,52 @@
             "change",
             async () => {
 
-                await carregarRedes();
+                limparDashboard();
 
                 deficienciaSelect.value = "";
 
+                redeSelect.value = "";
+
                 escolaSelect.innerHTML =
                     `
-            <option value="">
-                Selecione a escola
-            </option>
-            `;
+                    <option value="">
+                        Selecione a escola
+                    </option>
+                    `;
+
+                await carregarRedes();
+                await atualizarRanking();
             }
         );
 
         deficienciaSelect.addEventListener(
             "change",
-            carregarEscolas
+            async () => {
+
+                limparDashboard();
+
+                await carregarEscolas();
+
+                await atualizarRanking();
+            }
         );
 
         redeSelect.addEventListener(
             "change",
-            () => {
+            async () => {
+
+                limparDashboard();
+
+                deficienciaSelect.value = "";
 
                 escolaSelect.innerHTML =
                     `
-            <option value="">
-                Selecione a escola
-            </option>
-            `;
+                    <option value="">
+                        Selecione a escola
+                    </option>
+                    `;
+
+                await atualizarRanking();
             }
         );
 
@@ -1070,20 +1092,39 @@
             }
         );
 
-        municipioSelect.addEventListener(
-            "change",
-            atualizarRanking
-        );
+        function limparDashboard() {
 
-        redeSelect.addEventListener(
-            "change",
-            atualizarRanking
-        );
+            document.querySelector(".matriculas")
+                .textContent = "--";
 
-        deficienciaSelect.addEventListener(
-            "change",
-            atualizarRanking
-        );
+            document.querySelector(".acessibilidade")
+                .textContent = "--";
+
+            document.querySelector(".meta-acessibilidade")
+                .textContent = "Meta: --";
+
+            document.getElementById("ano-atual")
+                .textContent = "--";
+
+            document.getElementById("ano-anterior")
+                .textContent = "--";
+
+            document.getElementById("variacao-matricula")
+                .textContent = "--";
+
+            document.querySelector(".lista-situacoes")
+                .innerHTML = "";
+
+            document.querySelector(".comentarios")
+                .innerHTML = "";
+
+            document.querySelector(".lista-ranking")
+                .innerHTML = "";
+
+            grafico.data.labels = [];
+            grafico.data.datasets[0].data = [];
+            grafico.update();
+        }
 
     </script>
 

@@ -17,16 +17,20 @@ public class Conexao {
                 new DriverManagerDataSource();
 
         driver.setDriverClassName(
-                "com.mysql.cj.jdbc.Driver"
+                System.getenv("DB_DRIVER")
         );
 
         driver.setUrl(
-                "jdbc:mysql://bd:3306/incluime"
+                System.getenv("DB_URL")
         );
 
-        driver.setUsername("root");
+        driver.setUsername(
+                System.getenv("DB_USER")
+        );
 
-        driver.setPassword("incluime100");
+        driver.setPassword(
+                System.getenv("DB_PASSWORD")
+        );
 
         this.dataSource = driver;
     }
